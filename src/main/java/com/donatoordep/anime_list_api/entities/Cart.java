@@ -9,16 +9,30 @@ import java.util.List;
 public class Cart {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(mappedBy = "cart")
+    @OneToOne
+    @MapsId
     private User user;
 
-    @ManyToMany(mappedBy = "cart")
+    @OneToMany(mappedBy = "cart")
     private List<AnimeOrder> favorites = new ArrayList<>();
 
+    private int totalAnimes;
+
     public Cart() {
+    }
+
+    public void setFavorites(List<AnimeOrder> favorites) {
+        this.favorites = favorites;
+    }
+
+    public int getTotalAnimes() {
+        return totalAnimes;
+    }
+
+    public void setTotalAnimes(int totalAnimes) {
+        this.totalAnimes = totalAnimes;
     }
 
     public Cart(Long id, User user) {

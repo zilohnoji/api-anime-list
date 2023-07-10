@@ -1,10 +1,7 @@
 package com.donatoordep.anime_list_api.entities;
 
 import com.donatoordep.anime_list_api.enums.Status;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.util.Objects;
 
@@ -15,16 +12,19 @@ public class Anime {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String title;
     private String description;
     private String imgUrl;
     private String authorName;
+    @Enumerated(EnumType.STRING)
     private Status status;
     private Integer episodes;
 
     public Anime() {
     }
 
-    public Anime(String description, String imgUrl, String authorName, Status status, Integer episodes) {
+    public Anime(String title, String description, String imgUrl, String authorName, Status status, Integer episodes) {
+        this.title = title;
         this.description = description;
         this.imgUrl = imgUrl;
         this.authorName = authorName;
@@ -38,6 +38,14 @@ public class Anime {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
@@ -85,11 +93,11 @@ public class Anime {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Anime anime = (Anime) o;
-        return Objects.equals(id, anime.id) && Objects.equals(description, anime.description) && Objects.equals(imgUrl, anime.imgUrl) && Objects.equals(authorName, anime.authorName) && Objects.equals(status, anime.status) && Objects.equals(episodes, anime.episodes);
+        return Objects.equals(id, anime.id) && Objects.equals(title, anime.title) && Objects.equals(description, anime.description) && Objects.equals(imgUrl, anime.imgUrl) && Objects.equals(authorName, anime.authorName) && status == anime.status && Objects.equals(episodes, anime.episodes);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, description, imgUrl, authorName, status, episodes);
+        return Objects.hash(id, title, description, imgUrl, authorName, status, episodes);
     }
 }

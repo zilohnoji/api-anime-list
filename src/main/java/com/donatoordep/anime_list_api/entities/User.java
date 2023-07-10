@@ -17,16 +17,12 @@ public class User {
     private String name;
     private String email;
     private String password;
-    private String imgUrl;
-    private String bio;
 
-    @OneToOne
-    @JoinColumn(name = "cart_id")
+    @OneToOne(mappedBy = "user")
+    private ProfileUser profile;
+
+    @OneToOne(mappedBy = "user")
     private Cart cart;
-
-    @OneToOne
-    @JoinColumn(name = "stats_id")
-    private AccountStats animeStats;
 
     @ManyToMany
     @JoinTable(name = "user_roles", joinColumns =
@@ -37,12 +33,26 @@ public class User {
     public User() {
     }
 
-    public User(String name, String email, String password, String imgUrl, String bio) {
+    public User(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.imgUrl = imgUrl;
-        this.bio = bio;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public ProfileUser getProfile() {
+        return profile;
+    }
+
+    public void setProfile(ProfileUser profile) {
+        this.profile = profile;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 
     public void addAnime(AnimeOrder anime) {
@@ -61,9 +71,6 @@ public class User {
         return cart;
     }
 
-    public AccountStats getAnimeStats() {
-        return animeStats;
-    }
 
     public List<Role> getRoles() {
         return roles;
@@ -93,33 +100,17 @@ public class User {
         this.password = password;
     }
 
-    public String getImgUrl() {
-        return imgUrl;
-    }
-
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
-    }
-
-    public String getBio() {
-        return bio;
-    }
-
-    public void setBio(String bio) {
-        this.bio = bio;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(imgUrl, user.imgUrl) && Objects.equals(bio, user.bio) && Objects.equals(cart, user.cart) && Objects.equals(animeStats, user.animeStats) && Objects.equals(roles, user.roles);
+        return Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(email, user.email) && Objects.equals(password, user.password) && Objects.equals(cart, user.cart) && Objects.equals(roles, user.roles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, email, password, imgUrl, bio, cart, animeStats, roles);
+        return Objects.hash(id, name, email, password, cart, roles);
     }
 
     @Override
@@ -129,10 +120,7 @@ public class User {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", imgUrl='" + imgUrl + '\'' +
-                ", bio='" + bio + '\'' +
                 ", cart=" + cart +
-                ", animeStats=" + animeStats +
                 ", roles=" + roles +
                 '}';
     }

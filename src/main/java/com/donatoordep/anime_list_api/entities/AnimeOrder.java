@@ -16,11 +16,13 @@ public class AnimeOrder {
     @JoinColumn(name = "anime_id")
     private Anime anime;
 
-    @ManyToMany
+    @ManyToOne
     @JoinColumn(name = "cart_id")
     private Cart cart;
 
     private Integer episode;
+
+    @Enumerated(EnumType.STRING)
     private StatusOrder statusOrder;
 
     public AnimeOrder() {

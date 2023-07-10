@@ -16,18 +16,17 @@ public class AccountStats {
     private Integer dropped;
     private Integer planToWatch;
 
-    @OneToOne(mappedBy = "animetStats")
-    private User user;
+    @OneToOne(mappedBy = "animeStats")
+    private ProfileUser perfilUser;
 
     public AccountStats() {
     }
 
-    public AccountStats(Integer watching, Integer completed, Integer dropped, Integer planToWatch, User user) {
+    public AccountStats(Integer watching, Integer completed, Integer dropped, Integer planToWatch) {
         this.watching = watching;
         this.completed = completed;
         this.dropped = dropped;
         this.planToWatch = planToWatch;
-        this.user = user;
     }
 
     public Long getId() {
@@ -70,12 +69,12 @@ public class AccountStats {
         this.planToWatch = planToWatch;
     }
 
-    public User getUser() {
-        return user;
+    public ProfileUser getPerfilUser() {
+        return perfilUser;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setPerfilUser(ProfileUser perfilUser) {
+        this.perfilUser = perfilUser;
     }
 
     @Override
@@ -83,11 +82,23 @@ public class AccountStats {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AccountStats that = (AccountStats) o;
-        return Objects.equals(id, that.id) && Objects.equals(watching, that.watching) && Objects.equals(completed, that.completed) && Objects.equals(dropped, that.dropped) && Objects.equals(planToWatch, that.planToWatch) && Objects.equals(user, that.user);
+        return Objects.equals(id, that.id) && Objects.equals(watching, that.watching) && Objects.equals(completed, that.completed) && Objects.equals(dropped, that.dropped) && Objects.equals(planToWatch, that.planToWatch) && Objects.equals(perfilUser, that.perfilUser);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, watching, completed, dropped, planToWatch, user);
+        return Objects.hash(id, watching, completed, dropped, planToWatch, perfilUser);
+    }
+
+    @Override
+    public String toString() {
+        return "AccountStats{" +
+                "id=" + id +
+                ", watching=" + watching +
+                ", completed=" + completed +
+                ", dropped=" + dropped +
+                ", planToWatch=" + planToWatch +
+                ", perfilUser=" + perfilUser +
+                '}';
     }
 }
