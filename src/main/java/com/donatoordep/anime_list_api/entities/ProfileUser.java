@@ -11,7 +11,7 @@ public class ProfileUser {
     private Long id;
 
     @MapsId
-    @OneToOne
+    @OneToOne(mappedBy = "profile")
     private User user;
 
     @OneToOne

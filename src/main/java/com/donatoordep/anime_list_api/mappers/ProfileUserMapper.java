@@ -1,0 +1,18 @@
+package com.donatoordep.anime_list_api.mappers;
+
+import com.donatoordep.anime_list_api.dto.ProfileUserDTO;
+import com.donatoordep.anime_list_api.dto.UserDTO;
+import com.donatoordep.anime_list_api.entities.ProfileUser;
+import com.donatoordep.anime_list_api.entities.User;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
+
+@Mapper(componentModel = "spring")
+public interface ProfileUserMapper {
+
+    ProfileUserMapper INSTANCE = Mappers.getMapper(ProfileUserMapper.class);
+
+    ProfileUser toEntity(ProfileUserDTO dto);
+
+    ProfileUserDTO toDto(ProfileUser entity);
+}

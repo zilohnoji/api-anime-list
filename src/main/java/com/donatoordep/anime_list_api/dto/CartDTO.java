@@ -1,27 +1,23 @@
-package com.donatoordep.anime_list_api.entities;
+package com.donatoordep.anime_list_api.dto;
 
+import com.donatoordep.anime_list_api.entities.AnimeOrder;
+import com.donatoordep.anime_list_api.entities.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-public class Cart {
+public class CartDTO {
 
-    @Id
     private Long id;
 
-
-    @MapsId
-    @OneToOne(mappedBy = "cart")
+    @JsonIgnore
     private User user;
-
-    @OneToMany(mappedBy = "cart")
     private List<AnimeOrder> favorites = new ArrayList<>();
-
     private int totalAnimes;
 
-    public Cart() {
+    public CartDTO() {
     }
 
     public void setFavorites(List<AnimeOrder> favorites) {
@@ -36,7 +32,7 @@ public class Cart {
         this.totalAnimes = totalAnimes;
     }
 
-    public Cart(Long id, User user) {
+    public CartDTO(Long id, User user) {
         this.id = id;
         this.user = user;
     }

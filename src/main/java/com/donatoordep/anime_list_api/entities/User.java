@@ -1,5 +1,7 @@
 package com.donatoordep.anime_list_api.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -18,10 +20,12 @@ public class User {
     private String email;
     private String password;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne
+    @JoinColumn(name = "profile_id")
     private ProfileUser profile;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne
+    @JoinColumn(name = "cart_id")
     private Cart cart;
 
     @ManyToMany
