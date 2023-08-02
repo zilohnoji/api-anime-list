@@ -2,7 +2,7 @@ INSERT INTO account_stats(watching, completed, dropped, plan_to_watch) VALUES(3,
 
 INSERT INTO profile_user(stats_id, img_url, bio) VALUES(1, 'http://icon.com.br/pedroImg', 'Sou o pedro');
 
-INSERT INTO cart(total_animes) VALUES(10);
+INSERT INTO cart(total_animes) VALUES(1);
 
 INSERT INTO tb_user(cart_id, profile_id, name, email, password) VALUES(1, 1, 'Pedro', 'pedro@gmail.com', '123');
 

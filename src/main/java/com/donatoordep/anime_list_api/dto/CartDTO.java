@@ -18,6 +18,7 @@ public class CartDTO {
     public CartDTO(Cart entity) {
         this.id = entity.getId();
         this.favorites = entity.getFavorites().stream().map(AnimeOrderDTO::new).toList();
+        this.totalAnimes = entity.getTotalAnimes();
     }
 
     public void setFavorites(List<AnimeOrderDTO> favorites) {
