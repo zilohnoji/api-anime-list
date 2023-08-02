@@ -1,9 +1,7 @@
 package com.donatoordep.anime_list_api.dto;
 
-import com.donatoordep.anime_list_api.entities.AnimeOrder;
+import com.donatoordep.anime_list_api.entities.Cart;
 import com.donatoordep.anime_list_api.entities.User;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,16 +9,18 @@ import java.util.List;
 public class CartDTO {
 
     private Long id;
-
-    @JsonIgnore
-    private User user;
-    private List<AnimeOrder> favorites = new ArrayList<>();
+    private List<AnimeOrderDTO> favorites = new ArrayList<>();
     private int totalAnimes;
 
     public CartDTO() {
     }
 
-    public void setFavorites(List<AnimeOrder> favorites) {
+    public CartDTO(Cart entity) {
+        this.id = entity.getId();
+        this.favorites = entity.getFavorites().stream().map(AnimeOrderDTO::new).toList();
+    }
+
+    public void setFavorites(List<AnimeOrderDTO> favorites) {
         this.favorites = favorites;
     }
 
@@ -32,12 +32,7 @@ public class CartDTO {
         this.totalAnimes = totalAnimes;
     }
 
-    public CartDTO(Long id, User user) {
-        this.id = id;
-        this.user = user;
-    }
-
-    public List<AnimeOrder> getFavorites() {
+    public List<AnimeOrderDTO> getFavorites() {
         return favorites;
     }
 
@@ -47,13 +42,5 @@ public class CartDTO {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 }

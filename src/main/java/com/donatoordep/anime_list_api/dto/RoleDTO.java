@@ -1,5 +1,6 @@
 package com.donatoordep.anime_list_api.dto;
 
+import com.donatoordep.anime_list_api.entities.Role;
 import com.donatoordep.anime_list_api.enums.RoleName;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,6 +15,15 @@ public class RoleDTO {
     private RoleName roleName;
 
     public RoleDTO() {
+    }
+
+    public RoleDTO(Role entity) {
+        this.id =  entity.getId();
+        this.roleName = getRoleName();
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getId() {

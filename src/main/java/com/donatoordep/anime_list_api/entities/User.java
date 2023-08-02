@@ -42,6 +42,15 @@ public class User {
         this.password = password;
     }
 
+    public User(Long id, String name, String email, String password, ProfileUser profile, Cart cart) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.profile = profile;
+        this.cart = cart;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -73,7 +82,6 @@ public class User {
     public Cart getCart() {
         return cart;
     }
-
 
     public List<Role> getRoles() {
         return roles;

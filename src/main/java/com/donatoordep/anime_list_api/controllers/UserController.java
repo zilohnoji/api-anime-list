@@ -22,7 +22,7 @@ public class UserController {
     private UserService service;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<User>> findByName(@RequestParam(name = "name") String name) {
+    public ResponseEntity<List<UserDTO>> findByName(@RequestParam(name = "name") String name) {
         return service.findByName(name);
     }
 }
