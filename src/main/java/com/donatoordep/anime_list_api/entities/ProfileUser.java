@@ -1,5 +1,6 @@
 package com.donatoordep.anime_list_api.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -8,9 +9,10 @@ import java.util.Objects;
 public class ProfileUser {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @MapsId
+    @JsonIgnore
     @OneToOne(mappedBy = "profile")
     private User user;
 

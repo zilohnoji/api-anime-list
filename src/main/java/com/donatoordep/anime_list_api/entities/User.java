@@ -1,7 +1,6 @@
 package com.donatoordep.anime_list_api.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -28,7 +27,7 @@ public class User {
     @JoinColumn(name = "cart_id")
     private Cart cart;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles", joinColumns =
     @JoinColumn(referencedColumnName = "id", name = "user_id"), inverseJoinColumns =
     @JoinColumn(referencedColumnName = "id", name = "role_id"))

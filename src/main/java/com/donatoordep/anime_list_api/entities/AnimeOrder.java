@@ -1,6 +1,7 @@
 package com.donatoordep.anime_list_api.entities;
 
 import com.donatoordep.anime_list_api.enums.StatusOrder;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -16,6 +17,7 @@ public class AnimeOrder {
     @JoinColumn(name = "anime_id")
     private Anime anime;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "cart_id")
     private Cart cart;

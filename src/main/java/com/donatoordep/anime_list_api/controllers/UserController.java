@@ -2,6 +2,7 @@ package com.donatoordep.anime_list_api.controllers;
 
 
 import com.donatoordep.anime_list_api.dto.UserDTO;
+import com.donatoordep.anime_list_api.entities.User;
 import com.donatoordep.anime_list_api.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -21,7 +22,7 @@ public class UserController {
     private UserService service;
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<UserDTO>> findByName(@RequestParam(name = "name") String name) {
+    public ResponseEntity<List<User>> findByName(@RequestParam(name = "name") String name) {
         return service.findByName(name);
     }
 }

@@ -1,6 +1,7 @@
 package com.donatoordep.anime_list_api.services;
 
 import com.donatoordep.anime_list_api.dto.UserDTO;
+import com.donatoordep.anime_list_api.entities.User;
 import com.donatoordep.anime_list_api.mappers.UserMapper;
 import com.donatoordep.anime_list_api.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +21,8 @@ public class UserService {
     private UserMapper mapper;
 
     @Transactional(readOnly = true)
-    public ResponseEntity<List<UserDTO>> findByName(String name) {
+    public ResponseEntity<List<User>> findByName(String name) {
         return ResponseEntity.ok()
-                .body(repository.findByName(name).stream().map(
-                        entity -> mapper.toDto(entity)).toList());
+                .body(repository.findByName(name));
     }
 }

@@ -1,5 +1,6 @@
 package com.donatoordep.anime_list_api.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -16,6 +17,7 @@ public class AccountStats {
     private Integer dropped;
     private Integer planToWatch;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "animeStats")
     private ProfileUser perfilUser;
 

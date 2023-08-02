@@ -1,6 +1,6 @@
 package com.donatoordep.anime_list_api.dto;
 
-import com.donatoordep.anime_list_api.entities.ProfileUser;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Objects;
 
@@ -11,6 +11,7 @@ public class AccountStatsDTO {
     private Integer completed;
     private Integer dropped;
     private Integer planToWatch;
+    @JsonIgnore
     private ProfileUserDTO perfilUser;
 
     public AccountStatsDTO() {
