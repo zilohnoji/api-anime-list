@@ -8,6 +8,8 @@ import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    @Query("SELECT u FROM User u WHERE UPPER(u.name) LIKE UPPER(CONCAT('%', :name, '%'))")
+    @Query("SELECT u FROM User u JOIN FETCH u.cart c " +
+            "JOIN FETCH c.favorites " +
+            "WHERE UPPER(u.name) LIKE UPPER(CONCAT('%', :name, '%'))")
     List<User> findByName(String name);
 }

@@ -1,6 +1,5 @@
 package com.donatoordep.anime_list_api.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -13,16 +12,21 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @JsonIgnore
     @OneToOne(mappedBy = "cart")
     private User user;
 
-    @OneToMany(mappedBy = "cart", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cart")
     private List<AnimeOrder> favorites = new ArrayList<>();
 
     private int totalAnimes;
 
     public Cart() {
+    }
+
+    public Cart(Long id, List<AnimeOrder> favorites, int totalAnimes) {
+        this.id = id;
+        this.favorites = favorites;
+        this.totalAnimes = totalAnimes;
     }
 
     public void setFavorites(List<AnimeOrder> favorites) {

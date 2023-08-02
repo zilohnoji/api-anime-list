@@ -11,7 +11,6 @@ public class AccountStats {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private Integer watching;
     private Integer completed;
     private Integer dropped;
@@ -22,6 +21,14 @@ public class AccountStats {
     private ProfileUser perfilUser;
 
     public AccountStats() {
+    }
+
+    public AccountStats(Long id, Integer watching, Integer completed, Integer dropped, Integer planToWatch) {
+        this.id = id;
+        this.watching = watching;
+        this.completed = completed;
+        this.dropped = dropped;
+        this.planToWatch = planToWatch;
     }
 
     public Long getId() {

@@ -1,11 +1,14 @@
 package com.donatoordep.anime_list_api.dto;
 
 import com.donatoordep.anime_list_api.entities.ProfileUser;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Objects;
 
 public class ProfileUserDTO {
 
+    @JsonIgnore
+    private Long id;
     private String imgUrl;
     private String bio;
     private AccountStatsDTO accountStats;
@@ -15,11 +18,20 @@ public class ProfileUserDTO {
 
     public ProfileUserDTO(ProfileUser entity) {
         imgUrl = entity.getImgUrl();
+        id = entity.getId();
         bio = entity.getBio();
     }
 
     public AccountStatsDTO getAccountStats() {
         return accountStats;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setAccountStats(AccountStatsDTO accountStats) {

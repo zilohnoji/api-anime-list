@@ -17,24 +17,6 @@ public class UserDTO {
     public UserDTO() {
     }
 
-    public UserDTO(Long id, String name, String email, String password, ProfileUserDTO profile, CartDTO cart, List<RoleDTO> roles) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.profile = profile;
-        this.cart = cart;
-        this.roles = roles;
-    }
-
-    public UserDTO(Long id, String name, String email, String password, List<RoleDTO> roles) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.roles = roles;
-    }
-
     public UserDTO(Long id, String name, String email, String password) {
         this.id = id;
         this.name = name;

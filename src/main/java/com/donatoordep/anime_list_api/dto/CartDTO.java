@@ -1,6 +1,7 @@
 package com.donatoordep.anime_list_api.dto;
 
 import com.donatoordep.anime_list_api.entities.Cart;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +9,8 @@ import java.util.Objects;
 
 public class CartDTO {
 
+    @JsonIgnore
+    private Long id;
     private int totalAnimes;
     private List<AnimeOrderDTO> favorites = new ArrayList<>();
 
@@ -17,6 +20,15 @@ public class CartDTO {
     public CartDTO(Cart entity) {
         this.favorites = entity.getFavorites().stream().map(AnimeOrderDTO::new).toList();
         this.totalAnimes = entity.getTotalAnimes();
+        this.id = entity.getId();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setFavorites(List<AnimeOrderDTO> favorites) {

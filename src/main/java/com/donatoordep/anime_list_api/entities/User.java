@@ -1,6 +1,5 @@
 package com.donatoordep.anime_list_api.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -14,7 +13,6 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
     private String email;
     private String password;
@@ -27,7 +25,8 @@ public class User {
     @JoinColumn(name = "cart_id")
     private Cart cart;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER,
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(name = "user_roles", joinColumns =
     @JoinColumn(referencedColumnName = "id", name = "user_id"), inverseJoinColumns =
     @JoinColumn(referencedColumnName = "id", name = "role_id"))
@@ -36,7 +35,8 @@ public class User {
     public User() {
     }
 
-    public User(String name, String email, String password) {
+    public User(Long id, String name, String email, String password) {
+        this.id = id;
         this.name = name;
         this.email = email;
         this.password = password;
