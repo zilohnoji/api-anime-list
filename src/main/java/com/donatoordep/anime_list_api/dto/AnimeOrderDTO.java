@@ -1,15 +1,12 @@
 package com.donatoordep.anime_list_api.dto;
 
 import com.donatoordep.anime_list_api.entities.AnimeOrder;
-import com.donatoordep.anime_list_api.entities.Cart;
 import com.donatoordep.anime_list_api.enums.StatusOrder;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Objects;
 
 public class AnimeOrderDTO {
 
-    private Long id;
     private AnimeDTO anime;
     private Integer episode;
     private StatusOrder statusOrder;
@@ -17,41 +14,26 @@ public class AnimeOrderDTO {
     public AnimeOrderDTO() {
     }
 
-    public AnimeOrderDTO(StatusOrder statusOrder, Integer episode, AnimeDTO anime) {
-        this.statusOrder = statusOrder;
-        this.episode = episode;
-        this.anime = anime;
-    }
-
     public AnimeOrderDTO(AnimeOrder entity) {
         this.statusOrder = entity.getStatusOrder();
         this.anime = new AnimeDTO(entity.getAnime());
         this.episode = entity.getEpisode();
-        this.id = entity.getId();
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public StatusOrder getStatusOrder() {
-        return statusOrder;
+    public void setEpisode(Integer episode) {
+        this.episode = episode;
     }
 
     public void setStatusOrder(StatusOrder statusOrder) {
         this.statusOrder = statusOrder;
     }
 
-    public Integer getEpisode() {
-        return episode;
+    public StatusOrder getStatusOrder() {
+        return statusOrder;
     }
 
-    public void setEpisode(Integer episode) {
-        this.episode = episode;
+    public Integer getEpisode() {
+        return episode;
     }
 
     public AnimeDTO getAnime() {
@@ -67,11 +49,20 @@ public class AnimeOrderDTO {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AnimeOrderDTO that = (AnimeOrderDTO) o;
-        return Objects.equals(id, that.id) && Objects.equals(statusOrder, that.statusOrder) && Objects.equals(episode, that.episode) && Objects.equals(anime, that.anime);
+        return Objects.equals(anime, that.anime) && Objects.equals(episode, that.episode) && statusOrder == that.statusOrder;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, statusOrder, episode, anime);
+        return Objects.hash(anime, episode, statusOrder);
+    }
+
+    @Override
+    public String toString() {
+        return "AnimeOrderDTO{" +
+                "anime=" + anime +
+                ", episode=" + episode +
+                ", statusOrder=" + statusOrder +
+                '}';
     }
 }

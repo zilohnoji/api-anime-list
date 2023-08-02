@@ -1,45 +1,24 @@
 package com.donatoordep.anime_list_api.dto;
 
 import com.donatoordep.anime_list_api.entities.AccountStats;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Objects;
 
 public class AccountStatsDTO {
 
-    private Long id;
     private Integer watching;
     private Integer completed;
     private Integer dropped;
     private Integer planToWatch;
 
-    @JsonIgnore
-    private ProfileUserDTO perfilUser;
-
     public AccountStatsDTO() {
     }
 
-    public AccountStatsDTO(Integer watching, Integer completed, Integer dropped, Integer planToWatch) {
-        this.watching = watching;
-        this.completed = completed;
-        this.dropped = dropped;
-        this.planToWatch = planToWatch;
-    }
-
     public AccountStatsDTO(AccountStats entity) {
-        this.id = entity.getId();
         this.watching = entity.getWatching();
         this.completed = entity.getCompleted();
         this.dropped = entity.getDropped();
         this.planToWatch = entity.getPlanToWatch();
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Integer getWatching() {
@@ -74,36 +53,26 @@ public class AccountStatsDTO {
         this.planToWatch = planToWatch;
     }
 
-    public ProfileUserDTO getPerfilUser() {
-        return perfilUser;
-    }
-
-    public void setPerfilUser(ProfileUserDTO perfilUser) {
-        this.perfilUser = perfilUser;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AccountStatsDTO that = (AccountStatsDTO) o;
-        return Objects.equals(id, that.id) && Objects.equals(watching, that.watching) && Objects.equals(completed, that.completed) && Objects.equals(dropped, that.dropped) && Objects.equals(planToWatch, that.planToWatch) && Objects.equals(perfilUser, that.perfilUser);
+        return Objects.equals(watching, that.watching) && Objects.equals(completed, that.completed) && Objects.equals(dropped, that.dropped) && Objects.equals(planToWatch, that.planToWatch);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, watching, completed, dropped, planToWatch, perfilUser);
+        return Objects.hash(watching, completed, dropped, planToWatch);
     }
 
     @Override
     public String toString() {
-        return "AccountStats{" +
-                "id=" + id +
-                ", watching=" + watching +
+        return "AccountStatsDTO{" +
+                "watching=" + watching +
                 ", completed=" + completed +
                 ", dropped=" + dropped +
                 ", planToWatch=" + planToWatch +
-                ", perfilUser=" + perfilUser +
                 '}';
     }
 }

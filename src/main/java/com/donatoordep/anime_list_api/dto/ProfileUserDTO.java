@@ -1,42 +1,29 @@
 package com.donatoordep.anime_list_api.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.donatoordep.anime_list_api.entities.ProfileUser;
+
+import java.util.Objects;
 
 public class ProfileUserDTO {
 
-    private Long id;
-
-    @JsonIgnore
-    private UserDTO user;
-
-    private AccountStatsDTO animeStats;
     private String imgUrl;
     private String bio;
+    private AccountStatsDTO accountStats;
 
     public ProfileUserDTO() {
     }
 
-    public ProfileUserDTO(UserDTO user, AccountStatsDTO animeStats, String imgUrl, String bio) {
-        this.user = user;
-        this.animeStats = animeStats;
-        this.imgUrl = imgUrl;
-        this.bio = bio;
+    public ProfileUserDTO(ProfileUser entity) {
+        imgUrl = entity.getImgUrl();
+        bio = entity.getBio();
     }
 
-    public UserDTO getUser() {
-        return user;
+    public AccountStatsDTO getAccountStats() {
+        return accountStats;
     }
 
-    public void setUser(UserDTO user) {
-        this.user = user;
-    }
-
-    public AccountStatsDTO getAnimeStats() {
-        return animeStats;
-    }
-
-    public void setAnimeStats(AccountStatsDTO animeStats) {
-        this.animeStats = animeStats;
+    public void setAccountStats(AccountStatsDTO accountStats) {
+        this.accountStats = accountStats;
     }
 
     public String getImgUrl() {
@@ -55,11 +42,25 @@ public class ProfileUserDTO {
         this.bio = bio;
     }
 
-    public Long getId() {
-        return id;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProfileUserDTO that = (ProfileUserDTO) o;
+        return Objects.equals(imgUrl, that.imgUrl) && Objects.equals(bio, that.bio) && Objects.equals(accountStats, that.accountStats);
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    @Override
+    public int hashCode() {
+        return Objects.hash(imgUrl, bio, accountStats);
+    }
+
+    @Override
+    public String toString() {
+        return "ProfileUserDTO{" +
+                "imgUrl='" + imgUrl + '\'' +
+                ", bio='" + bio + '\'' +
+                ", accountStats=" + accountStats +
+                '}';
     }
 }

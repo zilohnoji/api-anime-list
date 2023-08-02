@@ -30,12 +30,6 @@ public class AnimeOrder {
     public AnimeOrder() {
     }
 
-    public AnimeOrder(StatusOrder statusOrder, Integer episode, Anime anime) {
-        this.statusOrder = statusOrder;
-        this.episode = episode;
-        this.anime = anime;
-    }
-
     public Long getId() {
         return id;
     }

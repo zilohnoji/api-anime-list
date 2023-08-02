@@ -1,22 +1,20 @@
 package com.donatoordep.anime_list_api.dto;
 
 import com.donatoordep.anime_list_api.entities.Cart;
-import com.donatoordep.anime_list_api.entities.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class CartDTO {
 
-    private Long id;
-    private List<AnimeOrderDTO> favorites = new ArrayList<>();
     private int totalAnimes;
+    private List<AnimeOrderDTO> favorites = new ArrayList<>();
 
     public CartDTO() {
     }
 
     public CartDTO(Cart entity) {
-        this.id = entity.getId();
         this.favorites = entity.getFavorites().stream().map(AnimeOrderDTO::new).toList();
         this.totalAnimes = entity.getTotalAnimes();
     }
@@ -37,11 +35,25 @@ public class CartDTO {
         return favorites;
     }
 
-    public Long getId() {
-        return id;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CartDTO cartDTO = (CartDTO) o;
+        return totalAnimes == cartDTO.totalAnimes && Objects.equals(favorites, cartDTO.favorites);
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    @Override
+    public int hashCode() {
+        return Objects.hash(totalAnimes, favorites);
+    }
+
+    @Override
+    public String toString() {
+        return "CartDTO{" +
+                "totalAnimes=" + totalAnimes +
+                ", favorites=" + favorites +
+                '}';
     }
 }

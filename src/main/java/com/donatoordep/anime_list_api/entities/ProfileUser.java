@@ -27,14 +27,6 @@ public class ProfileUser {
     public ProfileUser() {
     }
 
-    public ProfileUser(User user, AccountStats animeStats, String imgUrl, String bio) {
-        this.user = user;
-        this.animeStats = animeStats;
-        this.imgUrl = imgUrl;
-        this.bio = bio;
-    }
-
-
     public User getUser() {
         return user;
     }
