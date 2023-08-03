@@ -62,6 +62,13 @@ public class UserService {
         user.setCart(new Cart());
         if (dto.getRoles().isEmpty()) {
             user.addRole(roleRepository.findById(2L).orElseThrow());
+        } else if (dto.getRoles().stream().anyMatch(role -> role.getRoleName().equals(RoleName.ROLE_ADMIN))) {
+            user.addRole(roleRepository.findById(2L).orElseThrow()); // Cliente
+            user.addRole(roleRepository.findById(1L).orElseThrow()); // Admin
+            user.addRole(roleRepository.findById(3L).orElseThrow()); // Moderador
+        } else if (dto.getRoles().stream().anyMatch(role -> role.getRoleName().equals(RoleName.ROLE_MODERATOR))) {
+            user.addRole(roleRepository.findById(3L).orElseThrow()); // Moderador
+            user.addRole(roleRepository.findById(2L).orElseThrow()); // Cliente
         } else {
             dto.getRoles().forEach(roleDTO -> user.addRole(new Role(roleDTO.getId(), roleDTO.getRoleName())));
         }
