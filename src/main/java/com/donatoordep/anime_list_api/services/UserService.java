@@ -7,13 +7,12 @@ import com.donatoordep.anime_list_api.entities.*;
 import com.donatoordep.anime_list_api.enums.RoleName;
 import com.donatoordep.anime_list_api.exceptions.UserExistsInDatabaseException;
 import com.donatoordep.anime_list_api.mappers.UserMapper;
-import com.donatoordep.anime_list_api.repositories.RoleRepository;
 import com.donatoordep.anime_list_api.repositories.UserRepository;
+import com.donatoordep.anime_list_api.security.WebSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,7 +31,10 @@ public class UserService {
     private AuthenticationManager manager;
 
     @Autowired
-    private RoleRepository roleRepository;
+    private RoleService roleService;
+
+    @Autowired
+    private WebSecurityConfig webSecurityConfig;
 
     @Transactional(readOnly = true)
     public List<UserDTO> findByName(String name) {
@@ -53,25 +55,14 @@ public class UserService {
             throw new UserExistsInDatabaseException("User exists");
         }
 
-        User user = new User();
-        user.setName(dto.getName());
-        user.setPassword(new BCryptPasswordEncoder().encode(dto.getPassword()));
-        user.setEmail(dto.getEmail());
-        user.setProfile(new ProfileUser(new AccountStats(), dto.getProfile().getImgUrl(),
-                dto.getProfile().getBio()));
-        user.setCart(new Cart());
-        if (dto.getRoles().isEmpty()) {
-            user.addRole(roleRepository.findById(2L).orElseThrow());
-        } else if (dto.getRoles().stream().anyMatch(role -> role.getRoleName().equals(RoleName.ROLE_ADMIN))) {
-            user.addRole(roleRepository.findById(2L).orElseThrow()); // Cliente
-            user.addRole(roleRepository.findById(1L).orElseThrow()); // Admin
-            user.addRole(roleRepository.findById(3L).orElseThrow()); // Moderador
-        } else if (dto.getRoles().stream().anyMatch(role -> role.getRoleName().equals(RoleName.ROLE_MODERATOR))) {
-            user.addRole(roleRepository.findById(3L).orElseThrow()); // Moderador
-            user.addRole(roleRepository.findById(2L).orElseThrow()); // Cliente
-        } else {
-            dto.getRoles().forEach(roleDTO -> user.addRole(new Role(roleDTO.getId(), roleDTO.getRoleName())));
-        }
+        User user = new User(dto.getName(),
+                webSecurityConfig.passwordEncoder().encode(dto.getPassword()), dto.getEmail(), new Cart());
+
+        user.setProfile(new ProfileUser(
+                new AccountStats(), dto.getProfile().getImgUrl(), dto.getProfile().getBio()));
+
+        user.setRoles(roleService.separateRolesWithHierarchy(dto.getRoles().stream().map(
+                roleDTO -> new Role(roleDTO.getId(), roleDTO.getRoleName())).toList()));
         repository.save(user);
         return mapper.toDto(user);
     }
