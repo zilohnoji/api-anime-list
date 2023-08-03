@@ -11,10 +11,10 @@ public class AccountStats {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Integer watching;
-    private Integer completed;
-    private Integer dropped;
-    private Integer planToWatch;
+    private int watching;
+    private int completed;
+    private int dropped;
+    private int planToWatch;
 
     @JsonIgnore
     @OneToOne(mappedBy = "animeStats")
@@ -23,8 +23,15 @@ public class AccountStats {
     public AccountStats() {
     }
 
-    public AccountStats(Long id, Integer watching, Integer completed, Integer dropped, Integer planToWatch) {
+    public AccountStats(Long id, int watching, int completed, int dropped, int planToWatch) {
         this.id = id;
+        this.watching = watching;
+        this.completed = completed;
+        this.dropped = dropped;
+        this.planToWatch = planToWatch;
+    }
+
+    public AccountStats(Integer watching, Integer completed, Integer dropped, Integer planToWatch) {
         this.watching = watching;
         this.completed = completed;
         this.dropped = dropped;
@@ -39,35 +46,35 @@ public class AccountStats {
         this.id = id;
     }
 
-    public Integer getWatching() {
+    public int getWatching() {
         return watching;
     }
 
-    public void setWatching(Integer watching) {
+    public void setWatching(int watching) {
         this.watching = watching;
     }
 
-    public Integer getCompleted() {
+    public int getCompleted() {
         return completed;
     }
 
-    public void setCompleted(Integer completed) {
+    public void setCompleted(int completed) {
         this.completed = completed;
     }
 
-    public Integer getDropped() {
+    public int getDropped() {
         return dropped;
     }
 
-    public void setDropped(Integer dropped) {
+    public void setDropped(int dropped) {
         this.dropped = dropped;
     }
 
-    public Integer getPlanToWatch() {
+    public int getPlanToWatch() {
         return planToWatch;
     }
 
-    public void setPlanToWatch(Integer planToWatch) {
+    public void setPlanToWatch(int planToWatch) {
         this.planToWatch = planToWatch;
     }
 

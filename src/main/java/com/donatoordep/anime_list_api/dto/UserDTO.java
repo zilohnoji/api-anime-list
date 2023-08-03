@@ -9,7 +9,6 @@ public class UserDTO {
     private String name;
     private String email;
     private String password;
-
     private ProfileUserDTO profile;
     private CartDTO cart;
     private List<RoleDTO> roles = new ArrayList<>();

@@ -9,10 +9,10 @@ public class AccountStatsDTO {
 
     @JsonIgnore
     private Long id;
-    private Integer watching;
-    private Integer completed;
-    private Integer dropped;
-    private Integer planToWatch;
+    private int watching;
+    private int completed;
+    private int dropped;
+    private int planToWatch;
 
     public AccountStatsDTO() {
     }
@@ -33,35 +33,35 @@ public class AccountStatsDTO {
         this.id = id;
     }
 
-    public Integer getWatching() {
+    public int getWatching() {
         return watching;
     }
 
-    public void setWatching(Integer watching) {
+    public void setWatching(int watching) {
         this.watching = watching;
     }
 
-    public Integer getCompleted() {
+    public int getCompleted() {
         return completed;
     }
 
-    public void setCompleted(Integer completed) {
+    public void setCompleted(int completed) {
         this.completed = completed;
     }
 
-    public Integer getDropped() {
+    public int getDropped() {
         return dropped;
     }
 
-    public void setDropped(Integer dropped) {
+    public void setDropped(int dropped) {
         this.dropped = dropped;
     }
 
-    public Integer getPlanToWatch() {
+    public int getPlanToWatch() {
         return planToWatch;
     }
 
-    public void setPlanToWatch(Integer planToWatch) {
+    public void setPlanToWatch(int planToWatch) {
         this.planToWatch = planToWatch;
     }
 

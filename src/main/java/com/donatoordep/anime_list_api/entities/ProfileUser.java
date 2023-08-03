@@ -14,7 +14,7 @@ public class ProfileUser {
     @OneToOne(mappedBy = "profile")
     private User user;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "stats_id")
     private AccountStats animeStats;
 
@@ -27,6 +27,12 @@ public class ProfileUser {
 
     public ProfileUser(Long id, String imgUrl, String bio) {
         this.id = id;
+        this.imgUrl = imgUrl;
+        this.bio = bio;
+    }
+
+    public ProfileUser(AccountStats animeStats, String imgUrl, String bio) {
+        this.animeStats = animeStats;
         this.imgUrl = imgUrl;
         this.bio = bio;
     }

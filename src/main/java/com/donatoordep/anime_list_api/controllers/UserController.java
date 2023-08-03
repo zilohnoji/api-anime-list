@@ -2,7 +2,6 @@ package com.donatoordep.anime_list_api.controllers;
 
 
 import com.donatoordep.anime_list_api.dto.UserDTO;
-import com.donatoordep.anime_list_api.entities.User;
 import com.donatoordep.anime_list_api.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;

@@ -1,5 +1,6 @@
 package com.donatoordep.anime_list_api.entities;
 
+import com.donatoordep.anime_list_api.enums.RoleName;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,15 +17,18 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false, length = 150)
     private String name;
+    @Column(nullable = false, length = 100, unique = true)
     private String email;
+    @Column(nullable = false, length = 250)
     private String password;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "profile_id")
     private ProfileUser profile;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "cart_id")
     private Cart cart;
 
@@ -103,6 +107,12 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        if (this.roles.stream().anyMatch(role -> role.getRoleName().equals(RoleName.ROLE_ADMIN))) {
+            addRole(new Role(2L, RoleName.ROLE_CLIENT));
+            addRole(new Role(3L, RoleName.ROLE_MODERATOR));
+        } else if (this.roles.stream().anyMatch(role -> role.getRoleName().equals(RoleName.ROLE_MODERATOR))) {
+            addRole(new Role(2L, RoleName.ROLE_CLIENT));
+        }
         return roles;
     }
 
