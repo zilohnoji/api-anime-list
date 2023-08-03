@@ -23,6 +23,6 @@ public class UserController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<UserDTO>> findByName(@RequestParam(name = "name") String name) {
-        return service.findByName(name);
+        return ResponseEntity.ok().body(service.findByName(name));
     }
 }

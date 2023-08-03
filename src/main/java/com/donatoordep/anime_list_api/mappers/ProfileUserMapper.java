@@ -17,7 +17,5 @@ public interface ProfileUserMapper {
     @Mapping(target = "animeStats", ignore = true)
     ProfileUser toEntity(ProfileUserDTO dto);
 
-    @Mapping(target = "user", ignore = true)
-    @Mapping(target = "animeStats", ignore = true)
     ProfileUserDTO toDto(ProfileUser entity);
 }

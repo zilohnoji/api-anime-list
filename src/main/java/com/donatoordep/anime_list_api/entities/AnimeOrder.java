@@ -28,6 +28,13 @@ public class AnimeOrder {
     public AnimeOrder() {
     }
 
+    public AnimeOrder(Anime anime, Integer episode, StatusOrder statusOrder) {
+        this.id = id;
+        this.anime = anime;
+        this.episode = episode;
+        this.statusOrder = statusOrder;
+    }
+
     public Long getId() {
         return id;
     }

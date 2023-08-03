@@ -20,8 +20,7 @@ public class UserService {
     private UserMapper mapper;
 
     @Transactional(readOnly = true)
-    public ResponseEntity<List<UserDTO>> findByName(String name) {
-        return ResponseEntity.ok()
-                .body(repository.findByName(name).stream().map(user -> mapper.toDto(user)).toList());
+    public List<UserDTO> findByName(String name) {
+        return repository.findByName(name).stream().map(user -> mapper.toDto(user)).toList();
     }
 }
