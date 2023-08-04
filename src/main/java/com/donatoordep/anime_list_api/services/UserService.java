@@ -62,8 +62,8 @@ public class UserService {
             throw new UserExistsInDatabaseException();
         }
 
-        User user = new User(dto.getName(),
-                webSecurityConfig.passwordEncoder().encode(dto.getPassword()), dto.getEmail(), new Cart());
+        User user = new User(dto.getName(), dto.getEmail(),
+                webSecurityConfig.passwordEncoder().encode(dto.getPassword()), new Cart());
 
         user.setProfile(new ProfileUser(
                 new AccountStats(), dto.getProfile().getImgUrl(), dto.getProfile().getBio()));
