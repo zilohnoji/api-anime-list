@@ -15,7 +15,7 @@ public class Cart {
     @OneToOne(mappedBy = "cart")
     private User user;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cart")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cart", fetch = FetchType.EAGER)
     private List<AnimeOrder> favorites = new ArrayList<>();
 
     private int totalAnimes;

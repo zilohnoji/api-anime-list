@@ -4,6 +4,7 @@ package com.donatoordep.anime_list_api.controllers;
 import com.donatoordep.anime_list_api.dto.UserDTO;
 import com.donatoordep.anime_list_api.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

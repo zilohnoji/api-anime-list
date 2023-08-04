@@ -1,5 +1,7 @@
 package com.donatoordep.anime_list_api.controllers;
 
+import com.donatoordep.anime_list_api.dto.AuthenticationDTO;
+import com.donatoordep.anime_list_api.dto.TokenAuthenticationSuccessfulDTO;
 import com.donatoordep.anime_list_api.dto.UserDTO;
 import com.donatoordep.anime_list_api.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +20,14 @@ public class AuthController {
     private UserService service;
 
     @PostMapping(path = "/register")
-    public ResponseEntity<UserDTO> login(@RequestBody UserDTO dto) {
+    public ResponseEntity<UserDTO> register(@RequestBody UserDTO dto) {
         UserDTO objectCreated = service.register(dto);
         return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(objectCreated.getId()).toUri()).body(objectCreated);
+    }
+
+    @PostMapping(path = "/login")
+    public ResponseEntity<TokenAuthenticationSuccessfulDTO> login(@RequestBody AuthenticationDTO dto) {
+        return ResponseEntity.ok().body(service.login(dto));
     }
 }

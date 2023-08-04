@@ -118,12 +118,6 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (this.roles.stream().anyMatch(role -> role.getRoleName().equals(RoleName.ROLE_ADMIN))) {
-            addRole(new Role(2L, RoleName.ROLE_CLIENT));
-            addRole(new Role(3L, RoleName.ROLE_MODERATOR));
-        } else if (this.roles.stream().anyMatch(role -> role.getRoleName().equals(RoleName.ROLE_MODERATOR))) {
-            addRole(new Role(2L, RoleName.ROLE_CLIENT));
-        }
         return roles;
     }
 

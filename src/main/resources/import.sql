@@ -4,7 +4,7 @@ INSERT INTO profile_user(stats_id, img_url, bio) VALUES(1, 'http://icon.com.br/p
 
 INSERT INTO cart(total_animes) VALUES(1);
 
-INSERT INTO tb_user(cart_id, profile_id, name, email, password) VALUES(1, 1, 'Pedro', 'pedro@gmail.com', '123');
+INSERT INTO tb_user(cart_id, profile_id, name, email, password) VALUES(1, 1, 'Pedro', 'pedro@gmail.com', '$2a$12$oU0V.6b9681VfT2XeOc/G.BAnjvCIzei.et8MLPX.W63ddwmaXNRu');
 
 INSERT INTO anime(title, episodes, status, author_name, description, img_url) VALUES('Attack on Titan', 250, 'AIRING', 'Kukuku', 'Gigante', 'imagemfoda');
 
