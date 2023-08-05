@@ -5,16 +5,13 @@ import com.donatoordep.anime_list_api.dto.AuthenticationDTO;
 import com.donatoordep.anime_list_api.dto.TokenAuthenticationSuccessfulDTO;
 import com.donatoordep.anime_list_api.dto.UserDTO;
 import com.donatoordep.anime_list_api.entities.*;
-import com.donatoordep.anime_list_api.enums.RoleName;
 import com.donatoordep.anime_list_api.services.exceptions.EntityNotAuthenticatedInSystemException;
 import com.donatoordep.anime_list_api.services.exceptions.NotFoundEntityException;
-import com.donatoordep.anime_list_api.services.exceptions.TokenIsNotPresentInHeader;
 import com.donatoordep.anime_list_api.services.exceptions.UserExistsInDatabaseException;
 import com.donatoordep.anime_list_api.mappers.UserMapper;
 import com.donatoordep.anime_list_api.repositories.UserRepository;
 import com.donatoordep.anime_list_api.security.TokenJWTService;
 import com.donatoordep.anime_list_api.security.WebSecurityConfig;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,7 +19,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,6 +50,9 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public List<UserDTO> findByName(String name) {
+        if (repository.findByName(name).isEmpty()){
+            throw new EntityNotAuthenticatedInSystemException();
+        }
         return repository.findByName(name).stream().map(user -> mapper.toDto(user)).toList();
     }
 
@@ -88,22 +87,11 @@ public class UserService {
         return mapper.toDto(repository.save(user));
     }
 
-//    @Transactional
-//    public UserDetails authenticated(HttpServletRequest request) {
-//
-//        String login = tokenJWTService.validateToken(tokenJWTService.recoverToken(request)); // Obtém o email do usuário logado
-//        UserDetails user = repository.findByEmail(login); // Buscando o usuario que fez a requisição
-//
-//        if (user == null) {
-//            throw new NotFoundEntityException();
-//
-//            if (tokenJWTService.recoverToken(request) == null) { // Validando e recuperando o token do header
-//                throw new TokenIsNotPresentInHeader();
-//            }
-//
-//            SecurityContextHolder.getContext().setAuthentication(
-//                    new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities()));
-//        }
-//        return user;
-//    }
+    @Transactional
+    public User authenticated() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+        return repository.findEmailForUserAuthenticate(userDetails.getUsername());
+    }
 }

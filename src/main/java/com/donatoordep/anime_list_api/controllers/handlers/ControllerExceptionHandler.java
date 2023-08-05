@@ -1,13 +1,10 @@
 package com.donatoordep.anime_list_api.controllers.handlers;
 
-import com.donatoordep.anime_list_api.services.exceptions.CustomizedException;
-import com.donatoordep.anime_list_api.services.exceptions.EntityNotAuthenticatedInSystemException;
-import com.donatoordep.anime_list_api.services.exceptions.NotFoundEntityException;
-import com.donatoordep.anime_list_api.services.exceptions.UserExistsInDatabaseException;
+import com.auth0.jwt.exceptions.JWTDecodeException;
+import com.donatoordep.anime_list_api.services.exceptions.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -24,7 +21,7 @@ public class ControllerExceptionHandler {
     }
 
     @ExceptionHandler(NotFoundEntityException.class)
-    public ResponseEntity<CustomizedException> internalAuthenticationService(
+    public ResponseEntity<CustomizedException> notFoundEntityException(
             NotFoundEntityException e, HttpServletRequest request) {
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
@@ -35,6 +32,15 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(EntityNotAuthenticatedInSystemException.class)
     public ResponseEntity<CustomizedException> entityNotAuthenticatedInSystem(
             EntityNotAuthenticatedInSystemException e, HttpServletRequest request) {
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
+                new CustomizedException(e.getMessage(), HttpStatus.UNAUTHORIZED.value(),
+                        request.getRequestURI()));
+    }
+
+    @ExceptionHandler(JWTDecodeException.class)
+    public ResponseEntity<CustomizedException> jWTDecode(
+            JWTDecodeException e, HttpServletRequest request) {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
                 new CustomizedException(e.getMessage(), HttpStatus.BAD_REQUEST.value(),

@@ -1,8 +1,6 @@
 package com.donatoordep.anime_list_api.security;
 
 import com.donatoordep.anime_list_api.repositories.UserRepository;
-import com.donatoordep.anime_list_api.services.exceptions.NotFoundEntityException;
-import com.donatoordep.anime_list_api.services.exceptions.TokenIsNotPresentInHeader;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,7 +28,7 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
             HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        if (service.recoverToken(request) != null) { // Validando e recuperando o token do header
+        if (service.recoverToken(request) != null) {
             String login = service.validateToken(service.recoverToken(request)); // Obtém o email do usuário logado
             UserDetails user = repository.findByEmail(login); // Buscando o usuario que fez a requisição
 

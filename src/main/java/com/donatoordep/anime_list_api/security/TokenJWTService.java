@@ -2,8 +2,9 @@ package com.donatoordep.anime_list_api.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.donatoordep.anime_list_api.entities.User;
-import com.donatoordep.anime_list_api.services.exceptions.TokenIsNotPresentInHeader;
+import com.donatoordep.anime_list_api.services.exceptions.TokenIsInvalidException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 
@@ -28,12 +29,11 @@ public class TokenJWTService {
 
     public String validateToken(String token) {
         Algorithm algorithm = Algorithm.HMAC256(SECRET);
-
-        return JWT.require(algorithm)
-                .withIssuer("anime-api")
-                .build()
-                .verify(token)
-                .getSubject();
+       return JWT.require(algorithm)
+                    .withIssuer("anime-api")
+                    .build()
+                    .verify(token)
+                    .getSubject();
     }
 
     public Instant generateExpirationDateToken() {
@@ -42,9 +42,7 @@ public class TokenJWTService {
 
     // Recuperar o token JWT do cabeçalho da requisição
     public String recoverToken(HttpServletRequest request) {
-        if (request.getHeader("Authorization") == null) {
-            throw new TokenIsNotPresentInHeader();
-        }
-        return request.getHeader("Authorization").split(" ")[1];
+        return (request.getHeader("Authorization") != null)
+                ? request.getHeader("Authorization").split(" ")[1] : null;
     }
 }
