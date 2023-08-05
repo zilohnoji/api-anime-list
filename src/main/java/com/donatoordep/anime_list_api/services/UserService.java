@@ -6,16 +6,19 @@ import com.donatoordep.anime_list_api.dto.TokenAuthenticationSuccessfulDTO;
 import com.donatoordep.anime_list_api.dto.UserDTO;
 import com.donatoordep.anime_list_api.entities.*;
 import com.donatoordep.anime_list_api.enums.RoleName;
-import com.donatoordep.anime_list_api.exceptions.UserExistsInDatabaseException;
+import com.donatoordep.anime_list_api.services.exceptions.NotFoundEntityException;
+import com.donatoordep.anime_list_api.services.exceptions.UserExistsInDatabaseException;
 import com.donatoordep.anime_list_api.mappers.UserMapper;
 import com.donatoordep.anime_list_api.repositories.UserRepository;
 import com.donatoordep.anime_list_api.security.TokenJWTService;
 import com.donatoordep.anime_list_api.security.WebSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,12 +45,19 @@ public class UserService {
     @Autowired
     private TokenJWTService tokenJWTService;
 
+    @Autowired
+    private BCryptPasswordEncoder encoder;
+
     @Transactional(readOnly = true)
     public List<UserDTO> findByName(String name) {
         return repository.findByName(name).stream().map(user -> mapper.toDto(user)).toList();
     }
 
     public TokenAuthenticationSuccessfulDTO login(AuthenticationDTO objectOfAuthentication) {
+        UserDetails userObject = repository.findByEmail(objectOfAuthentication.getEmail());
+        if (userObject == null || !(encoder.matches(objectOfAuthentication.getPassword(), userObject.getPassword()))) {
+            throw new NotFoundEntityException();
+        }
         Authentication authenticate = manager.authenticate(new UsernamePasswordAuthenticationToken(
                 objectOfAuthentication.getEmail(), objectOfAuthentication.getPassword()));
 
@@ -68,18 +78,8 @@ public class UserService {
         user.setProfile(new ProfileUser(
                 new AccountStats(), dto.getProfile().getImgUrl(), dto.getProfile().getBio()));
 
-        if (dto.getRoles().isEmpty()) {
-            user.addRole(roleService.findById(2L));
-        } else if (dto.getRoles().stream().anyMatch(role -> role.getRoleName().equals(RoleName.ROLE_ADMIN))) {
-            user.addRole(roleService.findById(2L)); // Client
-            user.addRole(roleService.findById(1L)); // Admin
-            user.addRole(roleService.findById(3L)); // Moderator
-        } else if (dto.getRoles().stream().anyMatch(role -> role.getRoleName().equals(RoleName.ROLE_MODERATOR))) {
-            user.addRole(roleService.findById(3L)); // Moderator
-            user.addRole(roleService.findById(2L)); // Client
-        } else {
-            dto.getRoles().forEach(roleDTO -> user.addRole(new Role(roleDTO.getId(), roleDTO.getRoleName())));
-        }
+        user.setRoles(roleService.separateRolesWithHierarchy(dto.getRoles().stream().map(
+                roleDTO -> new Role(roleDTO.getId(), roleDTO.getRoleName())).toList()));
 
         return mapper.toDto(repository.save(user));
     }
