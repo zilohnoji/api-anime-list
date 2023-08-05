@@ -32,11 +32,23 @@ public class WebSecurityConfig {
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         // Configuração reservada para o endpoint /auth
-        http.securityMatcher("/auth/**")
+        http.securityMatcher("/v1/auth/**")
                 .authorizeHttpRequests(authorize -> {
-                    authorize.requestMatchers(HttpMethod.POST, "/auth/register").permitAll();
-                    authorize.requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                            .anyRequest().authenticated();
+                    authorize.requestMatchers(HttpMethod.POST, "/v1/auth/register").permitAll();
+                    authorize.requestMatchers(HttpMethod.POST, "/v1/auth/login").permitAll();
+                });
+
+        // Configuração reservada para o endpoint /users
+        http.securityMatcher("/v1/users/**")
+                .authorizeHttpRequests(authorize -> {
+                    authorize.requestMatchers(HttpMethod.GET, "/v1/users").authenticated();
+                });
+
+        // Configuração reservada para o endpoint /anime
+        http.securityMatcher("/v1/anime/**")
+                .authorizeHttpRequests(authorize -> {
+                    authorize.requestMatchers(HttpMethod.POST, "/v1/anime").hasRole("ADMIN");
+                    authorize.anyRequest().authenticated();
                 });
 
         http.addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);

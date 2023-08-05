@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
-@RequestMapping(path = "/auth")
+@RequestMapping(path = "/v1/auth")
 public class AuthController {
 
     @Autowired

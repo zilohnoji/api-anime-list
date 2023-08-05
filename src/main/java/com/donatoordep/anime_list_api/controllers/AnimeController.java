@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
-@RequestMapping(path = "/anime")
+@RequestMapping(path = "/v1/anime")
 public class AnimeController {
 
     @Autowired
