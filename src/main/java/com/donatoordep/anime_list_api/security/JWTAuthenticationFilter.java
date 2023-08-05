@@ -1,6 +1,7 @@
 package com.donatoordep.anime_list_api.security;
 
 import com.donatoordep.anime_list_api.repositories.UserRepository;
+import com.donatoordep.anime_list_api.services.exceptions.EntityNotAuthenticatedInSystemException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
