@@ -3,6 +3,8 @@ package com.donatoordep.anime_list_api.security;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.donatoordep.anime_list_api.entities.User;
+import com.donatoordep.anime_list_api.services.exceptions.TokenIsNotPresentInHeader;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -36,5 +38,13 @@ public class TokenJWTService {
 
     public Instant generateExpirationDateToken() {
         return LocalDateTime.now().plusHours(168).toInstant(ZoneOffset.of("-03:00"));
+    }
+
+    // Recuperar o token JWT do cabeçalho da requisição
+    public String recoverToken(HttpServletRequest request) {
+        if (request.getHeader("Authorization") == null) {
+            throw new TokenIsNotPresentInHeader();
+        }
+        return request.getHeader("Authorization").split(" ")[1];
     }
 }

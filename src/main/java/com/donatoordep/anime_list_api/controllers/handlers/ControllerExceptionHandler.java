@@ -1,6 +1,7 @@
 package com.donatoordep.anime_list_api.controllers.handlers;
 
 import com.donatoordep.anime_list_api.services.exceptions.CustomizedException;
+import com.donatoordep.anime_list_api.services.exceptions.EntityNotAuthenticatedInSystemException;
 import com.donatoordep.anime_list_api.services.exceptions.NotFoundEntityException;
 import com.donatoordep.anime_list_api.services.exceptions.UserExistsInDatabaseException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -28,6 +29,15 @@ public class ControllerExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
                 new CustomizedException(e.getMessage(), HttpStatus.NOT_FOUND.value(),
+                        request.getRequestURI()));
+    }
+
+    @ExceptionHandler(EntityNotAuthenticatedInSystemException.class)
+    public ResponseEntity<CustomizedException> entityNotAuthenticatedInSystem(
+            EntityNotAuthenticatedInSystemException e, HttpServletRequest request) {
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
+                new CustomizedException(e.getMessage(), HttpStatus.BAD_REQUEST.value(),
                         request.getRequestURI()));
     }
 }

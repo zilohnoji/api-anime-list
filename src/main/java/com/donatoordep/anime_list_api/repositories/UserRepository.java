@@ -13,4 +13,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByName(String name);
 
     UserDetails findByEmail(String email);
+
+    @Query("SELECT u FROM User u WHERE UPPER(u.email) LIKE UPPER(CONCAT('%', :email, '%'))")
+    User findEmailForUserAuthenticate(String email);
 }
