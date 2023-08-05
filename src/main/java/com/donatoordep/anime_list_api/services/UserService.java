@@ -3,15 +3,16 @@ package com.donatoordep.anime_list_api.services;
 import com.auth0.jwt.JWT;
 import com.donatoordep.anime_list_api.dto.AuthenticationDTO;
 import com.donatoordep.anime_list_api.dto.TokenAuthenticationSuccessfulDTO;
+import com.donatoordep.anime_list_api.dto.UserAuthenticatedDTO;
 import com.donatoordep.anime_list_api.dto.UserDTO;
 import com.donatoordep.anime_list_api.entities.*;
-import com.donatoordep.anime_list_api.services.exceptions.EntityNotAuthenticatedInSystemException;
-import com.donatoordep.anime_list_api.services.exceptions.NotFoundEntityException;
-import com.donatoordep.anime_list_api.services.exceptions.UserExistsInDatabaseException;
 import com.donatoordep.anime_list_api.mappers.UserMapper;
 import com.donatoordep.anime_list_api.repositories.UserRepository;
 import com.donatoordep.anime_list_api.security.TokenJWTService;
 import com.donatoordep.anime_list_api.security.WebSecurityConfig;
+import com.donatoordep.anime_list_api.services.exceptions.EntityNotAuthenticatedInSystemException;
+import com.donatoordep.anime_list_api.services.exceptions.NotFoundEntityException;
+import com.donatoordep.anime_list_api.services.exceptions.UserExistsInDatabaseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -50,8 +51,8 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public List<UserDTO> findByName(String name) {
-        if (repository.findByName(name).isEmpty()){
-            throw new EntityNotAuthenticatedInSystemException();
+        if (repository.findByName(name).isEmpty()) {
+            throw new NotFoundEntityException();
         }
         return repository.findByName(name).stream().map(user -> mapper.toDto(user)).toList();
     }
@@ -87,11 +88,18 @@ public class UserService {
         return mapper.toDto(repository.save(user));
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
+    public UserDTO me() {
+        return mapper.toDto(authenticated());
+    }
+
+    @Transactional(readOnly = true)
     public User authenticated() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null) {
+            throw new EntityNotAuthenticatedInSystemException();
+        }
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-
         return repository.findEmailForUserAuthenticate(userDetails.getUsername());
     }
 }

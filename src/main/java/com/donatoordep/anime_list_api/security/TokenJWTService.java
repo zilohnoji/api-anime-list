@@ -29,11 +29,11 @@ public class TokenJWTService {
 
     public String validateToken(String token) {
         Algorithm algorithm = Algorithm.HMAC256(SECRET);
-       return JWT.require(algorithm)
-                    .withIssuer("anime-api")
-                    .build()
-                    .verify(token)
-                    .getSubject();
+        return JWT.require(algorithm)
+                .withIssuer("anime-api")
+                .build()
+                .verify(token)
+                .getSubject();
     }
 
     public Instant generateExpirationDateToken() {

@@ -1,7 +1,9 @@
 package com.donatoordep.anime_list_api.controllers.handlers;
 
-import com.auth0.jwt.exceptions.JWTDecodeException;
-import com.donatoordep.anime_list_api.services.exceptions.*;
+import com.donatoordep.anime_list_api.services.exceptions.CustomizedException;
+import com.donatoordep.anime_list_api.services.exceptions.EntityNotAuthenticatedInSystemException;
+import com.donatoordep.anime_list_api.services.exceptions.NotFoundEntityException;
+import com.donatoordep.anime_list_api.services.exceptions.UserExistsInDatabaseException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,15 +37,6 @@ public class ControllerExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
                 new CustomizedException(e.getMessage(), HttpStatus.UNAUTHORIZED.value(),
-                        request.getRequestURI()));
-    }
-
-    @ExceptionHandler(JWTDecodeException.class)
-    public ResponseEntity<CustomizedException> jWTDecode(
-            JWTDecodeException e, HttpServletRequest request) {
-
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-                new CustomizedException(e.getMessage(), HttpStatus.BAD_REQUEST.value(),
                         request.getRequestURI()));
     }
 }

@@ -4,7 +4,6 @@ package com.donatoordep.anime_list_api.controllers;
 import com.donatoordep.anime_list_api.dto.UserDTO;
 import com.donatoordep.anime_list_api.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,5 +23,10 @@ public class UserController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<UserDTO>> findByName(@RequestParam(name = "name") String name) {
         return ResponseEntity.ok().body(service.findByName(name));
+    }
+
+    @GetMapping(path = "/me", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserDTO> myProfile(){
+        return ResponseEntity.ok().body(service.me());
     }
 }
