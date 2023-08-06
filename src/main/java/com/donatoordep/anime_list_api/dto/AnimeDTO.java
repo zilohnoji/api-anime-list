@@ -28,6 +28,16 @@ public class AnimeDTO {
         episodes = entity.getEpisodes();
     }
 
+    public AnimeDTO(Long id, String title, String description, String imgUrl, String authorName, Status status, Integer episodes) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.imgUrl = imgUrl;
+        this.authorName = authorName;
+        this.status = status;
+        this.episodes = episodes;
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }

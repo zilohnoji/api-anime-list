@@ -3,6 +3,8 @@ package com.donatoordep.anime_list_api.controllers;
 import com.donatoordep.anime_list_api.dto.AnimeDTO;
 import com.donatoordep.anime_list_api.services.AnimeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +28,12 @@ public class AnimeController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<AnimeDTO>> findByName(@RequestParam(name = "name") String name){
+    public ResponseEntity<List<AnimeDTO>> findByName(@RequestParam(name = "name") String name) {
         return ResponseEntity.ok().body(service.findByName(name));
+    }
+
+    @GetMapping(path = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Page<AnimeDTO>> findAll(Pageable pageable) {
+        return ResponseEntity.ok().body(service.findAll(pageable));
     }
 }

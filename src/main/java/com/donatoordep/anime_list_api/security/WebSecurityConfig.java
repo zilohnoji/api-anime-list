@@ -49,6 +49,7 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(authorize -> {
                     authorize.requestMatchers(HttpMethod.POST, "/v1/anime").hasRole("ADMIN");
                     authorize.requestMatchers(HttpMethod.GET, "/v1/anime").permitAll();
+                    authorize.requestMatchers(HttpMethod.GET, "/v1/anime/all").permitAll();
                     authorize.anyRequest().authenticated();
                 });
 
