@@ -14,6 +14,8 @@ import com.donatoordep.anime_list_api.services.exceptions.EntityNotAuthenticated
 import com.donatoordep.anime_list_api.services.exceptions.NotFoundEntityException;
 import com.donatoordep.anime_list_api.services.exceptions.UserExistsInDatabaseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -50,11 +52,11 @@ public class UserService {
     private BCryptPasswordEncoder encoder;
 
     @Transactional(readOnly = true)
-    public List<UserDTO> findByName(String name) {
-        if (repository.findByName(name).isEmpty()) {
+    public Page<UserDTO> findByName(String name, Pageable pageable) {
+        if (repository.findByName(name, pageable).isEmpty()) {
             throw new NotFoundEntityException();
         }
-        return repository.findByName(name).stream().map(user -> mapper.toDto(user)).toList();
+        return repository.findByName(name, pageable).map(user -> mapper.toDto(user));
     }
 
     public TokenAuthenticationSuccessfulDTO login(AuthenticationDTO objectOfAuthentication) {
