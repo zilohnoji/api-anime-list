@@ -10,11 +10,16 @@ import com.donatoordep.anime_list_api.repositories.AnimeOrderDetailsRepository;
 import com.donatoordep.anime_list_api.repositories.AnimeOrderRepository;
 import com.donatoordep.anime_list_api.repositories.AnimeRepository;
 import com.donatoordep.anime_list_api.repositories.UserRepository;
+import com.donatoordep.anime_list_api.services.exceptions.AnimeAlreadyInCartException;
+import com.donatoordep.anime_list_api.services.exceptions.CustomizedAnimeAlreadyInCartException;
 import com.donatoordep.anime_list_api.services.exceptions.EntityNotAuthenticatedInSystemException;
 import com.donatoordep.anime_list_api.services.exceptions.NotFoundEntityException;
 import jakarta.persistence.criteria.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class AnimeOrderDetailsService {
@@ -39,10 +44,26 @@ public class AnimeOrderDetailsService {
         Anime anime = animeRepository.findById(dto.getAnimeId()).orElseThrow(NotFoundEntityException::new);
 
         AnimeOrderDetails animeOrderDetails = new AnimeOrderDetails(
-                dto.getAnimeId(), anime, dto.getEpisode(), dto.getStatus());
+                anime, dto.getEpisode(), dto.getStatus());
 
-        AnimeOrder animeOrder = new AnimeOrder(animeOrderDetails);
+        CustomizedAnimeAlreadyInCartException excp = new CustomizedAnimeAlreadyInCartException();
 
+        boolean cartCointainingAnime = userAuthenticated.getCart().getFavorites().stream()
+                .anyMatch(obj1 -> obj1.getAnimeOrderDetails().stream()
+                        .anyMatch(obj2 -> {
+                            if (obj2.getAnime().getId().equals(dto.getAnimeId())) {
+                                excp.setAnimeId(obj2.getAnime().getId());
+                            }
+                            return obj2.getAnime().getId().equals(dto.getAnimeId());
+                        }));
+
+        if (cartCointainingAnime) {
+            throw new AnimeAlreadyInCartException(excp.getAnimeId());
+        }
+
+        animeOrderDetails = detailsRepository.save(animeOrderDetails);
+        AnimeOrder animeOrder = new AnimeOrder(animeOrderDetails, userAuthenticated.getCart());
+        animeOrderDetails.setAnimeOrder(animeOrder);
         userAuthenticated.getCart().getFavorites().add(animeOrder);
         userRepository.save(userAuthenticated);
 

@@ -12,7 +12,7 @@ public class AnimeOrder {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "animeOrder", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "animeOrder", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<AnimeOrderDetails> animeOrderDetails = new ArrayList<>();
 
     @ManyToOne
@@ -26,8 +26,9 @@ public class AnimeOrder {
         this.animeOrderDetails = anime;
     }
 
-    public AnimeOrder(AnimeOrderDetails anime) {
+    public AnimeOrder(AnimeOrderDetails anime, Cart cart) {
         this.animeOrderDetails.add(anime);
+        this.cart = cart;
     }
 
     public List<AnimeOrderDetails> getAnimeOrderDetails() {

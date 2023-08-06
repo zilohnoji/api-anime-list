@@ -26,6 +26,12 @@ public class AnimeOrderDetails {
     public AnimeOrderDetails() {
     }
 
+    public AnimeOrderDetails(Anime anime, int episode, StatusOrder statusOrder) {
+        this.anime = anime;
+        this.episode = episode;
+        this.statusOrder = statusOrder;
+    }
+
     public AnimeOrderDetails(Long id, Anime anime, int episode, StatusOrder statusOrder) {
         this.id = id;
         this.anime = anime;
