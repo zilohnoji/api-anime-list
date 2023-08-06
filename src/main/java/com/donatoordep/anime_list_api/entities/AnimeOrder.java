@@ -1,9 +1,9 @@
 package com.donatoordep.anime_list_api.entities;
 
-import com.donatoordep.anime_list_api.enums.StatusOrder;
 import jakarta.persistence.*;
 
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class AnimeOrder {
@@ -12,27 +12,34 @@ public class AnimeOrder {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "anime_id")
-    private Anime anime;
+    @OneToMany(mappedBy = "animeOrder", cascade = CascadeType.ALL)
+    private List<AnimeOrderDetails> animeOrderDetails = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "cart_id")
     private Cart cart;
 
-    private Integer episode;
-
-    @Enumerated(EnumType.STRING)
-    private StatusOrder statusOrder;
-
     public AnimeOrder() {
     }
 
-    public AnimeOrder(Anime anime, Integer episode, StatusOrder statusOrder) {
-        this.id = id;
-        this.anime = anime;
-        this.episode = episode;
-        this.statusOrder = statusOrder;
+    public AnimeOrder(List<AnimeOrderDetails> anime) {
+        this.animeOrderDetails = anime;
+    }
+
+    public List<AnimeOrderDetails> getAnimeOrderDetails() {
+        return animeOrderDetails;
+    }
+
+    public void setAnimeOrderDetails(List<AnimeOrderDetails> animeOrderDetails) {
+        this.animeOrderDetails = animeOrderDetails;
+    }
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 
     public Long getId() {
@@ -41,42 +48,5 @@ public class AnimeOrder {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public StatusOrder getStatusOrder() {
-        return statusOrder;
-    }
-
-    public void setStatusOrder(StatusOrder statusOrder) {
-        this.statusOrder = statusOrder;
-    }
-
-    public Integer getEpisode() {
-        return episode;
-    }
-
-    public void setEpisode(Integer episode) {
-        this.episode = episode;
-    }
-
-    public Anime getAnime() {
-        return anime;
-    }
-
-    public void setAnime(Anime anime) {
-        this.anime = anime;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AnimeOrder that = (AnimeOrder) o;
-        return Objects.equals(id, that.id) && Objects.equals(statusOrder, that.statusOrder) && Objects.equals(episode, that.episode) && Objects.equals(anime, that.anime);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, statusOrder, episode, anime);
     }
 }

@@ -25,12 +25,21 @@ public interface UserMapper {
 
         user.setProfile(profileUser);
 
-        List<AnimeOrder> animeOrderList = dto.getCart().getFavorites().stream()
-                .map(object -> new AnimeOrder(new Anime(object.getAnime().getTitle(),
-                        object.getAnime().getDescription(), object.getAnime().getImgUrl(), object.getAnime().getAuthorName(),
-                        object.getAnime().getStatus(), object.getAnime().getEpisodes()),
-                        object.getEpisode(), object.getStatusOrder())).toList();
+        List<AnimeOrderDetails> animeOrderDetails = new ArrayList<>();
+        dto.getCart().getFavorites().forEach(animeOrderDTO -> animeOrderDTO.getAnimeOrderDetails()
+                .forEach(animeOrderDetailsDTO -> animeOrderDetails.add(
+                        new AnimeOrderDetails(animeOrderDetailsDTO.getId(),
+                                new Anime(animeOrderDetailsDTO.getAnime().getTitle(),
+                                        animeOrderDetailsDTO.getAnime().getDescription(),
+                                        animeOrderDetailsDTO.getAnime().getImgUrl(),
+                                        animeOrderDetailsDTO.getAnime().getAuthorName(),
+                                        animeOrderDetailsDTO.getAnime().getStatus(),
+                                        animeOrderDetailsDTO.getAnime().getEpisodes()),
+                                        animeOrderDetailsDTO.getEpisode(),
+                                        animeOrderDetailsDTO.getStatusOrder()))));
 
+        List<AnimeOrder> animeOrderList = dto.getCart().getFavorites().stream().map(
+                animeOrderDTO -> new AnimeOrder(animeOrderDetails)).toList();
 
         user.setCart(new Cart(dto.getCart().getId(), animeOrderList, dto.getCart().getTotalAnimes()));
         dto.getRoles().forEach(roleDTO -> new Role(roleDTO.getId(), roleDTO.getRoleName()));
