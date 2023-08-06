@@ -1,6 +1,7 @@
 package com.donatoordep.anime_list_api.controllers;
 
 
+import com.donatoordep.anime_list_api.dto.CartDTO;
 import com.donatoordep.anime_list_api.dto.UserDTO;
 import com.donatoordep.anime_list_api.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,5 +31,10 @@ public class UserController {
     @GetMapping(path = "/me", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDTO> myProfile() {
         return ResponseEntity.ok().body(service.me());
+    }
+
+    @GetMapping(path = "/my-cart", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CartDTO> myCart(){
+        return ResponseEntity.ok().body(service.myCart());
     }
 }

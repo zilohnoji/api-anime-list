@@ -42,6 +42,7 @@ public class WebSecurityConfig {
         http.securityMatcher("/v1/users/**")
                 .authorizeHttpRequests(authorize -> {
                     authorize.requestMatchers(HttpMethod.GET, "/v1/users").authenticated();
+                    authorize.requestMatchers(HttpMethod.GET, "/v1/users/my-cart").authenticated();
                 });
 
         // Configuração reservada para o endpoint /anime

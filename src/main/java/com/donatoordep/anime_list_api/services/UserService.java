@@ -1,10 +1,7 @@
 package com.donatoordep.anime_list_api.services;
 
 import com.auth0.jwt.JWT;
-import com.donatoordep.anime_list_api.dto.AuthenticationDTO;
-import com.donatoordep.anime_list_api.dto.TokenAuthenticationSuccessfulDTO;
-import com.donatoordep.anime_list_api.dto.UserAuthenticatedDTO;
-import com.donatoordep.anime_list_api.dto.UserDTO;
+import com.donatoordep.anime_list_api.dto.*;
 import com.donatoordep.anime_list_api.entities.*;
 import com.donatoordep.anime_list_api.mappers.UserMapper;
 import com.donatoordep.anime_list_api.repositories.UserRepository;
@@ -103,5 +100,10 @@ public class UserService {
         }
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         return repository.findEmailForUserAuthenticate(userDetails.getUsername());
+    }
+
+    @Transactional(readOnly = true)
+    public CartDTO myCart() {
+        return new CartDTO(authenticated().getCart());
     }
 }
