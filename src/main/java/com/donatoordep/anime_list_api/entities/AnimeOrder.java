@@ -26,6 +26,10 @@ public class AnimeOrder {
         this.animeOrderDetails = anime;
     }
 
+    public AnimeOrder(AnimeOrderDetails anime) {
+        this.animeOrderDetails.add(anime);
+    }
+
     public List<AnimeOrderDetails> getAnimeOrderDetails() {
         return animeOrderDetails;
     }

@@ -18,7 +18,7 @@ public class AnimeOrderDetails {
     @JoinColumn(name = "anime_id")
     private Anime anime;
 
-    private Integer episode;
+    private int episode;
 
     @Enumerated(EnumType.STRING)
     private StatusOrder statusOrder;
@@ -26,7 +26,7 @@ public class AnimeOrderDetails {
     public AnimeOrderDetails() {
     }
 
-    public AnimeOrderDetails(Long id, Anime anime, Integer episode, StatusOrder statusOrder) {
+    public AnimeOrderDetails(Long id, Anime anime, int episode, StatusOrder statusOrder) {
         this.id = id;
         this.anime = anime;
         this.episode = episode;
@@ -57,11 +57,11 @@ public class AnimeOrderDetails {
         this.anime = anime;
     }
 
-    public Integer getEpisode() {
+    public int getEpisode() {
         return episode;
     }
 
-    public void setEpisode(Integer episode) {
+    public void setEpisode(int episode) {
         this.episode = episode;
     }
 
