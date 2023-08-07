@@ -1,5 +1,6 @@
 package com.donatoordep.anime_list_api.controllers.handlers;
 
+import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.donatoordep.anime_list_api.services.exceptions.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;

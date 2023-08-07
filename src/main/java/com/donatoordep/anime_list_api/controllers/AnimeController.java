@@ -36,4 +36,9 @@ public class AnimeController {
     public ResponseEntity<Page<AnimeDTO>> findAll(Pageable pageable) {
         return ResponseEntity.ok().body(service.findAll(pageable));
     }
+
+    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<AnimeDTO> findById(@PathVariable Long id){
+        return ResponseEntity.ok().body(service.findById(id));
+    }
 }

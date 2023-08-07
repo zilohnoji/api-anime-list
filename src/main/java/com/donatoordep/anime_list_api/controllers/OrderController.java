@@ -20,9 +20,4 @@ public class OrderController {
     public ResponseEntity<AnimeOrderDetailsDTO> addAnimeInMyCart(@RequestBody OrderDTO dto) {
         return ResponseEntity.ok().body(service.addAnimeInMyCart(dto));
     }
-
-    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AnimeOrderDetailsDTO> findById(@PathVariable Long id){
-        return ResponseEntity.ok().body(service.findById(id));
-    }
 }

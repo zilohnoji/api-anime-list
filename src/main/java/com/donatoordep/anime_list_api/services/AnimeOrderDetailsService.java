@@ -64,9 +64,4 @@ public class AnimeOrderDetailsService {
                             return obj2.getAnime().getId().equals(dto.getAnimeId());
                         }));
     }
-
-    public AnimeOrderDetailsDTO findById(Long id) {
-        return new AnimeOrderDetailsDTO(detailsRepository.findById(id)
-                .orElseThrow(NotFoundEntityException::new));
-    }
 }

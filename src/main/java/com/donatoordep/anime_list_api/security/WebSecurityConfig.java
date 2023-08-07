@@ -51,16 +51,16 @@ public class WebSecurityConfig {
                     authorize.requestMatchers(HttpMethod.POST, "/v1/anime").hasRole("ADMIN");
                     authorize.requestMatchers(HttpMethod.GET, "/v1/anime").permitAll();
                     authorize.requestMatchers(HttpMethod.GET, "/v1/anime/all").permitAll();
+                    authorize.requestMatchers(HttpMethod.GET, "/v1/anime/{id}").permitAll();
                 });
 
         // Configuração reservada para o endpoint /orders
         http.securityMatcher("/v1/orders/**")
-                        .authorizeHttpRequests(authorize -> {
-                            authorize.requestMatchers(HttpMethod.GET, "/v1/orders/{id}").permitAll();
-                            authorize.requestMatchers(HttpMethod.POST, "/v1/orders").authenticated();
-                        });
+                .authorizeHttpRequests(authorize -> {
+                    authorize.requestMatchers(HttpMethod.POST, "/v1/orders").authenticated();
+                });
 
-    http.addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

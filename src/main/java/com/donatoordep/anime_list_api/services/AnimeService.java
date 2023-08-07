@@ -40,4 +40,8 @@ public class AnimeService {
     public Page<AnimeDTO> findAll(Pageable pageable){
         return repository.findAll(pageable).map(AnimeDTO::new);
     }
+
+    public AnimeDTO findById(Long id){
+        return new AnimeDTO(repository.findById(id).orElseThrow(NotFoundEntityException::new));
+    }
 }
