@@ -15,6 +15,10 @@ public class CustomizedAnimeAlreadyInCartException {
     public CustomizedAnimeAlreadyInCartException() {
     }
 
+    public CustomizedAnimeAlreadyInCartException(Long animeId) {
+        this.animeId = animeId;
+    }
+
     public CustomizedAnimeAlreadyInCartException(String error, Integer status, String path, Long id) {
         this.error = error;
         this.status = status;

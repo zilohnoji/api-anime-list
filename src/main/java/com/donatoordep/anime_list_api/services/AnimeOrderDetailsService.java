@@ -36,9 +36,6 @@ public class AnimeOrderDetailsService {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private UserRepository userRepository;
-
     public AnimeOrderDetailsDTO addAnimeInMyCart(OrderDTO dto) {
         User userAuthenticated = userService.authenticated();
         Anime anime = animeRepository.findById(dto.getAnimeId()).orElseThrow(NotFoundEntityException::new);
@@ -46,28 +43,26 @@ public class AnimeOrderDetailsService {
         AnimeOrderDetails animeOrderDetails = new AnimeOrderDetails(
                 anime, dto.getEpisode(), dto.getStatus());
 
-        CustomizedAnimeAlreadyInCartException excp = new CustomizedAnimeAlreadyInCartException();
-
-        boolean cartCointainingAnime = userAuthenticated.getCart().getFavorites().stream()
-                .anyMatch(obj1 -> obj1.getAnimeOrderDetails().stream()
-                        .anyMatch(obj2 -> {
-                            if (obj2.getAnime().getId().equals(dto.getAnimeId())) {
-                                excp.setAnimeId(obj2.getAnime().getId());
-                            }
-                            return obj2.getAnime().getId().equals(dto.getAnimeId());
-                        }));
-
-        if (cartCointainingAnime) {
-            throw new AnimeAlreadyInCartException(excp.getAnimeId());
-        }
+        containingAnime(userAuthenticated, dto); // Verifica se o anime já existe no carrinho
 
         animeOrderDetails = detailsRepository.save(animeOrderDetails);
         AnimeOrder animeOrder = new AnimeOrder(animeOrderDetails, userAuthenticated.getCart());
         animeOrderDetails.setAnimeOrder(animeOrder);
         userAuthenticated.getCart().getFavorites().add(animeOrder);
-        userRepository.save(userAuthenticated);
+        userService.update(userAuthenticated);
 
         return new AnimeOrderDetailsDTO(animeOrderDetails);
+    }
+
+    public boolean containingAnime(User user, OrderDTO dto) {
+        return user.getCart().getFavorites().stream()
+                .anyMatch(obj1 -> obj1.getAnimeOrderDetails().stream()
+                        .anyMatch(obj2 -> {
+                            if (obj2.getAnime().getId().equals(dto.getAnimeId())) {
+                                throw new AnimeAlreadyInCartException(obj2.getAnime().getId());
+                            }
+                            return obj2.getAnime().getId().equals(dto.getAnimeId());
+                        }));
     }
 
     public AnimeOrderDetails findById(Long id) {

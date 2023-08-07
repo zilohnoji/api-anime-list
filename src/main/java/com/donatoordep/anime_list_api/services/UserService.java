@@ -18,11 +18,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 public class UserService {
@@ -45,9 +42,6 @@ public class UserService {
     @Autowired
     private TokenJWTService tokenJWTService;
 
-    @Autowired
-    private BCryptPasswordEncoder encoder;
-
     @Transactional(readOnly = true)
     public Page<UserDTO> findByName(String name, Pageable pageable) {
         if (repository.findByName(name, pageable).isEmpty()) {
@@ -57,10 +51,8 @@ public class UserService {
     }
 
     public TokenAuthenticationSuccessfulDTO login(AuthenticationDTO objectOfAuthentication) {
-        UserDetails userObject = repository.findByEmail(objectOfAuthentication.getEmail());
-        if (userObject == null || !(encoder.matches(objectOfAuthentication.getPassword(), userObject.getPassword()))) {
-            throw new NotFoundEntityException();
-        }
+        findByEmail(objectOfAuthentication.getEmail(), objectOfAuthentication);
+
         Authentication authenticate = manager.authenticate(new UsernamePasswordAuthenticationToken(
                 objectOfAuthentication.getEmail(), objectOfAuthentication.getPassword()));
 
@@ -71,7 +63,7 @@ public class UserService {
 
     @Transactional
     public UserDTO register(UserDTO dto) {
-        if (repository.findByEmail(dto.getEmail()) != null) {
+        if(repository.findEmailForUserAuthenticate(dto.getEmail()) != null){
             throw new UserExistsInDatabaseException();
         }
 
@@ -100,6 +92,28 @@ public class UserService {
         }
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         return repository.findEmailForUserAuthenticate(userDetails.getUsername());
+    }
+
+    public void findByEmail(String email, AuthenticationDTO authenticationDTO) {
+        UserDetails user = repository.findByEmail(email);
+        if (user == null || !(webSecurityConfig.passwordEncoder().matches(authenticationDTO.getPassword(), user.getPassword()))) {
+            throw new NotFoundEntityException();
+        }
+    }
+
+    public User findByEmail(String email) {
+        User user = repository.findEmailForUserAuthenticate(email);
+        if (user == null) {
+            throw new NotFoundEntityException();
+        }
+        return user;
+    }
+
+    public User update(User user) {
+        if (!authenticated().getId().equals(user.getId())) {
+            throw new EntityNotAuthenticatedInSystemException();
+        }
+        return repository.save(user);
     }
 
     @Transactional(readOnly = true)
