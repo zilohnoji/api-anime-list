@@ -65,7 +65,8 @@ public class AnimeOrderDetailsService {
                         }));
     }
 
-    public AnimeOrderDetails findById(Long id) {
-        return (detailsRepository.findById(id)).orElseThrow(NotFoundEntityException::new);
+    public AnimeOrderDetailsDTO findById(Long id) {
+        return new AnimeOrderDetailsDTO(detailsRepository.findById(id)
+                .orElseThrow(NotFoundEntityException::new));
     }
 }
