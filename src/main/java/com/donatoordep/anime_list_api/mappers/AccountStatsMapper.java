@@ -1,9 +1,7 @@
 package com.donatoordep.anime_list_api.mappers;
 
-import com.donatoordep.anime_list_api.dto.AccountStatsDTO;
-import com.donatoordep.anime_list_api.dto.UserDTO;
+import com.donatoordep.anime_list_api.dto.response.AccountStatsResponseDTO;
 import com.donatoordep.anime_list_api.entities.AccountStats;
-import com.donatoordep.anime_list_api.entities.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -12,7 +10,7 @@ public interface AccountStatsMapper {
 
     AccountStatsMapper INSTANCE = Mappers.getMapper(AccountStatsMapper.class);
 
-    AccountStats toEntity(AccountStatsDTO dto);
+    AccountStats toEntity(AccountStatsResponseDTO dto);
 
-    AccountStatsDTO toDto(AccountStats entity);
+    AccountStatsResponseDTO toDto(AccountStats entity);
 }

@@ -1,7 +1,6 @@
 package com.donatoordep.anime_list_api.security;
 
 import com.donatoordep.anime_list_api.repositories.UserRepository;
-import com.donatoordep.anime_list_api.services.exceptions.EntityNotAuthenticatedInSystemException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,13 +28,21 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
             HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        if (service.recoverToken(request) != null) {
-            String login = service.validateToken(service.recoverToken(request)); // Obtém o email do usuário logado
-            UserDetails user = repository.findByEmail(login); // Buscando o usuario que fez a requisição
+        String tokenJWT = recoverToken(request);
+
+        if (recoverToken(request) != null) {
+            String login = service.validateToken(tokenJWT);// Obtém o email do usuário logado
+            UserDetails user = repository.findByEmailForUserDetails(login); // Buscando o usuario que fez a requisição
 
             SecurityContextHolder.getContext().setAuthentication(
                     new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities()));
         }
         filterChain.doFilter(request, response);
+    }
+
+    // Recuperar o token JWT do cabeçalho da requisição
+    private String recoverToken(HttpServletRequest request) {
+        return (request.getHeader("Authorization") != null)
+                ? request.getHeader("Authorization").split(" ")[1] : null;
     }
 }

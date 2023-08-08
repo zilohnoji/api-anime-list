@@ -1,26 +1,23 @@
-package com.donatoordep.anime_list_api.dto;
+package com.donatoordep.anime_list_api.dto.response;
+
+import com.donatoordep.anime_list_api.dto.RoleDTO;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDTO {
+public class UserResponseDTO {
 
     private Long id;
     private String name;
     private String email;
-    private String password;
-    private ProfileUserDTO profile;
-    private CartDTO cart;
+    private ProfileUserResponseDTO profile;
+    private CartResponseDTO cart;
     private List<RoleDTO> roles = new ArrayList<>();
 
-    public UserDTO() {
-    }
-
-    public UserDTO(Long id, String name, String email, String password) {
+    public UserResponseDTO(Long id, String name, String email) {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.password = password;
     }
 
     public void addRole(RoleDTO role) {
@@ -55,27 +52,19 @@ public class UserDTO {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public ProfileUserDTO getProfile() {
+    public ProfileUserResponseDTO getProfile() {
         return profile;
     }
 
-    public void setProfile(ProfileUserDTO profile) {
+    public void setProfile(ProfileUserResponseDTO profile) {
         this.profile = profile;
     }
 
-    public CartDTO getCart() {
+    public CartResponseDTO getCart() {
         return cart;
     }
 
-    public void setCart(CartDTO cart) {
+    public void setCart(CartResponseDTO cart) {
         this.cart = cart;
     }
 

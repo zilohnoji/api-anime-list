@@ -1,18 +1,21 @@
-package com.donatoordep.anime_list_api.dto;
+package com.donatoordep.anime_list_api.dto.response;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.Instant;
 
-public class TokenAuthenticationSuccessfulDTO {
+public class AuthenticationResponseDTO {
 
     private String login;
+    @JsonProperty(value = "login_moment")
     private Instant loginMoment = Instant.now();
     private String issuer;
     private String token;
 
-    public TokenAuthenticationSuccessfulDTO(String token, String login, String issuer) {
+    public AuthenticationResponseDTO(String token, String login, String issuer) {
+        this.token = token;
         this.login = login;
         this.issuer = issuer;
-        this.token = token;
     }
 
     public String getLogin() {

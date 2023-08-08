@@ -1,24 +1,24 @@
-package com.donatoordep.anime_list_api.dto;
+package com.donatoordep.anime_list_api.dto.response;
 
 import com.donatoordep.anime_list_api.entities.Anime;
 import com.donatoordep.anime_list_api.enums.Status;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Objects;
 
-public class AnimeDTO {
+public class AnimeResponseDTO {
 
     private Long id;
     private String title;
     private String description;
+    @JsonProperty(value = "img_url")
     private String imgUrl;
+    @JsonProperty(value = "author_name")
     private String authorName;
     private Status status;
     private Integer episodes;
 
-    public AnimeDTO() {
-    }
-
-    public AnimeDTO(Anime entity) {
+    public AnimeResponseDTO(Anime entity) {
         id = entity.getId();
         title = entity.getTitle();
         description = entity.getDescription();
@@ -26,16 +26,6 @@ public class AnimeDTO {
         authorName = entity.getAuthorName();
         status = entity.getStatus();
         episodes = entity.getEpisodes();
-    }
-
-    public AnimeDTO(Long id, String title, String description, String imgUrl, String authorName, Status status, Integer episodes) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.imgUrl = imgUrl;
-        this.authorName = authorName;
-        this.status = status;
-        this.episodes = episodes;
     }
 
     public void setTitle(String title) {
@@ -79,7 +69,7 @@ public class AnimeDTO {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AnimeDTO anime = (AnimeDTO) o;
+        AnimeResponseDTO anime = (AnimeResponseDTO) o;
         return Objects.equals(id, anime.id) && Objects.equals(title, anime.title) && Objects.equals(description, anime.description) && Objects.equals(imgUrl, anime.imgUrl) && Objects.equals(authorName, anime.authorName) && status == anime.status && Objects.equals(episodes, anime.episodes);
     }
 

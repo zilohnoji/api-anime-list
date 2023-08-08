@@ -18,18 +18,15 @@ public class TokenJWTService {
     private final String SECRET = "super-key-protect";
 
     public String generateToken(User user) {
-        Algorithm algorithm = Algorithm.HMAC256(SECRET);
-
         return JWT.create()
                 .withIssuer("anime-api")
                 .withSubject(user.getEmail())
                 .withExpiresAt(generateExpirationDateToken())
-                .sign(algorithm);
+                .sign(algorithm());
     }
 
     public String validateToken(String token) {
-        Algorithm algorithm = Algorithm.HMAC256(SECRET);
-        return JWT.require(algorithm)
+        return JWT.require(algorithm())
                 .withIssuer("anime-api")
                 .build()
                 .verify(token)
@@ -40,9 +37,7 @@ public class TokenJWTService {
         return LocalDateTime.now().plusHours(168).toInstant(ZoneOffset.of("-03:00"));
     }
 
-    // Recuperar o token JWT do cabeçalho da requisição
-    public String recoverToken(HttpServletRequest request) {
-        return (request.getHeader("Authorization") != null)
-                ? request.getHeader("Authorization").split(" ")[1] : null;
+    private Algorithm algorithm(){
+        return Algorithm.HMAC256(SECRET);
     }
 }

@@ -1,17 +1,9 @@
-package com.donatoordep.anime_list_api.dto;
+package com.donatoordep.anime_list_api.dto.request;
 
-public class AuthenticationDTO {
+public class AuthenticationRequestDTO {
 
     private String email;
     private String password;
-
-    public AuthenticationDTO() {
-    }
-
-    public AuthenticationDTO(String email, String password) {
-        this.email = email;
-        this.password = password;
-    }
 
     public String getEmail() {
         return email;

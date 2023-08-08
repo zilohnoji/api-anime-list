@@ -1,9 +1,7 @@
 package com.donatoordep.anime_list_api.mappers;
 
-import com.donatoordep.anime_list_api.dto.ProfileUserDTO;
-import com.donatoordep.anime_list_api.dto.UserDTO;
+import com.donatoordep.anime_list_api.dto.response.ProfileUserResponseDTO;
 import com.donatoordep.anime_list_api.entities.ProfileUser;
-import com.donatoordep.anime_list_api.entities.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -15,7 +13,7 @@ public interface ProfileUserMapper {
 
     @Mapping(target = "user", ignore = true)
     @Mapping(target = "animeStats", ignore = true)
-    ProfileUser toEntity(ProfileUserDTO dto);
+    ProfileUser toEntity(ProfileUserResponseDTO dto);
 
-    ProfileUserDTO toDto(ProfileUser entity);
+    ProfileUserResponseDTO toDto(ProfileUser entity);
 }

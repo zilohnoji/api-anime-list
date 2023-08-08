@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -20,20 +21,24 @@ public class RoleService {
         return repository.findById(id).orElseThrow(NotFoundEntityException::new);
     }
 
-    public List<Role> separateRolesWithHierarchy(List<Role> roles) {
+    public List<Role> separateRolesWithHierarchy(RoleName role) {
         List<Role> listCreated = new ArrayList<>();
-        if (roles.isEmpty()) {
+
+        Role admin = this.findById(1L);
+        Role client = this.findById(2L);
+        Role moderator = this.findById(3L);
+
+        if (role == null) {
             listCreated.add(this.findById(2L));
-        } else if (roles.stream().anyMatch(role -> role.getRoleName().equals(RoleName.ROLE_ADMIN))) {
-            listCreated.add(this.findById(2L)); // Client
-            listCreated.add(this.findById(1L)); // Admin
-            listCreated.add(this.findById(3L)); // Moderator
-        } else if (roles.stream().anyMatch(role -> role.getRoleName().equals(RoleName.ROLE_MODERATOR))) {
-            listCreated.add(this.findById(3L)); // Moderator
-            listCreated.add(this.findById(2L)); // Client
-        } else {
-            roles.forEach(roleDTO -> listCreated.add(new Role(roleDTO.getId(), roleDTO.getRoleName())));
+        } else if (is(role, admin.getRoleName())) {
+            listCreated.addAll(Arrays.asList(admin, client, moderator));
+        } else if (is(role, moderator.getRoleName())) {
+            listCreated.addAll(Arrays.asList(client, moderator));
         }
         return listCreated;
+    }
+
+    private static boolean is(RoleName role, RoleName roleName) {
+        return role.equals(roleName);
     }
 }

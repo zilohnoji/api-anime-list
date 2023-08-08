@@ -15,6 +15,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import java.util.Arrays;
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
@@ -32,37 +34,27 @@ public class WebSecurityConfig {
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
         // Configuração reservada para o endpoint /auth
-        http.securityMatcher("/v1/auth/**")
+        http.securityMatcher("/v1/auth/**", "/v1/users/**", "/v1/anime/**", "/v1/orders/**")
                 .authorizeHttpRequests(authorize -> {
+                    /* /auth */
                     authorize.requestMatchers(HttpMethod.POST, "/v1/auth/register").permitAll();
                     authorize.requestMatchers(HttpMethod.POST, "/v1/auth/login").permitAll();
-                });
-
-        // Configuração reservada para o endpoint /users
-        http.securityMatcher("/v1/users/**")
-                .authorizeHttpRequests(authorize -> {
+                    /* /users */
                     authorize.requestMatchers(HttpMethod.GET, "/v1/users").authenticated();
+                    authorize.requestMatchers(HttpMethod.GET, "/v1/users/me").authenticated();
                     authorize.requestMatchers(HttpMethod.GET, "/v1/users/my-cart").authenticated();
-                });
-
-        // Configuração reservada para o endpoint /anime
-        http.securityMatcher("/v1/anime/**")
-                .authorizeHttpRequests(authorize -> {
+                    /* /anime */
                     authorize.requestMatchers(HttpMethod.POST, "/v1/anime").hasRole("ADMIN");
                     authorize.requestMatchers(HttpMethod.GET, "/v1/anime").permitAll();
                     authorize.requestMatchers(HttpMethod.GET, "/v1/anime/all").permitAll();
                     authorize.requestMatchers(HttpMethod.GET, "/v1/anime/{id}").permitAll();
-                });
-
-        // Configuração reservada para o endpoint /orders
-        http.securityMatcher("/v1/orders/**")
-                .authorizeHttpRequests(authorize -> {
+                    /* /orders */
                     authorize.requestMatchers(HttpMethod.POST, "/v1/orders").authenticated();
                 });
 
-        http.addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(securityFilter,UsernamePasswordAuthenticationFilter .class);
         return http.build();
-    }
+}
 
     @Bean
     public PasswordEncoder passwordEncoder() {

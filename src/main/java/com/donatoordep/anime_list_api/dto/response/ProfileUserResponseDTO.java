@@ -1,40 +1,31 @@
-package com.donatoordep.anime_list_api.dto;
+package com.donatoordep.anime_list_api.dto.response;
 
 import com.donatoordep.anime_list_api.entities.ProfileUser;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Objects;
 
-public class ProfileUserDTO {
+public class ProfileUserResponseDTO {
 
-    @JsonIgnore
-    private Long id;
+    @JsonProperty(value = "img_url")
     private String imgUrl;
     private String bio;
-    private AccountStatsDTO accountStats;
+    @JsonProperty(value = "account_stats")
+    private AccountStatsResponseDTO accountStats;
 
-    public ProfileUserDTO() {
+    public ProfileUserResponseDTO() {
     }
 
-    public ProfileUserDTO(ProfileUser entity) {
+    public ProfileUserResponseDTO(ProfileUser entity) {
         imgUrl = entity.getImgUrl();
-        id = entity.getId();
         bio = entity.getBio();
     }
 
-    public AccountStatsDTO getAccountStats() {
+    public AccountStatsResponseDTO getAccountStats() {
         return accountStats;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setAccountStats(AccountStatsDTO accountStats) {
+    public void setAccountStats(AccountStatsResponseDTO accountStats) {
         this.accountStats = accountStats;
     }
 
@@ -58,7 +49,7 @@ public class ProfileUserDTO {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ProfileUserDTO that = (ProfileUserDTO) o;
+        ProfileUserResponseDTO that = (ProfileUserResponseDTO) o;
         return Objects.equals(imgUrl, that.imgUrl) && Objects.equals(bio, that.bio) && Objects.equals(accountStats, that.accountStats);
     }
 

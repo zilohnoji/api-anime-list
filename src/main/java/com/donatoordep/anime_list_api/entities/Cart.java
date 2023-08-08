@@ -23,12 +23,6 @@ public class Cart {
     public Cart() {
     }
 
-    public Cart(Long id, List<AnimeOrder> favorites, int totalAnimes) {
-        this.id = id;
-        this.favorites = favorites;
-        this.totalAnimes = totalAnimes;
-    }
-
     public void setFavorites(List<AnimeOrder> favorites) {
         this.favorites = favorites;
     }
@@ -41,9 +35,9 @@ public class Cart {
         this.totalAnimes = totalAnimes;
     }
 
-    public Cart(Long id, User user) {
-        this.id = id;
-        this.user = user;
+    public void add(AnimeOrder anime) {
+        favorites.add(anime);
+        totalAnimes += 1;
     }
 
     public List<AnimeOrder> getFavorites() {

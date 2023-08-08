@@ -1,7 +1,8 @@
 package com.donatoordep.anime_list_api.services;
 
-import com.donatoordep.anime_list_api.dto.AnimeDTO;
-import com.donatoordep.anime_list_api.mappers.AnimeMapper;
+import com.donatoordep.anime_list_api.dto.request.AnimeRequestDTO;
+import com.donatoordep.anime_list_api.dto.response.AnimeResponseDTO;
+import com.donatoordep.anime_list_api.entities.Anime;
 import com.donatoordep.anime_list_api.repositories.AnimeRepository;
 import com.donatoordep.anime_list_api.services.exceptions.NotFoundEntityException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,30 +19,29 @@ public class AnimeService {
     @Autowired
     private AnimeRepository repository;
 
-    @Autowired
-    private AnimeMapper mapper;
-
     @Transactional
-    public AnimeDTO createAnime(AnimeDTO dto) {
-        return new AnimeDTO(repository.save(mapper.toEntity(dto)));
+    public AnimeResponseDTO createAnime(AnimeRequestDTO dto) {
+        Anime anime = new Anime(dto.getTitle(), dto.getDescription(), dto.getImgUrl(),
+                dto.getAuthorName(), dto.getStatus(), dto.getEpisodes());
+        return new AnimeResponseDTO(repository.save(anime));
     }
 
     @Transactional(readOnly = true)
-    public List<AnimeDTO> findByName(String name) {
-        List<AnimeDTO> animeList = repository.findByName(name).stream().map(AnimeDTO::new).toList();
+    public List<AnimeResponseDTO> findByName(String name) {
+        List<AnimeResponseDTO> list = repository.findByName(name).stream().map(AnimeResponseDTO::new).toList();
 
-        if (animeList.isEmpty()) {
+        if (list.isEmpty()) {
             throw new NotFoundEntityException();
         }
-        return animeList;
+        return list;
     }
 
     @Transactional(readOnly = true)
-    public Page<AnimeDTO> findAll(Pageable pageable){
-        return repository.findAll(pageable).map(AnimeDTO::new);
+    public Page<AnimeResponseDTO> findAll(Pageable pageable) {
+        return repository.findAll(pageable).map(AnimeResponseDTO::new);
     }
 
-    public AnimeDTO findById(Long id){
-        return new AnimeDTO(repository.findById(id).orElseThrow(NotFoundEntityException::new));
+    public AnimeResponseDTO findById(Long id) {
+        return new AnimeResponseDTO(repository.findById(id).orElseThrow(NotFoundEntityException::new));
     }
 }

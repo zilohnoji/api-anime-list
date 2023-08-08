@@ -1,36 +1,21 @@
-package com.donatoordep.anime_list_api.dto;
+package com.donatoordep.anime_list_api.dto.response;
 
 import com.donatoordep.anime_list_api.entities.AccountStats;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.Objects;
 
-public class AccountStatsDTO {
+public class AccountStatsResponseDTO {
 
-    @JsonIgnore
-    private Long id;
     private int watching;
     private int completed;
     private int dropped;
     private int planToWatch;
 
-    public AccountStatsDTO() {
-    }
-
-    public AccountStatsDTO(AccountStats entity) {
-        this.watching = entity.getWatching();
-        this.completed = entity.getCompleted();
-        this.dropped = entity.getDropped();
-        this.planToWatch = entity.getPlanToWatch();
-        this.id = entity.getId();
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public AccountStatsResponseDTO(AccountStats animeStats) {
+        watching = animeStats.getWatching();
+        completed = animeStats.getCompleted();
+        dropped = animeStats.getDropped();
+        planToWatch = animeStats.getPlanToWatch();
     }
 
     public int getWatching() {
@@ -69,7 +54,7 @@ public class AccountStatsDTO {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AccountStatsDTO that = (AccountStatsDTO) o;
+        AccountStatsResponseDTO that = (AccountStatsResponseDTO) o;
         return Objects.equals(watching, that.watching) && Objects.equals(completed, that.completed) && Objects.equals(dropped, that.dropped) && Objects.equals(planToWatch, that.planToWatch);
     }
 
