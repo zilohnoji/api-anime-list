@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "/src/main/java/com/donatoordep/anime_list_api/AnimeListApiApplication.java",
+      "use": "@vercel/java"
+    }
+  ],
+  "routes": [
+    {
+      "src": "(.*)",
+      "dest": "/src/main/java/com/donatoordep/anime_list_api/AnimeListApiApplication.java"
+    }
+  ]
+}

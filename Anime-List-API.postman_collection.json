@@ -1,0 +1,367 @@
+{
+	"info": {
+		"_postman_id": "625e1ac7-2146-4344-9279-2a97042900b7",
+		"name": "Anime-List-API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "20304175",
+		"_collection_link": "https://speeding-moon-240719.postman.co/workspace/Team-Workspace~4cbe0345-3013-4471-88f8-5f5096174084/collection/20304175-625e1ac7-2146-4344-9279-2a97042900b7?action=share&creator=20304175&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "User Request",
+			"item": [
+				{
+					"name": "Find by name",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/anime-api/v1/users?name=lucas",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"anime-api",
+								"v1",
+								"users"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "lucas"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get my profile (AUTH)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhbmltZS1hcGkiLCJzdWIiOiJ2aWN0b3JAZ21haWwuY29tIiwiZXhwIjoxNjkyMTMwOTA2fQ.wP2g1f0CnGTbZDBM9Dr5V-7D_HhOI_I0brW4vh7VDWU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/anime-api/v1/users/me",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"anime-api",
+								"v1",
+								"users",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get my cart (AUTH)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhbmltZS1hcGkiLCJzdWIiOiJ2aWN0b3JAZ21haWwuY29tIiwiZXhwIjoxNjkyMTMwOTA2fQ.wP2g1f0CnGTbZDBM9Dr5V-7D_HhOI_I0brW4vh7VDWU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/anime-api/v1/users/my-cart",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"anime-api",
+								"v1",
+								"users",
+								"my-cart"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Anime Request",
+			"item": [
+				{
+					"name": "Create anime (ADMIN ONLY)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhbmltZS1hcGkiLCJzdWIiOiJwZWRyb0BnbWFpbC5jb20iLCJleHAiOjE2OTIxMzA0OTV9.RLVt4GhG2hblokg5Fdf5epTU5_AvsL5YUEN8DFbQU8E",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"100 Things to Do Before You Become a Zombie\",\r\n    \"description\": \"Akira via sua vida sendo completamente sugada por uma empresa tóxica. No enquanto, quando de repente sua cidade é assolada por um apocalipse zumbi, ele acha um novo sentido na vida.\",\r\n    \"img_url\": \"https://www.crunchyroll.com/imgsrv/display/thumbnail/1200x675/catalog/crunchyroll/2ae27299771603c5b9bf3407ae2b30f9.jpe\",\r\n    \"author_name\": \"Haro Aso e Kotaro Takata\",\r\n    \"status\": \"AIRING\",\r\n    \"episodes\": 12\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/anime-api/v1/anime",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"anime-api",
+								"v1",
+								"anime"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find by name (PUBLIC)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/anime-api/v1/anime?name=100",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"anime-api",
+								"v1",
+								"anime"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "100"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All (PUBLIC)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/anime-api/v1/anime/all",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"anime-api",
+								"v1",
+								"anime",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find by id (PUBLIC)",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/anime-api/v1/anime/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"anime-api",
+								"v1",
+								"anime",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth Request",
+			"item": [
+				{
+					"name": "User Register (PUBLIC)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Lucas\",\r\n    \"email\": \"victor@gmail.com\",\r\n    \"password\": \"123456\",\r\n    \"profile\": {\r\n        \"img_url\": \"http://icon.com.br/lucasImg\",\r\n        \"bio\": \"Sou o Lucas\"\r\n    },\r\n    \"role\": \"role_admin\"\r\n    \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/anime-api/v1/auth/register",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"anime-api",
+								"v1",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Login (PUBLIC)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"victor@gmail.com\",\r\n    \"password\": \"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/anime-api/v1/auth/login",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"anime-api",
+								"v1",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order Request",
+			"item": [
+				{
+					"name": "Add order (AUTH)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhbmltZS1hcGkiLCJzdWIiOiJ2aWN0b3JAZ21haWwuY29tIiwiZXhwIjoxNjkyMTMwOTA2fQ.wP2g1f0CnGTbZDBM9Dr5V-7D_HhOI_I0brW4vh7VDWU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"anime_id\": 1,\r\n    \"status\": \"WATCHING\",\r\n    \"episode\": 25\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/anime-api/v1/orders",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"anime-api",
+								"v1",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
