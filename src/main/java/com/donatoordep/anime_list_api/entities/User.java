@@ -1,7 +1,9 @@
 package com.donatoordep.anime_list_api.entities;
 
 import com.donatoordep.anime_list_api.enums.RoleName;
+import com.donatoordep.anime_list_api.enums.StatusOrder;
 import jakarta.persistence.*;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -82,6 +84,23 @@ public class User implements UserDetails {
 
     public void addAnime(AnimeOrder anime) {
         cart.getFavorites().add(anime);
+        cart.setTotalAnimes(cart.getTotalAnimes() + 1);
+        AccountStats accountStats = profile.getAnimeStats();
+        if (is(anime, StatusOrder.COMPLETED)) {
+            accountStats.setCompleted(accountStats.getCompleted() + 1);
+        } else if (is(anime, StatusOrder.DROPPED)) {
+            accountStats.setDropped(accountStats.getDropped() + 1);
+        } else if (is(anime, StatusOrder.PLAN_TO_WATCH)) {
+            accountStats.setPlanToWatch(accountStats.getPlanToWatch() + 1);
+        } else if (is(anime, StatusOrder.WATCHING)) {
+            accountStats.setWatching(accountStats.getWatching() + 1);
+        }
+    }
+
+    public boolean is(AnimeOrder anime, StatusOrder status) {
+        return anime.getAnimeOrderDetails().stream()
+                .anyMatch(animeOrderDetails -> status
+                        .equals(animeOrderDetails.getStatusOrder()));
     }
 
     public void addRole(Role role) {

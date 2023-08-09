@@ -1,5 +1,9 @@
 package com.donatoordep.anime_list_api.utils;
 
+import com.donatoordep.anime_list_api.enums.RoleName;
+import com.donatoordep.anime_list_api.services.exceptions.InvalidEnumValueException;
+
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -19,6 +23,11 @@ public class ConvertingType {
     }
 
     public static <T extends Enum<T>> T convertStringForEnum(Class<T> enumClass, String enumOnString) {
-        return Enum.valueOf(enumClass, enumOnString.toUpperCase());
+        try {
+            return Enum.valueOf(enumClass, enumOnString.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new InvalidEnumValueException(enumOnString, "RoleName",
+                    listToString(Arrays.asList(RoleName.values())));
+        }
     }
 }

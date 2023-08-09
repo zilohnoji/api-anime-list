@@ -6,6 +6,7 @@ import com.donatoordep.anime_list_api.entities.Anime;
 import com.donatoordep.anime_list_api.entities.AnimeOrder;
 import com.donatoordep.anime_list_api.entities.AnimeOrderDetails;
 import com.donatoordep.anime_list_api.entities.User;
+import com.donatoordep.anime_list_api.repositories.AccountStatsRepository;
 import com.donatoordep.anime_list_api.repositories.AnimeOrderDetailsRepository;
 import com.donatoordep.anime_list_api.repositories.AnimeOrderRepository;
 import com.donatoordep.anime_list_api.repositories.AnimeRepository;
@@ -29,6 +30,9 @@ public class AnimeOrderDetailsService {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private AccountStatsRepository accountStatsRepository;
+
     public AnimeOrderDetailsResponseDTO addAnimeInMyCart(AnimeOrderDetailsRequestDTO dto, User user) {
         Anime anime = animeRepository.findById(dto.getAnimeId()).orElseThrow(NotFoundEntityException::new);
 
@@ -40,7 +44,8 @@ public class AnimeOrderDetailsService {
         animeOrderDetails = detailsRepository.save(animeOrderDetails);
         AnimeOrder animeOrder = new AnimeOrder(animeOrderDetails, user.getCart());
         animeOrderDetails.setAnimeOrder(animeOrder);
-        user.getCart().add(animeOrder);
+        user.addAnime(animeOrder);
+
         userService.update(user);
 
         return new AnimeOrderDetailsResponseDTO(animeOrderDetails);

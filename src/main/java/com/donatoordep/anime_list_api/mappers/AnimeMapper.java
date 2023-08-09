@@ -1,6 +1,6 @@
 package com.donatoordep.anime_list_api.mappers;
 
-import com.donatoordep.anime_list_api.dto.AnimeDTO;
+import com.donatoordep.anime_list_api.dto.response.AnimeResponseDTO;
 import com.donatoordep.anime_list_api.entities.Anime;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -10,7 +10,7 @@ public interface AnimeMapper {
 
     AnimeMapper INSTANCE = Mappers.getMapper(AnimeMapper.class);
 
-    Anime toEntity(AnimeDTO dto);
+    Anime toEntity(AnimeResponseDTO dto);
 
-    AnimeDTO toDto(Anime entity);
+    AnimeResponseDTO toDto(Anime entity);
 }
