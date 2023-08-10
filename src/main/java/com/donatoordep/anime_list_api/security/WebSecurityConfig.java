@@ -1,6 +1,7 @@
 package com.donatoordep.anime_list_api.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -14,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import java.util.Arrays;
 
@@ -52,9 +54,9 @@ public class WebSecurityConfig {
                     authorize.requestMatchers(HttpMethod.POST, "/v1/orders").authenticated();
                 });
 
-        http.addFilterBefore(securityFilter,UsernamePasswordAuthenticationFilter .class);
+        http.addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
-}
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
