@@ -2,18 +2,30 @@ package com.donatoordep.anime_list_api.dto.request;
 
 import com.donatoordep.anime_list_api.enums.Status;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 
 import java.util.Objects;
 
 public class AnimeRequestDTO {
 
+    @NotBlank(message = "The title is required")
+    @Size(min = 5, max = 150, message = "Title size interval is (5 - 150)")
     private String title;
+    @NotBlank(message = "The description is required")
+    @Size(min = 20, max = 200, message = "Description size interval is (20 - 200)")
     private String description;
     @JsonProperty(value = "img_url")
     private String imgUrl;
     @JsonProperty(value = "author_name")
+    @NotBlank(message = "The author_name is required")
     private String authorName;
+    @NotNull(message = "The status is required")
     private Status status;
+    @Positive(message = "The value of episodes should be positive")
+    @NotNull(message = "The episodes is required")
     private Integer episodes;
 
     public AnimeRequestDTO() {

@@ -11,9 +11,9 @@ import com.donatoordep.anime_list_api.enums.RoleName;
 import com.donatoordep.anime_list_api.mappers.UserMapper;
 import com.donatoordep.anime_list_api.repositories.UserRepository;
 import com.donatoordep.anime_list_api.security.TokenJWTService;
-import com.donatoordep.anime_list_api.security.WebSecurityConfig;
+import com.donatoordep.anime_list_api.services.business.rules.user.register.RegisterUserArgs;
+import com.donatoordep.anime_list_api.services.business.rules.user.register.RegisterUserValidation;
 import com.donatoordep.anime_list_api.services.exceptions.NotFoundEntityException;
-import com.donatoordep.anime_list_api.services.exceptions.UserExistsInDatabaseException;
 import com.donatoordep.anime_list_api.utils.ConvertingType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,10 +21,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -42,10 +43,13 @@ public class UserService {
     private RoleService roleService;
 
     @Autowired
-    private WebSecurityConfig webSecurityConfig;
+    private PasswordEncoder encoder;
 
     @Autowired
     private TokenJWTService tokenJWTService;
+
+    @Autowired
+    private List<RegisterUserValidation> userRegisterValidations;
 
     @Transactional(readOnly = true)
     public Page<UserResponseDTO> findByName(String name, Pageable pageable) {
@@ -59,7 +63,6 @@ public class UserService {
 
         Authentication authenticate = manager.authenticate(new UsernamePasswordAuthenticationToken(
                 objectOfAuthentication.getEmail(), objectOfAuthentication.getPassword()));
-
         String token = tokenJWTService.generateToken((User) authenticate.getPrincipal());
 
         return new AuthenticationResponseDTO(token, authenticate.getName(), JWT.decode(token).getIssuer());
@@ -67,15 +70,11 @@ public class UserService {
 
     @Transactional
     public UserResponseDTO register(UserRequestDTO dto) {
-        if(repository.findEmailForUser(dto.getEmail()) != null){
-            throw new UserExistsInDatabaseException();
-        }
 
-        User user = new User(dto.getName(), dto.getEmail(),
-                webSecurityConfig.passwordEncoder().encode(dto.getPassword()), new Cart());
+        userRegisterValidations.forEach(v-> v.verification(new RegisterUserArgs(dto, repository)));
 
-        user.setProfile(new ProfileUser(
-                new AccountStats(), dto.getProfile().getImgUrl(), dto.getProfile().getBio()));
+        User user = new User(dto.getName(), dto.getEmail(), encoder.encode(dto.getPassword()),
+                dto.getProfile().getImgUrl(), dto.getProfile().getBio());
 
         user.setRoles(roleService.separateRolesWithHierarchy(ConvertingType.convertStringForEnum(RoleName.class, dto.getRole())));
 

@@ -3,6 +3,7 @@ package com.donatoordep.anime_list_api.controllers;
 import com.donatoordep.anime_list_api.dto.request.AnimeRequestDTO;
 import com.donatoordep.anime_list_api.dto.response.AnimeResponseDTO;
 import com.donatoordep.anime_list_api.services.AnimeService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,7 +22,7 @@ public class AnimeController {
     private AnimeService service;
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AnimeResponseDTO> createAnime(@RequestBody AnimeRequestDTO dto) {
+    public ResponseEntity<AnimeResponseDTO> createAnime(@Valid @RequestBody AnimeRequestDTO dto) {
         AnimeResponseDTO objCreated = service.createAnime(dto);
         return ResponseEntity.created(ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(objCreated.getId()).toUri()).body(objCreated);

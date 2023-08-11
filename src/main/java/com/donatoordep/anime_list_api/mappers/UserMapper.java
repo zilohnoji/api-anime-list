@@ -1,6 +1,7 @@
 package com.donatoordep.anime_list_api.mappers;
 
 import com.donatoordep.anime_list_api.dto.*;
+import com.donatoordep.anime_list_api.dto.request.UserRequestDTO;
 import com.donatoordep.anime_list_api.dto.response.AccountStatsResponseDTO;
 import com.donatoordep.anime_list_api.dto.response.CartResponseDTO;
 import com.donatoordep.anime_list_api.dto.response.ProfileUserResponseDTO;

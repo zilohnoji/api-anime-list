@@ -44,18 +44,12 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(Long id, String name, String email, String password) {
-        this.id = id;
+    public User(String name, String email, String password, String imgUrl, String bio) {
         this.name = name;
         this.email = email;
         this.password = password;
-    }
-
-    public User(String name, String email, String password, Cart cart) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.cart = cart;
+        this.profile = new ProfileUser(imgUrl, bio);
+        this.cart = new Cart();
     }
 
     public void setRoles(List<Role> roles) {

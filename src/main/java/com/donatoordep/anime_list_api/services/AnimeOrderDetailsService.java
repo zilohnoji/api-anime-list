@@ -10,10 +10,12 @@ import com.donatoordep.anime_list_api.repositories.AccountStatsRepository;
 import com.donatoordep.anime_list_api.repositories.AnimeOrderDetailsRepository;
 import com.donatoordep.anime_list_api.repositories.AnimeOrderRepository;
 import com.donatoordep.anime_list_api.repositories.AnimeRepository;
-import com.donatoordep.anime_list_api.services.exceptions.AnimeAlreadyInCartException;
-import com.donatoordep.anime_list_api.services.exceptions.NotFoundEntityException;
+import com.donatoordep.anime_list_api.services.business.rules.anime.register.AddAnimeInMyCartArgs;
+import com.donatoordep.anime_list_api.services.business.rules.anime.register.RegisterAnimeValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class AnimeOrderDetailsService {
@@ -31,15 +33,18 @@ public class AnimeOrderDetailsService {
     private UserService userService;
 
     @Autowired
+    private List<RegisterAnimeValidation> validations;
+
+    @Autowired
     private AccountStatsRepository accountStatsRepository;
 
     public AnimeOrderDetailsResponseDTO addAnimeInMyCart(AnimeOrderDetailsRequestDTO dto, User user) {
-        Anime anime = animeRepository.findById(dto.getAnimeId()).orElseThrow(NotFoundEntityException::new);
+        validations.forEach(v -> v.verification(new AddAnimeInMyCartArgs(dto, animeRepository, user)));
+
+        Anime anime = animeRepository.findById(dto.getAnimeId()).get();
 
         AnimeOrderDetails animeOrderDetails = new AnimeOrderDetails(
                 anime, dto.getEpisode(), dto.getStatus());
-
-        containingAnime(user, dto); // Verifica se o anime já existe no carrinho
 
         animeOrderDetails = detailsRepository.save(animeOrderDetails);
         AnimeOrder animeOrder = new AnimeOrder(animeOrderDetails, user.getCart());
@@ -49,15 +54,5 @@ public class AnimeOrderDetailsService {
         userService.update(user);
 
         return new AnimeOrderDetailsResponseDTO(animeOrderDetails);
-    }
-
-    public boolean containingAnime(User user, AnimeOrderDetailsRequestDTO dto) {
-        return user.getCart().getFavorites().stream()
-                .anyMatch(obj1 -> obj1.getAnimeOrderDetails().stream()
-                        .anyMatch(obj2 -> {
-                            if (obj2.getAnime().getId().equals(dto.getAnimeId())) {
-                                throw new AnimeAlreadyInCartException(obj2.getAnime().getId());
-                            }
-                            return obj2.getAnime().getId().equals(dto.getAnimeId());}));
     }
 }

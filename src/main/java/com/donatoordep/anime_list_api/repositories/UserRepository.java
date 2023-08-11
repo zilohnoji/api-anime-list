@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
@@ -18,5 +19,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     UserDetails findByEmailForUserDetails(String email);
 
     @Query("SELECT u FROM User u WHERE UPPER(u.email) LIKE UPPER(CONCAT('%', :email, '%'))")
-    User findEmailForUser(String email);
+    Optional<User> findEmailForUser(String email);
 }

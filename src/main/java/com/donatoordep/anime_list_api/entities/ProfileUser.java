@@ -25,16 +25,10 @@ public class ProfileUser {
     public ProfileUser() {
     }
 
-    public ProfileUser(Long id, String imgUrl, String bio) {
-        this.id = id;
+    public ProfileUser(String imgUrl, String bio) {
         this.imgUrl = imgUrl;
         this.bio = bio;
-    }
-
-    public ProfileUser(AccountStats animeStats, String imgUrl, String bio) {
-        this.animeStats = animeStats;
-        this.imgUrl = imgUrl;
-        this.bio = bio;
+        this.animeStats = new AccountStats();
     }
 
     public User getUser() {
