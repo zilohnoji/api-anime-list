@@ -2,10 +2,7 @@ package com.donatoordep.anime_list_api.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.donatoordep.anime_list_api.entities.User;
-import com.donatoordep.anime_list_api.services.exceptions.TokenIsInvalidException;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;

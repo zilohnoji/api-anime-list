@@ -1,21 +1,27 @@
 package com.donatoordep.anime_list_api.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.time.Instant;
+import java.util.Date;
 
 public class AuthenticationResponseDTO {
 
     private String login;
-    @JsonProperty(value = "login_moment")
-    private Instant loginMoment = Instant.now();
+    @JsonProperty("expire_token")
+    @JsonFormat(pattern = "dd-MM-yyyy HH:mm", timezone = "UTC")
+    private Date expireToken;
     private String issuer;
     private String token;
 
-    public AuthenticationResponseDTO(String token, String login, String issuer) {
+    private AuthenticationResponseDTO() {
+    }
+
+    public AuthenticationResponseDTO(String login, String issuer, Date expires, String token) {
         this.token = token;
         this.login = login;
         this.issuer = issuer;
+        this.expireToken = expires;
     }
 
     public String getLogin() {
@@ -26,12 +32,12 @@ public class AuthenticationResponseDTO {
         this.login = login;
     }
 
-    public Instant getLoginMoment() {
-        return loginMoment;
+    public Date getExpireToken() {
+        return expireToken;
     }
 
-    public void setLoginMoment(Instant loginMoment) {
-        this.loginMoment = loginMoment;
+    public void setExpireToken(Date expireToken) {
+        this.expireToken = expireToken;
     }
 
     public String getIssuer() {
