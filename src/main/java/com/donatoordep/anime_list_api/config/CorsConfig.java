@@ -15,12 +15,6 @@ public class CorsConfig {
         // Permitir qualquer origem
         config.addAllowedOrigin("*");
 
-        // Permitir todos os métodos HTTP (GET, POST, PUT, etc.)
-        config.addAllowedMethod("*");
-
-        // Permitir todos os headers
-        config.addAllowedHeader("*");
-
         // Expor alguns headers, se necessário
         config.addExposedHeader("header1");
         config.addExposedHeader("header2");
