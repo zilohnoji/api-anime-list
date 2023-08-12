@@ -32,9 +32,6 @@ public class WebSecurityConfig {
         // Desativando segurança CSRF
         http.csrf(AbstractHttpConfigurer::disable);
 
-        // Desativando cors
-        http.cors(AbstractHttpConfigurer::disable);
-
         // Habilitando o gerenciamento de sessão como STATELESS
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
