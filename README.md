@@ -14,8 +14,8 @@
    3.3 [Anime](#anime)
    
 4. [Exemplos de Uso](#exemplos-de-uso)
-5. [Considerações Finais](#considerações-finais)
-6. [Tecnologias Utilizadas](#tecnologias-utilizadas)
+5. [Tecnologias Utilizadas](#tecnologias-utilizadas)
+6. [Considerações Finais](#considerações-finais)
 
 ## Visão Geral
 Essa é a documentação da API de Gerenciamento de Animes! 
@@ -167,15 +167,6 @@ Content-Type: application/json
     "episode": -2
 }
 ```
-
-## Considerações Finais
-A API de Gerenciamento de Animes é uma ferramenta essencial para a funcionalidade central da aplicação Debver. 
-Ela permite aos usuários organizar suas preferências e interações com os animes, melhorando sua experiência de usuário. 
-Esta documentação oferece uma visão geral das funcionalidades e endpoints principais, 
-mas fique à vontade para explorar o código-fonte para mais detalhes e personalizações.
-Caso surjam dúvidas ou problemas, sinta-se à vontade para entrar em contato com a equipe de desenvolvimento.
-Divirta-se utilizando a API de Gerenciamento de Animes!
-   
 ## Tecnologias Utilizadas
 Nossa API utiliza uma combinação de tecnologias para oferecer um ambiente de desenvolvimento eficiente e seguro.
 
@@ -189,8 +180,13 @@ Nossa API utiliza uma combinação de tecnologias para oferecer um ambiente de d
 - **JPA / Hibernate:** Mapeamento objeto-relacional para acesso ao banco de dados.
 - **Maven:** Ferramenta de gerenciamento de dependências e construção de projetos.
 
-## Back end
-Pré-requisitos: Java 17
+## Considerações Finais
+A API de Gerenciamento de Animes é uma ferramenta essencial para a funcionalidade central da aplicação Debver. 
+Ela permite aos usuários organizar suas preferências e interações com os animes, melhorando sua experiência de usuário. 
+Esta documentação oferece uma visão geral das funcionalidades e endpoints principais, 
+mas fique à vontade para explorar o código-fonte para mais detalhes e personalizações.
+Caso surjam dúvidas ou problemas, sinta-se à vontade para entrar em contato com a equipe de desenvolvimento.
+Divirta-se utilizando a API de Gerenciamento de Animes!
 
 # Autor
 Conheça mais sobre o autor do projeto:
