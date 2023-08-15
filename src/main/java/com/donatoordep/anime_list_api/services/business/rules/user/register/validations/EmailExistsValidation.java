@@ -6,7 +6,6 @@ import com.donatoordep.anime_list_api.services.exceptions.UserExistsInDatabaseEx
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-@Order(1)
 @Component
 public class EmailExistsValidation implements RegisterUserValidation {
 
