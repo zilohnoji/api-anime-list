@@ -13,9 +13,9 @@ import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
 
 @DataJpaTest
 public class UserRepositoryTest {
@@ -146,5 +146,20 @@ public class UserRepositoryTest {
         assertEquals("Gabriel", updatedUser.getName(), () -> "Name should return equals name");
         assertEquals("gabriel@gmail.com", updatedUser.getEmail(), () -> "Email should return equals email");
         assertNotNull(userSaved, () -> "User not should return null");
+    }
+
+    @Test
+    @DisplayName("Given User Object When Delete Should Remove User")
+    void testGivenUserObject_When_Delete_ShouldRemoveUser() {
+
+        repository.save(user);
+
+        // When / Act- Inicia a execução do cenário.
+        repository.deleteById(user.getId());
+
+        Optional<User> userAfterDelete = repository.findById(user.getId());
+
+        // Then / Assert - Avaliação do resultado, verifica se corresponde ao esperado.
+        assertTrue(userAfterDelete.isEmpty(), () -> "User after delete should be null");
     }
 }
