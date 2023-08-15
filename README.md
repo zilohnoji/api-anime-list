@@ -16,6 +16,7 @@
 4. [Exemplos de Uso](#exemplos-de-uso)
 5. [Tecnologias Utilizadas](#tecnologias-utilizadas)
 6. [Considerações Finais](#considerações-finais)
+7. [Autor](#autor)
 
 ## Visão Geral
 Essa é a documentação da API de Gerenciamento de Animes! 
@@ -188,6 +189,6 @@ mas fique à vontade para explorar o código-fonte para mais detalhes e personal
 Caso surjam dúvidas ou problemas, sinta-se à vontade para entrar em contato com a equipe de desenvolvimento.
 Divirta-se utilizando a API de Gerenciamento de Animes!
 
-# Autor
+## Autor
 Conheça mais sobre o autor do projeto:
 [https://www.linkedin.com/in/pedro-donato-a9aa42246/](https://www.linkedin.com/in/pedro-donato-a9aa42246/)
