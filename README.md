@@ -1,6 +1,8 @@
 # API de Gerenciamento de Animes - DEBVER
 
-[![NPM](https://img.shields.io/npm/l/react)](https://github.com/zilohnoji/api-anime-list/blob/main/LICENSE) 
+[![NPM](https://img.shields.io/npm/l/react)](https://github.com/zilohnoji/api-anime-list/blob/main/LICENSE)
+
+Essa API foi desenvolvida como parte do ecossistema da plataforma DEBVER, que tem como foco fornecer uma solução completa para entusiastas de animes gerenciarem suas preferências e interações com conteúdo de anime. Abaixo, você encontrará uma visão geral das principais características desta API.
 
 ## Índice
 1. [Visão Geral](#visão-geral)
@@ -19,13 +21,22 @@
 7. [Autor](#autor)
 
 ## Visão Geral
-Essa é a documentação da API de Gerenciamento de Animes! 
-Esta API foi desenvolvida para ser utilizada como parte integrante da aplicação Debver, 
-uma plataforma voltada para entusiastas de anime, permitindo aos usuários gerenciar suas listas de animes assistidos, desistidos e desejados. 
+A API de Gerenciamento de Animes foi criada para atender às necessidades da plataforma DEBVER. Ela permite que os usuários gerenciem suas listas de animes assistidos, em andamento e desejados. A API oferece recursos de autenticação e autorização, permitindo que os usuários se registrem, façam login e acessem apenas os recursos autorizados.
+
 Este documento oferece uma visão geral das principais funcionalidades da API, bem como instruções para configurar e utilizar o projeto.
+## Através desta API, os usuários podem:
+
+* Registrar uma nova conta de usuário, fornecendo informações básicas e uma senha segura.
+* Autenticar-se através do login, obtendo um token JWT que será usado para acessar os endpoints protegidos.
+* Visualizar informações do próprio perfil, incluindo detalhes pessoais e preferências.
+* Explorar animes por nome, obtendo informações sobre eles.
+* Adicionar novos animes à lista, incluindo título, descrição, imagem e status.
+* Visualizar uma lista paginada de todos os animes registrados.
+* Adicionar animes ao seu carrinho, especificando o status do anime (assistido, em andamento etc.).
+* A API é construída usando tecnologias modernas, como o framework Spring Boot, que proporciona uma arquitetura robusta e segura para o desenvolvimento de APIs. Além disso, utiliza conceitos de autenticação JWT para garantir a segurança das operações realizadas pelos usuários.
 
 ## Configuração
-### Para configurar e executar a API em seu ambiente local, siga os passos abaixo
+### Para configurar e executar a API em seu ambiente local, siga os passos abaixo:
 
 ```bash
 # Clone o repositório
