@@ -7,13 +7,13 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class CorsConfig {
+public class CorsConfigurer {
 
     @Value("${cors.origins}")
     private String corsOrigins;
 
     @Bean
-    public WebMvcConfigurer corsCornfigurer() {
+    public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
