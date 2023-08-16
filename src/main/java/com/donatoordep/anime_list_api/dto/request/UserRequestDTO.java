@@ -19,6 +19,12 @@ public class UserRequestDTO {
     private UserRequestDTO() {
     }
 
+    public UserRequestDTO(String name, String email, String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
+
     public String getName() {
         return name;
     }

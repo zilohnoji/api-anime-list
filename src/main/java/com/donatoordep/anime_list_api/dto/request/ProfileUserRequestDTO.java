@@ -11,6 +11,11 @@ public class ProfileUserRequestDTO {
     private ProfileUserRequestDTO() {
     }
 
+    public ProfileUserRequestDTO(String imgUrl, String bio) {
+        this.imgUrl = imgUrl;
+        this.bio = bio;
+    }
+
     public String getImgUrl() {
         return imgUrl;
     }

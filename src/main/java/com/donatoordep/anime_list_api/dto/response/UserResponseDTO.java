@@ -20,6 +20,7 @@ public class UserResponseDTO {
         this.email = email;
     }
 
+    public UserResponseDTO(){}
     public void addRole(RoleDTO role) {
         roles.add(role);
     }

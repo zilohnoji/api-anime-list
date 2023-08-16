@@ -23,6 +23,9 @@ public class ConvertingType {
     }
 
     public static <T extends Enum<T>> T convertStringForEnum(Class<T> enumClass, String enumOnString) {
+        if(enumOnString == null){
+            enumOnString = "role_client";
+        }
         try {
             return Enum.valueOf(enumClass, enumOnString.toUpperCase());
         } catch (IllegalArgumentException e) {
