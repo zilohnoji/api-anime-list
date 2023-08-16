@@ -104,7 +104,7 @@ Content-Type: application/json
     "role": "role_admin"
 }
 ```
-Obs: Caso a chave "role" não for incluída no registro, ele será registrado como um role_client.
+Obs: Caso a chave "role" não seja incluída no registro, ele será registrado como um role_client.
 
 2. Autenticar usuário.
 ```txt
