@@ -24,7 +24,7 @@ public class RoleRepositoryTest {
     }
 
     @Autowired
-    private RoleRepository repository;
+    RoleRepository repository;
 
     @Test
     @DisplayName("Given Role Object When Save Should Return Role Saved")
@@ -45,30 +45,30 @@ public class RoleRepositoryTest {
 
         Role roleTwo = new Role(2L, RoleName.ROLE_CLIENT);
 
-        Role roleSaved = repository.save(role);
-        Role roleSavedTwo = repository.save(roleTwo);
+        repository.save(role);
+        repository.save(roleTwo);
 
         // When / Act- Inicia a execução do cenário.
         List<Role> roleList = repository.findAll();
 
         // Then / Assert - Avaliação do resultado, verifica se corresponde ao esperado.
         assertNotNull(roleList, () -> "Role list not should return null");
-        assertEquals(3, roleList.size(), () -> "Role list should returned 2 of length");
+        assertEquals(2, roleList.size(), () -> "Role list should returned 2 of length");
     }
 
     @Test
     @DisplayName("Given Role Object When FindById Should Return Role")
     void testGivenRoleObject_When_FindById_ShouldReturn_RoleObject() {
 
-        repository.save(role);
+        Role saved = repository.save(role);
 
         // When / Act- Inicia a execução do cenário.
-        Role roleSearch = repository.findById(role.getId()).get();
+        Role roleSearch = repository.findById(saved.getId()).orElse(null);
 
         // Then / Assert - Avaliação do resultado, verifica se corresponde ao esperado.
         assertNotNull(roleSearch, () -> "Role not should return null");
-        assertEquals(role.getId(), roleSearch.getId(), () -> "Role should returned same id");
-        assertTrue(roleSearch.getId() > 0, () -> "Role id is not valid");
+        assertEquals(saved.getId(), roleSearch.getId(), () -> "Role should returned same id");
+        assertTrue(saved.getId() > 0, () -> "Role id is not valid");
     }
 
     @Test

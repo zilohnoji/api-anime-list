@@ -29,7 +29,7 @@ public class UserRepositoryTest {
     }
 
     @Autowired
-    private UserRepository repository;
+    UserRepository repository;
 
     @Test
     @DisplayName("Given User Object When Save Should Return User Saved")
