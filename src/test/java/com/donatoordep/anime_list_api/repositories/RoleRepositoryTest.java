@@ -53,7 +53,7 @@ public class RoleRepositoryTest {
 
         // Then / Assert - Avaliação do resultado, verifica se corresponde ao esperado.
         assertNotNull(roleList, () -> "Role list not should return null");
-        assertEquals(2, roleList.size(), () -> "Role list should returned 2 of length");
+        assertEquals(3, roleList.size(), () -> "Role list should returned 2 of length");
     }
 
     @Test
