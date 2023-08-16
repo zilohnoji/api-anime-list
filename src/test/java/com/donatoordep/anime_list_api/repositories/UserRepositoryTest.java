@@ -20,6 +20,9 @@ import static org.junit.jupiter.api.Assertions.*;
 @DataJpaTest
 public class UserRepositoryTest {
 
+    @Autowired
+    UserRepository repository;
+
     User user;
 
     @BeforeEach
@@ -27,9 +30,6 @@ public class UserRepositoryTest {
         user = new User("Pedro", "pedro@gmail.com",
                 "123", "http://img.com", "Sou o Pedro");
     }
-
-    @Autowired
-    UserRepository repository;
 
     @Test
     @DisplayName("Given User Object When Save Should Return User Saved")
@@ -46,14 +46,11 @@ public class UserRepositoryTest {
     @DisplayName("Given User List When FindAll Should Return List User")
     void testGivenUserList_When_FindAll_ShouldReturn_UserList() {
         // Given / Arrange - Cenário inicial das classes (setar configurações, iniciar variaveis)
-        User user = new User("Pedro", "pedro@gmail.com",
-                "123", "http://img.com", "Sou o Pedro");
-
         User userTwo = new User("Luiz", "luiz@gmail.com",
                 "123", "http://img.com", "Sou o Luiz");
 
-        User userSaved = repository.save(user);
-        User userSavedTwo = repository.save(userTwo);
+        repository.save(user);
+        repository.save(userTwo);
 
         // When / Act- Inicia a execução do cenário.
         List<User> userList = repository.findAll();

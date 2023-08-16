@@ -15,6 +15,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 public class RoleRepositoryTest {
+    @Autowired
+    RoleRepository repository;
 
     Role role;
 
@@ -22,9 +24,6 @@ public class RoleRepositoryTest {
     void setup() {
         role = new Role(1L, RoleName.ROLE_ADMIN);
     }
-
-    @Autowired
-    RoleRepository repository;
 
     @Test
     @DisplayName("Given Role Object When Save Should Return Role Saved")
