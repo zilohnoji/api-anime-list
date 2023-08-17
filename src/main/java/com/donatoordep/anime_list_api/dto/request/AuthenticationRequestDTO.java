@@ -12,6 +12,11 @@ public class AuthenticationRequestDTO {
     @Size(min = 5, max = 80, message = "Password size interval is (10 - 80)")
     private String password;
 
+    public AuthenticationRequestDTO(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
     public String getEmail() {
         return email;
     }

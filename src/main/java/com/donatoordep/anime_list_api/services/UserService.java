@@ -64,6 +64,7 @@ public class UserService {
 
         Authentication authenticate = manager.authenticate(new UsernamePasswordAuthenticationToken(
                 objectOfAuthentication.getEmail(), objectOfAuthentication.getPassword()));
+
         String token = tokenJWTService.generateToken((User) authenticate.getPrincipal());
 
         return new AuthenticationResponseDTO(authenticate.getName(), JWT.decode(token).getIssuer(), JWT.decode(token).getExpiresAt(),token);

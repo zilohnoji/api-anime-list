@@ -41,7 +41,6 @@ public class RoleRepositoryTest {
     void testGivenRoleList_When_FindAll_ShouldReturn_RoleList() {
         // Given / Arrange - Cenário inicial das classes (setar configurações, iniciar variaveis)
         Role role = new Role(1L, RoleName.ROLE_ADMIN);
-
         Role roleTwo = new Role(2L, RoleName.ROLE_CLIENT);
 
         repository.save(role);
