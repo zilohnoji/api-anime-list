@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class EmailExistsValidation implements RegisterUserValidation {
 
+    public EmailExistsValidation() {
+    }
+
     @Override
     public void verification(RegisterUserArgs args) {
 

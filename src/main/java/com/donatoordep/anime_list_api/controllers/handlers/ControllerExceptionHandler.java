@@ -2,10 +2,7 @@ package com.donatoordep.anime_list_api.controllers.handlers;
 
 import com.donatoordep.anime_list_api.dto.FieldMessage;
 import com.donatoordep.anime_list_api.dto.ValidationError;
-import com.donatoordep.anime_list_api.services.exceptions.AnimeAlreadyInCartException;
-import com.donatoordep.anime_list_api.services.exceptions.CustomizedException;
-import com.donatoordep.anime_list_api.services.exceptions.NotFoundEntityException;
-import com.donatoordep.anime_list_api.services.exceptions.UserExistsInDatabaseException;
+import com.donatoordep.anime_list_api.services.exceptions.*;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +31,12 @@ public class ControllerExceptionHandler {
     public ResponseEntity<CustomizedException> animeAlreadyInCart(
             AnimeAlreadyInCartException e, HttpServletRequest request) {
         return handlingException(e, HttpStatus.CONFLICT, request.getRequestURI());
+    }
+
+    @ExceptionHandler(WeakPasswordException.class)
+    public ResponseEntity<CustomizedException> weakPassword(
+            WeakPasswordException e, HttpServletRequest request) {
+        return handlingException(e, HttpStatus.BAD_REQUEST, request.getRequestURI());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
