@@ -46,6 +46,7 @@ public class UserServiceTest {
     UserService service;
 
     User user;
+    UserResponseDTO userResponseDTO;
 
     @BeforeEach
     void setup() {
@@ -56,6 +57,13 @@ public class UserServiceTest {
                 "http://img.com",
                 "Sou o Pedro");
         user.setId(1L);
+
+        userResponseDTO = new UserResponseDTO(user.getId(), user.getName(), user.getEmail());
+        ProfileUserResponseDTO profileUserDTO = new ProfileUserResponseDTO(user.getProfile());
+        profileUserDTO.setAccountStats(new AccountStatsResponseDTO(user.getProfile().getAnimeStats()));
+
+        userResponseDTO.setProfile(profileUserDTO);
+        userResponseDTO.setCart(new CartResponseDTO(user.getCart()));
     }
 
     @Test
@@ -64,13 +72,6 @@ public class UserServiceTest {
 
         UserRequestDTO dto = new UserRequestDTO("Pedro", "pedro@gmail.com", "123");
         dto.setProfile(new ProfileUserRequestDTO("imagembonit", "minha bio"));
-
-        UserResponseDTO userResponseDTO = new UserResponseDTO(user.getId(), user.getName(), user.getEmail());
-        ProfileUserResponseDTO profileUserDTO = new ProfileUserResponseDTO(user.getProfile());
-        profileUserDTO.setAccountStats(new AccountStatsResponseDTO(user.getProfile().getAnimeStats()));
-
-        userResponseDTO.setProfile(profileUserDTO);
-        userResponseDTO.setCart(new CartResponseDTO(user.getCart()));
 
         User user = new User(dto.getName(), dto.getEmail(), encoder.encode(dto.getPassword()),
                 dto.getProfile().getImgUrl(), dto.getProfile().getBio());
@@ -82,5 +83,16 @@ public class UserServiceTest {
         assertNotNull(output, () -> "The return can´t not");
         assertEquals(userResponseDTO, output, () -> "The object not equals, should returned same object");
         assertTrue(output.getId() > 0, () -> "The id not is valid");
+    }
+
+    // Nomeclatura test[System Under Test]_[Condition or State Change]_[Expected Result]
+    @Test
+    @DisplayName("Display name")
+    void testGivenCartResponseDTO_When_MyCartIsCalled_ShouldReturn_CartResponseDTO() {
+
+        CartResponseDTO cartResponseDTO = new CartResponseDTO(user.getCart());
+        CartResponseDTO output = service.myCart(user);
+
+        assertEquals(output, cartResponseDTO, () -> "CartResponseDTO should return same cart");
     }
 }
