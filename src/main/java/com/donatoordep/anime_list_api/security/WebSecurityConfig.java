@@ -58,7 +58,6 @@ public class WebSecurityConfig {
                     authorize.requestMatchers(HttpMethod.POST, "/v1/orders").authenticated();
                 });
 
-        http.cors(AbstractHttpConfigurer::disable);
         http.addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
