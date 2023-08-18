@@ -39,10 +39,6 @@ public class WebSecurityConfig {
         // Habilitando o gerenciamento de sessão como STATELESS
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
-        http.authorizeHttpRequests(authorize -> {
-            authorize.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll();
-        });
-
         // Configuração reservada para o endpoint /auth
         http.securityMatcher("/v1/auth/**", "/v1/users/**", "/v1/anime/**", "/v1/orders/**")
                 .authorizeHttpRequests(authorize -> {
