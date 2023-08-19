@@ -18,6 +18,12 @@ public class AnimeOrderDetailsRequestDTO {
     @Positive(message = "The value of episode should be positive")
     private int episode;
 
+    public AnimeOrderDetailsRequestDTO(Long animeId, StatusOrder status, int episode) {
+        this.animeId = animeId;
+        this.status = status;
+        this.episode = episode;
+    }
+
     public Long getAnimeId() {
         return animeId;
     }

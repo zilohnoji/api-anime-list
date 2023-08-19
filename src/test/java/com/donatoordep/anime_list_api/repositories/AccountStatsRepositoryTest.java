@@ -35,9 +35,11 @@ public class AccountStatsRepositoryTest {
         AccountStats accountStatsSearch = repository.findById(accountStats.getId()).get();
 
         // Then / Assert - Avaliação do resultado, verifica se corresponde ao esperado.
-        assertNotNull(accountStatsSearch, () -> "AccountStats not should return null");
-        assertEquals(accountStats.getId(), accountStatsSearch.getId(), () -> "AccountStats should returned same id");
         assertTrue(accountStatsSearch.getId() > 0, () -> "AccountStats id is not valid");
+        assertNotNull(accountStatsSearch, () -> "AccountStats not should return null");
+        assertEquals(accountStats.getId(), accountStatsSearch.getId(),
+                () -> String.format(
+                        "Expected: %s\nActual: %s", accountStats.getId(), accountStatsSearch.getId()));
     }
 
     @Test
@@ -69,7 +71,8 @@ public class AccountStatsRepositoryTest {
 
         // Then / Assert - Avaliação do resultado, verifica se corresponde ao esperado.
         assertNotNull(accountStatsList, () -> "AccountStats list not should return null");
-        assertEquals(2, accountStatsList.size(), () -> "AccountStats list should returned 2 of length");
+        assertEquals(2, accountStatsList.size(),
+                () -> String.format("Expected: %d\nActual: %d", 2, accountStatsList.size()));
     }
 
     @Test

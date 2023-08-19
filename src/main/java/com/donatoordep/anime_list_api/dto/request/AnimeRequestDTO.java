@@ -1,5 +1,6 @@
 package com.donatoordep.anime_list_api.dto.request;
 
+import com.donatoordep.anime_list_api.entities.Anime;
 import com.donatoordep.anime_list_api.enums.Status;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
@@ -29,6 +30,15 @@ public class AnimeRequestDTO {
     private Integer episodes;
 
     public AnimeRequestDTO() {
+    }
+
+    public AnimeRequestDTO(Anime entity) {
+        this.title = entity.getTitle();
+        this.description = entity.getDescription();
+        this.imgUrl = entity.getImgUrl();
+        this.authorName = entity.getAuthorName();
+        this.status = entity.getStatus();
+        this.episodes = entity.getEpisodes();
     }
 
     public void setTitle(String title) {

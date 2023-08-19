@@ -98,9 +98,8 @@ public class UserServiceTest {
     @DisplayName("Given User Object When Email Exists Throw UserExistsInDatabaseException")
     void testGivenUserObject_When_EmailExists_ThrowUserExistsInDatabaseException() {
 
-        repository.save(user);
         when(service.register(userRequestDTO)).thenThrow(UserExistsInDatabaseException.class);
-        verify(repository, atLeastOnce()).save(user);
+        verify(repository, never()).save(user);
 
         assertThrows(UserExistsInDatabaseException.class, () -> service.register(userRequestDTO),
                 () -> "Email has exists, should return throw exception");
@@ -145,9 +144,9 @@ public class UserServiceTest {
         Page<UserResponseDTO> output = service.findByName(user.getName(), pageable);
 
         assertNotNull(output);
-        assertTrue(output.getContent().get(0).getId().equals(user.getId()),
+        assertEquals(output.getContent().get(0).getId(), user.getId(),
                 () -> "Id should return same id of user object");
-        assertTrue(output.getContent().get(0).getName().equals(user.getName()),
+        assertEquals(output.getContent().get(0).getName(), user.getName(),
                 () -> "Name should return same name of user object");
     }
 

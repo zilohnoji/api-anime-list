@@ -38,7 +38,7 @@ public class RoleService {
         return listCreated;
     }
 
-    private static boolean is(RoleName role, RoleName roleName) {
+    public static boolean is(RoleName role, RoleName roleName) {
         return role.equals(roleName);
     }
 }
