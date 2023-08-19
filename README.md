@@ -65,8 +65,11 @@ cd target
 java -jar anime-list-api-0.0.1-SNAPSHOT.jar
 ```
 
-
 ## Endpoints
+
+### Swagger-ui
+Acesse pelo navegador para acessar a documentação do Swagger.
+* /anime-api/swagger-ui/index.html
 
 ### Autenticação
 * **POST** /anime-api/v1/auth/register: Criação de uma nova conta de usuário.
@@ -191,6 +194,7 @@ Nossa API utiliza uma combinação de tecnologias para oferecer um ambiente de d
 - **OpenAPI - Swagger:** Documentação interativa para a API.
 - **JPA / Hibernate:** Mapeamento objeto-relacional para acesso ao banco de dados.
 - **Maven:** Ferramenta de gerenciamento de dependências e construção de projetos.
+- **OpenAPi / Swagger** Possui suporte para documentação com Swagger-ui.
 
 ## Considerações Finais
 A API de Gerenciamento de Animes é uma ferramenta essencial para a funcionalidade central da aplicação Debver. 
