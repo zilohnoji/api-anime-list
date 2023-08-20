@@ -21,6 +21,10 @@ public class AnimeController {
     @Autowired
     private AnimeService service;
 
+    public AnimeController(AnimeService service){
+        this.service = service;
+    }
+
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AnimeResponseDTO> createAnime(@Valid @RequestBody AnimeRequestDTO dto) {
         AnimeResponseDTO objCreated = service.createAnime(dto);

@@ -1,6 +1,7 @@
 package com.donatoordep.anime_list_api.services;
 
 import com.auth0.jwt.JWT;
+import com.donatoordep.anime_list_api.builders.UserBuilder;
 import com.donatoordep.anime_list_api.dto.request.AuthenticationRequestDTO;
 import com.donatoordep.anime_list_api.dto.request.UserRequestDTO;
 import com.donatoordep.anime_list_api.dto.response.AuthenticationResponseDTO;
@@ -67,16 +68,20 @@ public class UserService {
 
         String token = tokenJWTService.generateToken((User) authenticate.getPrincipal());
 
-        return new AuthenticationResponseDTO(authenticate.getName(), JWT.decode(token).getIssuer(), JWT.decode(token).getExpiresAt(),token);
+        return new AuthenticationResponseDTO(authenticate.getName(), JWT.decode(token).getIssuer(), JWT.decode(token).getExpiresAt(), token);
     }
 
     @Transactional
     public UserResponseDTO register(UserRequestDTO dto) {
 
-        userRegisterValidations.forEach(v-> v.verification(new RegisterUserArgs(dto, repository)));
+        userRegisterValidations.forEach(v -> v.verification(new RegisterUserArgs(dto, repository)));
 
-        User user = new User(dto.getName(), dto.getEmail(), encoder.encode(dto.getPassword()),
-                dto.getProfile().getImgUrl(), dto.getProfile().getBio());
+        User user = UserBuilder.builder()
+                .name(dto.getName())
+                .email(dto.getEmail())
+                .password(encoder.encode(dto.getPassword()))
+                .profile(dto.getProfile().getImgUrl(), dto.getProfile().getBio())
+                .build();
 
         user.setRoles(roleService.separateRolesWithHierarchy(ConvertingType.convertStringForEnum(RoleName.class, dto.getRole())));
 

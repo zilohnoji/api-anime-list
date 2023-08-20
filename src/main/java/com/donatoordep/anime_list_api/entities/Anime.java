@@ -24,15 +24,6 @@ public class Anime {
     public Anime() {
     }
 
-    public Anime(String title, String description, String imgUrl, String authorName, Status status, Integer episodes) {
-        this.title = title;
-        this.description = description;
-        this.imgUrl = imgUrl;
-        this.authorName = authorName;
-        this.status = status;
-        this.episodes = episodes;
-    }
-
     public Long getId() {
         return id;
     }

@@ -1,5 +1,6 @@
 package com.donatoordep.anime_list_api.repositories;
 
+import com.donatoordep.anime_list_api.builders.UserBuilder;
 import com.donatoordep.anime_list_api.entities.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -27,8 +28,12 @@ public class UserRepositoryTest {
 
     @BeforeEach
     void setup() {
-        user = new User("Pedro", "pedro@gmail.com",
-                "123", "http://img.com", "Sou o Pedro");
+        user = UserBuilder.builder()
+                .name("Pedro")
+                .email("pedro@gmail.com")
+                .password("123456")
+                .profile("http://img.com", "Sou o Pedro")
+                .build();
     }
 
     @Test
@@ -46,8 +51,14 @@ public class UserRepositoryTest {
     @DisplayName("Given User List When FindAll Should Return List User")
     void testGivenUserList_When_FindAll_ShouldReturn_UserList() {
         // Given / Arrange - Cenário inicial das classes (setar configurações, iniciar variaveis)
-        User userTwo = new User("Luiz", "luiz@gmail.com",
-                "123", "http://img.com", "Sou o Luiz");
+        User userTwo = UserBuilder.builder()
+                .name("Luiz")
+                .id(2L)
+                .cart()
+                .password("123456")
+                .email("luiz@gmail.com")
+                .profile("http://img.com", "Sou o Luiz")
+                .build();
 
         repository.save(user);
         repository.save(userTwo);

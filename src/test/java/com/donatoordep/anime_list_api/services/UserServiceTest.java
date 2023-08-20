@@ -1,11 +1,14 @@
 package com.donatoordep.anime_list_api.services;
 
+import com.donatoordep.anime_list_api.builders.UserBuilder;
 import com.donatoordep.anime_list_api.dto.request.ProfileUserRequestDTO;
 import com.donatoordep.anime_list_api.dto.request.UserRequestDTO;
 import com.donatoordep.anime_list_api.dto.response.AccountStatsResponseDTO;
 import com.donatoordep.anime_list_api.dto.response.CartResponseDTO;
 import com.donatoordep.anime_list_api.dto.response.ProfileUserResponseDTO;
 import com.donatoordep.anime_list_api.dto.response.UserResponseDTO;
+import com.donatoordep.anime_list_api.entities.Cart;
+import com.donatoordep.anime_list_api.entities.ProfileUser;
 import com.donatoordep.anime_list_api.entities.User;
 import com.donatoordep.anime_list_api.mappers.UserMapper;
 import com.donatoordep.anime_list_api.repositories.UserRepository;
@@ -58,13 +61,14 @@ public class UserServiceTest {
 
     @BeforeEach
     void setup() {
-        user = new User(
-                "Pedro",
-                "pedro@gmail.com",
-                "123456",
-                "http://img.com",
-                "Sou o Pedro");
-        user.setId(1L);
+        user = UserBuilder.builder()
+                .id(1L)
+                .cart()
+                .name("Pedro")
+                .email("pedro@gmail.com")
+                .password("123456")
+                .profile("http://img.com", "sou o pedro")
+                .build();
 
         userResponseDTO = new UserResponseDTO(user.getId(), user.getName(), user.getEmail());
         ProfileUserResponseDTO profileUserDTO = new ProfileUserResponseDTO(user.getProfile());
@@ -81,9 +85,12 @@ public class UserServiceTest {
     @DisplayName("GivenUserRequestDTO When Register Is Called Should Return UserResponseDTO")
     void testGivenUserRequestDTO_When_RegisterIsCalled_ShouldReturn_UserResponseDTO() {
 
-        User user = new User(userRequestDTO.getName(), userRequestDTO.getEmail(),
-                encoder.encode(userRequestDTO.getPassword()),
-                userRequestDTO.getProfile().getImgUrl(), userRequestDTO.getProfile().getBio());
+        User user = UserBuilder.builder()
+                .name(userRequestDTO.getName())
+                .email(userRequestDTO.getEmail())
+                .password(encoder.encode(userRequestDTO.getPassword()))
+                .profile(userRequestDTO.getProfile().getImgUrl(), userRequestDTO.getProfile().getBio())
+                .build();
 
         when(mapper.toDto(repository.save(user))).thenReturn(userResponseDTO);
 

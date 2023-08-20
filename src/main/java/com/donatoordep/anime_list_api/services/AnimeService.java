@@ -1,5 +1,6 @@
 package com.donatoordep.anime_list_api.services;
 
+import com.donatoordep.anime_list_api.builders.AnimeBuilder;
 import com.donatoordep.anime_list_api.dto.request.AnimeRequestDTO;
 import com.donatoordep.anime_list_api.dto.response.AnimeResponseDTO;
 import com.donatoordep.anime_list_api.entities.Anime;
@@ -21,8 +22,15 @@ public class AnimeService {
 
     @Transactional
     public AnimeResponseDTO createAnime(AnimeRequestDTO dto) {
-        Anime anime = new Anime(dto.getTitle(), dto.getDescription(), dto.getImgUrl(),
-                dto.getAuthorName(), dto.getStatus(), dto.getEpisodes());
+        Anime anime = AnimeBuilder.builder()
+                .title(dto.getTitle())
+                .description(dto.getDescription())
+                .imgUrl(dto.getImgUrl())
+                .authorName(dto.getAuthorName())
+                .status(dto.getStatus())
+                .episodes(dto.getEpisodes())
+                .build();
+
         return new AnimeResponseDTO(repository.save(anime));
     }
 

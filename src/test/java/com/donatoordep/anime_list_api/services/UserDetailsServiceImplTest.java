@@ -1,5 +1,6 @@
 package com.donatoordep.anime_list_api.services;
 
+import com.donatoordep.anime_list_api.builders.UserBuilder;
 import com.donatoordep.anime_list_api.entities.User;
 import com.donatoordep.anime_list_api.repositories.UserRepository;
 import org.hamcrest.core.Is;
@@ -27,8 +28,12 @@ public class UserDetailsServiceImplTest {
     @DisplayName("Given UserDetails Object When FindByEmailForUserDetails Is Called Should Return UserDetails")
     void testGiven_UserDetails_Object_When_FindByEmailForUserDetails_Is_Called_Should_Return_UserDetails() {
 
-        User user = new User("Pedro", "pedro@gmail.com", "123456",
-                "http://img.com", "Sou o Pedro");
+        User user = UserBuilder.builder()
+                .name("Pedro")
+                .email("pedro@gmail.com")
+                .password("123456")
+                .profile("http://img.com", "Sou o Pedro")
+                .build();
 
         when(repository.findByEmailForUserDetails(user.getEmail())).thenReturn((UserDetails) user);
         UserDetails output = service.loadUserByUsername(user.getEmail());

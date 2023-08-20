@@ -1,5 +1,7 @@
 package com.donatoordep.anime_list_api.services;
 
+import com.donatoordep.anime_list_api.builders.AnimeBuilder;
+import com.donatoordep.anime_list_api.builders.UserBuilder;
 import com.donatoordep.anime_list_api.dto.request.AnimeOrderDetailsRequestDTO;
 import com.donatoordep.anime_list_api.dto.response.AnimeOrderDetailsResponseDTO;
 import com.donatoordep.anime_list_api.entities.Anime;
@@ -57,12 +59,23 @@ public class AnimeOrderDetailsServiceTest {
         AnimeOrderDetailsRequestDTO animeOrderDetailsRequestDTO = new AnimeOrderDetailsRequestDTO(
                 1L, StatusOrder.COMPLETED, 100);
 
-        User user = new User("Pedro", "pedro@gmail.com", "123456",
-                "http://img.com", "Sou o Pedro");
-        user.setId(1L);
+        User user = UserBuilder.builder()
+                .id(1L)
+                .name("Pedro")
+                .cart()
+                .email("pedro@gmail.com")
+                .password("123456")
+                .profile("http://img.com", "Sou o Pedro")
+                .build();
 
-        Anime anime = new Anime("attack on titan", "muitos gigantes", "imgUrl",
-                "Pedro Donato", Status.AIRING, 150);
+        Anime anime = AnimeBuilder.builder()
+                .title("Attack on titan")
+                .description("descrição gigante")
+                .imgUrl("https://imagem.com")
+                .authorName("Pedro Donato")
+                .status(Status.AIRING)
+                .episodes(150)
+                .build();
 
         AnimeOrderDetails ot = new AnimeOrderDetails(anime, animeOrderDetailsRequestDTO.getEpisode(),
                 animeOrderDetailsRequestDTO.getStatus());

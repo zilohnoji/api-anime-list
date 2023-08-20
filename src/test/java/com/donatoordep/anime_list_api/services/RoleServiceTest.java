@@ -4,7 +4,6 @@ import com.donatoordep.anime_list_api.entities.Role;
 import com.donatoordep.anime_list_api.enums.RoleName;
 import com.donatoordep.anime_list_api.repositories.RoleRepository;
 import com.donatoordep.anime_list_api.services.exceptions.NotFoundEntityException;
-import org.hamcrest.core.Is;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,8 +13,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 

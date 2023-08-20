@@ -1,5 +1,6 @@
 package com.donatoordep.anime_list_api.repositories;
 
+import com.donatoordep.anime_list_api.builders.AnimeBuilder;
 import com.donatoordep.anime_list_api.entities.Anime;
 import com.donatoordep.anime_list_api.entities.AnimeOrderDetails;
 import com.donatoordep.anime_list_api.enums.Status;
@@ -29,8 +30,15 @@ public class AnimeOrderDetailsRepositoryTest {
 
     @BeforeEach
     void setup() {
-        anime = new Anime("Attack on titan", "descrição gigante",
-                "https://imagem.com", "Pedro Donato", Status.COMPLETE, 250);
+        anime = AnimeBuilder.builder()
+                .title("Attack on titan")
+                .description("descrição gigante")
+                .imgUrl("https://imagem.com")
+                .authorName("Pedro Donato")
+                .status(Status.COMPLETE)
+                .episodes(250)
+                .build();
+
         animeOrderDetails = new AnimeOrderDetails(anime, 110, StatusOrder.WATCHING);
     }
 

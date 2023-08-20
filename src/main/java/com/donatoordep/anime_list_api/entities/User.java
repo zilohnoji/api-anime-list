@@ -1,9 +1,7 @@
 package com.donatoordep.anime_list_api.entities;
 
-import com.donatoordep.anime_list_api.enums.RoleName;
 import com.donatoordep.anime_list_api.enums.StatusOrder;
 import jakarta.persistence.*;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -42,14 +40,6 @@ public class User implements UserDetails {
     private List<Role> roles = new ArrayList<>();
 
     public User() {
-    }
-
-    public User(String name, String email, String password, String imgUrl, String bio) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.profile = new ProfileUser(imgUrl, bio);
-        this.cart = new Cart();
     }
 
     public void setRoles(List<Role> roles) {

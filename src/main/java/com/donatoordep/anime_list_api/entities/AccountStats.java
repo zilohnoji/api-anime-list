@@ -23,21 +23,6 @@ public class AccountStats {
     public AccountStats() {
     }
 
-    public AccountStats(Long id, int watching, int completed, int dropped, int planToWatch) {
-        this.id = id;
-        this.watching = watching;
-        this.completed = completed;
-        this.dropped = dropped;
-        this.planToWatch = planToWatch;
-    }
-
-    public AccountStats(Integer watching, Integer completed, Integer dropped, Integer planToWatch) {
-        this.watching = watching;
-        this.completed = completed;
-        this.dropped = dropped;
-        this.planToWatch = planToWatch;
-    }
-
     public Long getId() {
         return id;
     }

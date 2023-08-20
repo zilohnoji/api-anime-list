@@ -1,5 +1,6 @@
 package com.donatoordep.anime_list_api.services;
 
+import com.donatoordep.anime_list_api.builders.AnimeBuilder;
 import com.donatoordep.anime_list_api.dto.request.AnimeRequestDTO;
 import com.donatoordep.anime_list_api.dto.response.AnimeResponseDTO;
 import com.donatoordep.anime_list_api.entities.Anime;
@@ -40,8 +41,15 @@ public class AnimeServiceTest {
 
     @BeforeEach
     void setup() {
-        anime = new Anime("attack on titan", "muitos gigantes", "imgUrl",
-                "Pedro Donato", Status.AIRING, 150);
+        anime = AnimeBuilder.builder()
+                .title("Attack on titan")
+                .description("descrição gigante")
+                .imgUrl("https://imagem.com")
+                .authorName("Pedro Donato")
+                .status(Status.AIRING)
+                .episodes(150)
+                .build();
+
         animeResponseDTO = new AnimeResponseDTO(anime);
         animeRequestDTO = new AnimeRequestDTO(anime);
     }
@@ -50,9 +58,16 @@ public class AnimeServiceTest {
     @DisplayName("Given AnimeResponseDTO Object When CreateAnime Is Called Should Return AnimeResponseDTO")
     void testGiven_AnimeResponseDTO_Object_When_CreateAnime_Is_Called_ShouldReturn_AnimeResponseDTO() {
 
-        Anime saved = new Anime("attack on titan", "muitos gigantes", "imgUrl",
-                "Pedro Donato", Status.AIRING, 150);
-        saved.setId(1L);
+        Anime saved = AnimeBuilder.builder()
+                .id(1L)
+                .title("Attack on titan")
+                .description("descrição gigante")
+                .imgUrl("https://imagem.com")
+                .authorName("Pedro Donato")
+                .status(Status.AIRING)
+                .episodes(150)
+                .build();
+
         when(repository.save(anime)).thenReturn(saved);
 
         AnimeResponseDTO output = service.createAnime(animeRequestDTO);
