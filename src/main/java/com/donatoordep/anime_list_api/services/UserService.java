@@ -9,7 +9,6 @@ import com.donatoordep.anime_list_api.dto.response.CartResponseDTO;
 import com.donatoordep.anime_list_api.dto.response.UserResponseDTO;
 import com.donatoordep.anime_list_api.entities.*;
 import com.donatoordep.anime_list_api.enums.RoleName;
-import com.donatoordep.anime_list_api.mappers.UserMapper;
 import com.donatoordep.anime_list_api.repositories.UserRepository;
 import com.donatoordep.anime_list_api.security.TokenJWTService;
 import com.donatoordep.anime_list_api.services.business.rules.user.register.RegisterUserArgs;
@@ -36,7 +35,7 @@ public class UserService {
     private UserRepository repository;
 
     @Autowired
-    private UserMapper mapper;
+    private ConvertingType mapper;
 
     @Autowired
     private AuthenticationManager manager;
@@ -58,7 +57,7 @@ public class UserService {
         if (repository.findByName(name, pageable).isEmpty()) {
             throw new NotFoundEntityException();
         }
-        return repository.findByName(name, pageable).map(user -> mapper.toDto(user));
+        return repository.findByName(name, pageable).map(user -> mapper.convertingUserToUserResponseDTO(user));
     }
 
     public AuthenticationResponseDTO login(AuthenticationRequestDTO objectOfAuthentication) {
@@ -85,12 +84,12 @@ public class UserService {
 
         user.setRoles(roleService.separateRolesWithHierarchy(ConvertingType.convertStringForEnum(RoleName.class, dto.getRole())));
 
-        return mapper.toDto(repository.save(user));
+        return mapper.convertingUserToUserResponseDTO(repository.save(user));
     }
 
     @Transactional(readOnly = true)
     public UserResponseDTO me(User user) {
-        return mapper.toDto(user);
+        return mapper.convertingUserToUserResponseDTO(user);
     }
 
     public void update(User user) {

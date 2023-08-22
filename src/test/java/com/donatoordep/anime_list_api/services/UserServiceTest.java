@@ -7,15 +7,13 @@ import com.donatoordep.anime_list_api.dto.response.AccountStatsResponseDTO;
 import com.donatoordep.anime_list_api.dto.response.CartResponseDTO;
 import com.donatoordep.anime_list_api.dto.response.ProfileUserResponseDTO;
 import com.donatoordep.anime_list_api.dto.response.UserResponseDTO;
-import com.donatoordep.anime_list_api.entities.Cart;
-import com.donatoordep.anime_list_api.entities.ProfileUser;
 import com.donatoordep.anime_list_api.entities.User;
-import com.donatoordep.anime_list_api.mappers.UserMapper;
 import com.donatoordep.anime_list_api.repositories.UserRepository;
 import com.donatoordep.anime_list_api.services.business.rules.user.register.RegisterUserValidation;
 import com.donatoordep.anime_list_api.services.exceptions.NotFoundEntityException;
 import com.donatoordep.anime_list_api.services.exceptions.UserExistsInDatabaseException;
 import com.donatoordep.anime_list_api.services.exceptions.WeakPasswordException;
+import com.donatoordep.anime_list_api.utils.ConvertingType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -50,7 +48,7 @@ public class UserServiceTest {
     RoleService roleService;
 
     @Mock
-    UserMapper mapper;
+    ConvertingType mapper;
 
     @InjectMocks
     UserService service;
@@ -92,7 +90,7 @@ public class UserServiceTest {
                 .profile(userRequestDTO.getProfile().getImgUrl(), userRequestDTO.getProfile().getBio())
                 .build();
 
-        when(mapper.toDto(repository.save(user))).thenReturn(userResponseDTO);
+        when(mapper.convertingUserToUserResponseDTO(repository.save(user))).thenReturn(userResponseDTO);
 
         UserResponseDTO output = service.register(userRequestDTO);
 
@@ -146,7 +144,7 @@ public class UserServiceTest {
         Page<User> userPage = new PageImpl<>(Collections.singletonList(user), pageable, 1);
 
         when(repository.findByName(user.getName(), pageable)).thenReturn(userPage);
-        when(mapper.toDto(user)).thenReturn(userResponseDTO);
+        when(mapper.convertingUserToUserResponseDTO(user)).thenReturn(userResponseDTO);
 
         Page<UserResponseDTO> output = service.findByName(user.getName(), pageable);
 

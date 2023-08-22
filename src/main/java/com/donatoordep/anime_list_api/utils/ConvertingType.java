@@ -6,11 +6,13 @@ import com.donatoordep.anime_list_api.dto.response.UserResponseDTO;
 import com.donatoordep.anime_list_api.entities.User;
 import com.donatoordep.anime_list_api.enums.RoleName;
 import com.donatoordep.anime_list_api.services.exceptions.InvalidEnumValueException;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.IntStream;
 
+@Component
 public class ConvertingType {
 
     private ConvertingType() {
@@ -36,5 +38,18 @@ public class ConvertingType {
             throw new InvalidEnumValueException(enumOnString, "RoleName",
                     listToString(Arrays.asList(RoleName.values())));
         }
+    }
+
+    public UserResponseDTO convertingUserToUserResponseDTO(User entity) {
+
+        return UserResponseDTOBuilder.builder()
+                .id(entity.getId())
+                .name(entity.getName())
+                .email(entity.getEmail())
+                .profile(entity.getProfile())
+                .accountStats(entity.getProfile().getAnimeStats())
+                .cart(entity.getCart())
+                .roles(entity.getRoles().stream().map(RoleDTO::new).toList())
+                .build();
     }
 }
