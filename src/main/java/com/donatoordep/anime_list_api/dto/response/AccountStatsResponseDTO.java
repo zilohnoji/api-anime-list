@@ -11,6 +11,9 @@ public class AccountStatsResponseDTO {
     private int dropped;
     private int planToWatch;
 
+    public AccountStatsResponseDTO() {
+    }
+
     public AccountStatsResponseDTO(AccountStats animeStats) {
         watching = animeStats.getWatching();
         completed = animeStats.getCompleted();

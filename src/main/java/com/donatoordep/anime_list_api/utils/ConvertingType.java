@@ -1,5 +1,9 @@
 package com.donatoordep.anime_list_api.utils;
 
+import com.donatoordep.anime_list_api.builders.dto.response.UserResponseDTOBuilder;
+import com.donatoordep.anime_list_api.dto.RoleDTO;
+import com.donatoordep.anime_list_api.dto.response.UserResponseDTO;
+import com.donatoordep.anime_list_api.entities.User;
 import com.donatoordep.anime_list_api.enums.RoleName;
 import com.donatoordep.anime_list_api.services.exceptions.InvalidEnumValueException;
 

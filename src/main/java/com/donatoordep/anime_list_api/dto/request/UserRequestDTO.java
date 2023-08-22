@@ -16,7 +16,7 @@ public class UserRequestDTO {
     private ProfileUserRequestDTO profile;
     private String role;
 
-    private UserRequestDTO() {
+    public UserRequestDTO() {
     }
 
     public UserRequestDTO(String name, String email, String password) {

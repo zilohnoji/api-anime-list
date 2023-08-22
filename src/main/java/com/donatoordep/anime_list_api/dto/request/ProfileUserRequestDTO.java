@@ -8,7 +8,7 @@ public class ProfileUserRequestDTO {
     private String imgUrl;
     private String bio;
 
-    private ProfileUserRequestDTO() {
+    public ProfileUserRequestDTO() {
     }
 
     public ProfileUserRequestDTO(String imgUrl, String bio) {

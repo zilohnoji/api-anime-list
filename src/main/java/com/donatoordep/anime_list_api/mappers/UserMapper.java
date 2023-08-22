@@ -1,5 +1,6 @@
 package com.donatoordep.anime_list_api.mappers;
 
+import com.donatoordep.anime_list_api.builders.dto.response.UserResponseDTOBuilder;
 import com.donatoordep.anime_list_api.dto.*;
 import com.donatoordep.anime_list_api.dto.request.UserRequestDTO;
 import com.donatoordep.anime_list_api.dto.response.AccountStatsResponseDTO;
@@ -13,21 +14,18 @@ import org.mapstruct.factory.Mappers;
 import java.util.ArrayList;
 import java.util.List;
 
-@Mapper(componentModel = "spring")
-public interface UserMapper {
+public class UserMapper {
 
-    UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
+    public UserResponseDTO toDto(User entity) {
 
-    default UserResponseDTO toDto(User entity) {
-
-        UserResponseDTO dto = new UserResponseDTO(entity.getId(), entity.getName(), entity.getEmail());
-        ProfileUserResponseDTO profileUserDTO = new ProfileUserResponseDTO(entity.getProfile());
-        profileUserDTO.setAccountStats(new AccountStatsResponseDTO(entity.getProfile().getAnimeStats()));
-
-        dto.setProfile(profileUserDTO);
-        dto.setCart(new CartResponseDTO(entity.getCart()));
-
-        entity.getRoles().forEach(role -> dto.addRole(new RoleDTO(role)));
-        return dto;
+        return UserResponseDTOBuilder.builder()
+                .id(entity.getId())
+                .name(entity.getName())
+                .email(entity.getEmail())
+                .profile(entity.getProfile())
+                .accountStats(entity.getProfile().getAnimeStats())
+                .cart(entity.getCart())
+                .roles(entity.getRoles().stream().map(RoleDTO::new).toList())
+                .build();
     }
 }
