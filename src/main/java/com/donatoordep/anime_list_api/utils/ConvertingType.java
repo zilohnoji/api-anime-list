@@ -1,11 +1,19 @@
 package com.donatoordep.anime_list_api.utils;
 
+import com.donatoordep.anime_list_api.builders.AnimeBuilder;
+import com.donatoordep.anime_list_api.builders.UserBuilder;
 import com.donatoordep.anime_list_api.builders.dto.response.UserResponseDTOBuilder;
 import com.donatoordep.anime_list_api.dto.RoleDTO;
+import com.donatoordep.anime_list_api.dto.request.AnimeRequestDTO;
+import com.donatoordep.anime_list_api.dto.request.UserRequestDTO;
 import com.donatoordep.anime_list_api.dto.response.UserResponseDTO;
+import com.donatoordep.anime_list_api.entities.Anime;
 import com.donatoordep.anime_list_api.entities.User;
 import com.donatoordep.anime_list_api.enums.RoleName;
+import com.donatoordep.anime_list_api.services.AnimeService;
 import com.donatoordep.anime_list_api.services.exceptions.InvalidEnumValueException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -14,6 +22,7 @@ import java.util.stream.IntStream;
 
 @Component
 public class ConvertingType {
+
 
     private ConvertingType() {
     }
@@ -38,6 +47,17 @@ public class ConvertingType {
             throw new InvalidEnumValueException(enumOnString, "RoleName",
                     listToString(Arrays.asList(RoleName.values())));
         }
+    }
+
+    public static Anime convertTOEntity(AnimeRequestDTO dto) {
+        return AnimeBuilder.builder()
+                .title(dto.getTitle())
+                .description(dto.getDescription())
+                .imgUrl(dto.getImgUrl())
+                .authorName(dto.getAuthorName())
+                .status(dto.getStatus())
+                .episodes(dto.getEpisodes())
+                .build();
     }
 
     public UserResponseDTO convertingUserToUserResponseDTO(User entity) {

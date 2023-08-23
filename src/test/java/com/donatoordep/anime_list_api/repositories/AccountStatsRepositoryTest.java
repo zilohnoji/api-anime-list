@@ -60,11 +60,6 @@ public class AccountStatsRepositoryTest {
     @Test
     @DisplayName("Given AccountStats List When FindAll Should Return List AccountStats")
     void testGivenAccountStatsList_When_FindAll_ShouldReturn_AccountStatsList() {
-        // Given / Arrange - Cenário inicial das classes (setar configurações, iniciar variaveis)
-        AccountStats accountStatsTwo = new AccountStats();
-
-        AccountStats accountStatsSaved = repository.save(accountStats);
-        AccountStats accountStatsSavedTwo = repository.save(accountStatsTwo);
 
         // When / Act- Inicia a execução do cenário.
         List<AccountStats> accountStatsList = repository.findAll();

@@ -79,6 +79,7 @@ public class UserService {
                 .name(dto.getName())
                 .email(dto.getEmail())
                 .password(encoder.encode(dto.getPassword()))
+                .cart()
                 .profile(dto.getProfile().getImgUrl(), dto.getProfile().getBio())
                 .build();
 

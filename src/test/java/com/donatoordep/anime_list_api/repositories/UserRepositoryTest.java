@@ -29,6 +29,7 @@ public class UserRepositoryTest {
     @BeforeEach
     void setup() {
         user = UserBuilder.builder()
+                .id(1L)
                 .name("Pedro")
                 .email("pedro@gmail.com")
                 .password("123456")
@@ -39,6 +40,13 @@ public class UserRepositoryTest {
     @Test
     @DisplayName("Given User Object When Save Should Return User Saved")
     void testGivenUserObject_When_Save_ShouldReturn_UserSaved() {
+
+        User user = UserBuilder.builder()
+                .name("Luiz")
+                .email("luiz@gmail.com")
+                .password("123456")
+                .profile("http://img.com", "Sou o Luiz")
+                .build();
 
         User userSaved = repository.save(user);
 
@@ -90,8 +98,6 @@ public class UserRepositoryTest {
     @DisplayName("Given User Object When FindEmailForUser Should Return User")
     void testGivenUserObject_When_FindEmailForUser_ShouldReturn_UserObject() {
 
-        repository.save(user);
-
         // When / Act- Inicia a execução do cenário.
         User userSearch = repository.findEmailForUser(user.getEmail()).get();
 
@@ -105,8 +111,6 @@ public class UserRepositoryTest {
     @DisplayName("Given User Object When FindByEmailForUserDetails Should Return User")
     void testGivenUserObject_When_FindByEmailForUserDetails_ShouldReturn_UserObject() {
 
-        repository.save(user);
-
         // When / Act- Inicia a execução do cenário.
         UserDetails userSearch = repository.findByEmailForUserDetails(user.getEmail());
 
@@ -119,8 +123,6 @@ public class UserRepositoryTest {
     @Test
     @DisplayName("Given User Object When FindByName Should Return User")
     void testGivenUserObject_When_FindByName_ShouldReturn_UserObject() {
-
-        repository.save(user);
 
         Pageable pageable = PageRequest.of(0, 10, Sort.by("name"));
 
@@ -137,8 +139,6 @@ public class UserRepositoryTest {
     @Test
     @DisplayName("Given User Object When Update Should Return User")
     void testGivenUserObject_When_Update_ShouldReturn_UserObject() {
-
-        repository.save(user);
 
         // When / Act- Inicia a execução do cenário.
         User userSaved = repository.findById(user.getId()).get();
@@ -159,8 +159,6 @@ public class UserRepositoryTest {
     @Test
     @DisplayName("Given User Object When Delete Should Remove User")
     void testGivenUserObject_When_Delete_ShouldRemoveUser() {
-
-        repository.save(user);
 
         // When / Act- Inicia a execução do cenário.
         repository.deleteById(user.getId());

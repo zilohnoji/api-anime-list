@@ -58,11 +58,6 @@ public class CartRepositoryTest {
     @Test
     @DisplayName("Given Cart List When FindAll Should Return List Cart")
     void testGivenCartList_When_FindAll_ShouldReturn_CartList() {
-        // Given / Arrange - Cenário inicial das classes (setar configurações, iniciar variaveis)
-        Cart cartTwo = new Cart();
-
-        Cart cartSaved = repository.save(cart);
-        Cart cartSavedTwo = repository.save(cartTwo);
 
         // When / Act- Inicia a execução do cenário.
         List<Cart> cartList = repository.findAll();

@@ -1,6 +1,7 @@
 package com.donatoordep.anime_list_api.services;
 
 import com.donatoordep.anime_list_api.builders.AnimeBuilder;
+import com.donatoordep.anime_list_api.builders.dto.request.AnimeRequestDTOBuilder;
 import com.donatoordep.anime_list_api.dto.request.AnimeRequestDTO;
 import com.donatoordep.anime_list_api.dto.response.AnimeResponseDTO;
 import com.donatoordep.anime_list_api.entities.Anime;
@@ -42,6 +43,7 @@ public class AnimeServiceTest {
     @BeforeEach
     void setup() {
         anime = AnimeBuilder.builder()
+                .id(1L)
                 .title("Attack on titan")
                 .description("descrição gigante")
                 .imgUrl("https://imagem.com")
@@ -51,7 +53,15 @@ public class AnimeServiceTest {
                 .build();
 
         animeResponseDTO = new AnimeResponseDTO(anime);
-        animeRequestDTO = new AnimeRequestDTO(anime);
+
+        animeRequestDTO = AnimeRequestDTOBuilder.builder()
+                .title(anime.getTitle())
+                .authorName(anime.getAuthorName())
+                .description(anime.getDescription())
+                .imgUrl(anime.getImgUrl())
+                .status(anime.getStatus())
+                .episodes(anime.getEpisodes())
+                .build();
     }
 
     @Test

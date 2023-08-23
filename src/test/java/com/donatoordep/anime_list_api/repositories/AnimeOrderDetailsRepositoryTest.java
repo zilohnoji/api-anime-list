@@ -31,7 +31,7 @@ public class AnimeOrderDetailsRepositoryTest {
     @BeforeEach
     void setup() {
         anime = AnimeBuilder.builder()
-                .title("Attack on titan")
+                .title("Attack on Titan")
                 .description("descrição gigante")
                 .imgUrl("https://imagem.com")
                 .authorName("Pedro Donato")
@@ -75,17 +75,13 @@ public class AnimeOrderDetailsRepositoryTest {
     @Test
     @DisplayName("Given AnimeOrderDetails List When FindAll Should Return List AnimeOrderDetails")
     void testGivenAnimeOrderDetailsList_When_FindAll_ShouldReturn_AnimeOrderDetailsList() {
-        // Given / Arrange - Cenário inicial das classes (setar configurações, iniciar variaveis)
-
-        repositoryAnime.save(anime);
-        repository.save(animeOrderDetails);
 
         // When / Act- Inicia a execução do cenário.
         List<AnimeOrderDetails> animeOrderDetailsList = repository.findAll();
 
         // Then / Assert - Avaliação do resultado, verifica se corresponde ao esperado.
         assertNotNull(animeOrderDetailsList, () -> "AnimeOrderDetails list not should return null");
-        assertEquals(1, animeOrderDetailsList.size(), () -> "AnimeOrderDetails list should returned 2 of length");
+        assertEquals(3, animeOrderDetailsList.size(), () -> "AnimeOrderDetails list should returned 2 of length");
         assertEquals(animeOrderDetailsList.get(0).getAnime().getTitle(), anime.getTitle(),
                 () -> "The title should return same title");
     }

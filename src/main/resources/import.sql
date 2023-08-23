@@ -8,7 +8,7 @@ INSERT INTO role(role_name) VALUES(2);
 INSERT INTO account_stats(watching, completed, dropped, plan_to_watch) VALUES(1, 2, 1, 0);
 INSERT INTO profile_user(stats_id, img_url, bio) VALUES(1, 'http://icon.com.br/pedroImg', 'Me chamo Pedro, gosto de ler e moro no Rj.');
 INSERT INTO cart(total_animes) VALUES(1);
-INSERT INTO tb_user(cart_id, profile_id, name, email, password) VALUES(1, 1, 'Pedro', 'pedro@gmail.com', '$2a$12$oU0V.6b9681VfT2XeOc/G.BAnjvCIzei.et8MLPX.W63ddwmaXNRu');
+INSERT INTO tb_user(cart_id, profile_id, name, email, password) VALUES(1, 1, 'Pedro', 'pedro@gmail.com', '$2a$12$fUy/MdLBnjUusQ.E0.WEp.HhQUyTCHUaEjh.n5.3fnE/bC4489g5G');
 INSERT INTO anime_order(cart_id) VALUES(1);
 INSERT INTO anime_order_details(order_id, anime_id, episode, status_order) VALUES(1, 1, 26, 'WATCHING')
 INSERT INTO user_roles(user_id, role_id) VALUES(1, 1);

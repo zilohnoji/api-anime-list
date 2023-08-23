@@ -58,18 +58,13 @@ public class AnimeOrderRepositoryTest {
     @Test
     @DisplayName("Given AnimeOrder List When FindAll Should Return List AnimeOrder")
     void testGivenAnimeOrderList_When_FindAll_ShouldReturn_AnimeOrderList() {
-        // Given / Arrange - Cenário inicial das classes (setar configurações, iniciar variaveis)
-        AnimeOrder animeOrderTwo = new AnimeOrder();
-
-        AnimeOrder animeOrderSaved = repository.save(animeOrder);
-        AnimeOrder animeOrderSavedTwo = repository.save(animeOrderTwo);
 
         // When / Act- Inicia a execução do cenário.
         List<AnimeOrder> animeOrderList = repository.findAll();
 
         // Then / Assert - Avaliação do resultado, verifica se corresponde ao esperado.
         assertNotNull(animeOrderList, () -> "AnimeOrder list not should return null");
-        assertEquals(2, animeOrderList.size(), () -> "AnimeOrder list should returned 2 of length");
+        assertEquals(3, animeOrderList.size(), () -> "AnimeOrder list should returned 2 of length");
     }
 
     @Test

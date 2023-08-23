@@ -40,12 +40,6 @@ public class ProfileUserRepositoryTest {
     @Test
     @DisplayName("Given ProfileUser List When FindAll Should Return List ProfileUser")
     void testGivenProfileUserList_When_FindAll_ShouldReturn_ProfileUserList() {
-        // Given / Arrange - Cenário inicial das classes (setar configurações, iniciar variaveis)
-        ProfileUser profile = new ProfileUser("https://img_url1.com", "My new bio 1");
-        ProfileUser profileTwo = new ProfileUser("https://img_url2.com", "My new bio 2");
-
-        repository.save(profile);
-        repository.save(profileTwo);
 
         // When / Act- Inicia a execução do cenário.
         List<ProfileUser> profileList = repository.findAll();

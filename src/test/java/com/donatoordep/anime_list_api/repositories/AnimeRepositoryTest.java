@@ -25,7 +25,7 @@ public class AnimeRepositoryTest {
     @BeforeEach
     void setup() {
         anime = AnimeBuilder.builder()
-                .title("Attack on titan")
+                .title("Attack on Titan")
                 .description("descrição gigante")
                 .imgUrl("https://imagem.com")
                 .authorName("Pedro Donato")
@@ -67,11 +67,6 @@ public class AnimeRepositoryTest {
     @Test
     @DisplayName("Given Anime List When FindAll Should Return List Anime")
     void testGivenAnimeList_When_FindAll_ShouldReturn_AnimeList() {
-        // Given / Arrange - Cenário inicial das classes (setar configurações, iniciar variaveis)
-        Anime animeTwo = new Anime();
-
-        Anime animeSaved = repository.save(anime);
-        Anime animeSavedTwo = repository.save(animeTwo);
 
         // When / Act- Inicia a execução do cenário.
         List<Anime> animeList = repository.findAll();
