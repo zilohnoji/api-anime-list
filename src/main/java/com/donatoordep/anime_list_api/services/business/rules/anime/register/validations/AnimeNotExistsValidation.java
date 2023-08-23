@@ -6,7 +6,7 @@ import com.donatoordep.anime_list_api.services.exceptions.NotFoundEntityExceptio
 import org.springframework.stereotype.Component;
 
 @Component
-public class AnimeNotExists implements RegisterAnimeValidation {
+public class AnimeNotExistsValidation implements RegisterAnimeValidation {
 
     @Override
     public void verification(AddAnimeInMyCartArgs args) {

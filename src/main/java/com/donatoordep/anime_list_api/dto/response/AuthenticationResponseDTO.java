@@ -14,7 +14,7 @@ public class AuthenticationResponseDTO {
     private String issuer;
     private String token;
 
-    private AuthenticationResponseDTO() {
+    public AuthenticationResponseDTO() {
     }
 
     public AuthenticationResponseDTO(String login, String issuer, Date expires, String token) {

@@ -37,7 +37,7 @@ public class ConvertingType {
         return sb.toString();
     }
 
-    public static <T extends Enum<T>> T convertStringForEnum(Class<T> enumClass, String enumOnString) {
+    public static <T extends Enum<T>> T convertStringToEnum(Class<T> enumClass, String enumOnString) {
         if(enumOnString == null){
             enumOnString = "role_client";
         }
@@ -49,7 +49,7 @@ public class ConvertingType {
         }
     }
 
-    public static Anime convertTOEntity(AnimeRequestDTO dto) {
+    public static Anime convertAnimeRequestDTOToAnime(AnimeRequestDTO dto) {
         return AnimeBuilder.builder()
                 .title(dto.getTitle())
                 .description(dto.getDescription())
@@ -60,8 +60,7 @@ public class ConvertingType {
                 .build();
     }
 
-    public UserResponseDTO convertingUserToUserResponseDTO(User entity) {
-
+    public UserResponseDTO convertUserToUserResponseDTO(User entity) {
         return UserResponseDTOBuilder.builder()
                 .id(entity.getId())
                 .name(entity.getName())

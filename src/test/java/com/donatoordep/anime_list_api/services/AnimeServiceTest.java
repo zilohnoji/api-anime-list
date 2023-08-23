@@ -43,7 +43,6 @@ public class AnimeServiceTest {
     @BeforeEach
     void setup() {
         anime = AnimeBuilder.builder()
-                .id(1L)
                 .title("Attack on titan")
                 .description("descrição gigante")
                 .imgUrl("https://imagem.com")

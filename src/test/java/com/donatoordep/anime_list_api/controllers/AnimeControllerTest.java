@@ -62,7 +62,7 @@ public class AnimeControllerTest {
                 .episodes(150)
                 .build();
 
-        animeResponseDTO = new AnimeResponseDTO(ConvertingType.convertTOEntity(animeRequestDTO));
+        animeResponseDTO = new AnimeResponseDTO(ConvertingType.convertAnimeRequestDTOToAnime(animeRequestDTO));
 
     }
 
@@ -73,16 +73,16 @@ public class AnimeControllerTest {
         when(service.createAnime(animeRequestDTO)).thenReturn(animeResponseDTO);
 
         mockMvc.perform(post("/v1/anime").contentType(MediaType.APPLICATION_JSON)
-                        .header("Authorization", token())
+                        .header("Authorization", token("pedro@gmail.com","123456"))
                         .content(mapper.writeValueAsString(animeRequestDTO)))
                 .andExpect(status().isCreated())
                 .andDo(print()).andReturn();
     }
 
-    private String token() {
+    protected String token(String email, String password) {
 
         Authentication authenticate = authenticateManager.authenticate(
-                new UsernamePasswordAuthenticationToken("pedro@gmail.com", 123456));
+                new UsernamePasswordAuthenticationToken(email, password));
 
         return "Bearer " + tokenJWTService.generateToken((User) authenticate.getPrincipal());
     }

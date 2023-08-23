@@ -6,7 +6,7 @@ import com.donatoordep.anime_list_api.services.exceptions.AnimeAlreadyInCartExce
 import org.springframework.stereotype.Component;
 
 @Component
-public class AnimeContainingInCart implements RegisterAnimeValidation {
+public class AnimeContainingInCartValidation implements RegisterAnimeValidation {
 
     @Override
     public void verification(AddAnimeInMyCartArgs args) {

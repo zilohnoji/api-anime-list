@@ -9,6 +9,8 @@ import com.donatoordep.anime_list_api.dto.response.ProfileUserResponseDTO;
 import com.donatoordep.anime_list_api.dto.response.UserResponseDTO;
 import com.donatoordep.anime_list_api.entities.User;
 import com.donatoordep.anime_list_api.repositories.UserRepository;
+import com.donatoordep.anime_list_api.services.business.rules.user.findByName.FindByNameArgs;
+import com.donatoordep.anime_list_api.services.business.rules.user.findByName.FindByNameValidation;
 import com.donatoordep.anime_list_api.services.business.rules.user.register.RegisterUserValidation;
 import com.donatoordep.anime_list_api.services.exceptions.NotFoundEntityException;
 import com.donatoordep.anime_list_api.services.exceptions.UserExistsInDatabaseException;
@@ -39,13 +41,16 @@ public class UserServiceTest {
     UserRepository repository;
 
     @Mock
-    List<RegisterUserValidation> userRegisterValidations;
-
-    @Mock
     PasswordEncoder encoder;
 
     @Mock
     RoleService roleService;
+
+    @Mock
+    List<RegisterUserValidation> userRegisterValidations;
+
+    @Mock
+    List<FindByNameValidation> findByNameValidations;
 
     @Mock
     ConvertingType mapper;
@@ -90,7 +95,7 @@ public class UserServiceTest {
                 .profile(userRequestDTO.getProfile().getImgUrl(), userRequestDTO.getProfile().getBio())
                 .build();
 
-        when(mapper.convertingUserToUserResponseDTO(repository.save(user))).thenReturn(userResponseDTO);
+        when(mapper.convertUserToUserResponseDTO(repository.save(user))).thenReturn(userResponseDTO);
 
         UserResponseDTO output = service.register(userRequestDTO);
 
@@ -144,7 +149,7 @@ public class UserServiceTest {
         Page<User> userPage = new PageImpl<>(Collections.singletonList(user), pageable, 1);
 
         when(repository.findByName(user.getName(), pageable)).thenReturn(userPage);
-        when(mapper.convertingUserToUserResponseDTO(user)).thenReturn(userResponseDTO);
+        when(mapper.convertUserToUserResponseDTO(user)).thenReturn(userResponseDTO);
 
         Page<UserResponseDTO> output = service.findByName(user.getName(), pageable);
 
@@ -162,7 +167,7 @@ public class UserServiceTest {
         Pageable pageable = PageRequest.of(0, 10, Sort.by("name"));
         Page<User> userPage = new PageImpl<>(Collections.emptyList(), pageable, 0);
 
-        when(repository.findByName(anyString(), eq(pageable))).thenReturn(userPage);
+        when(repository.findByName(anyString(), eq(pageable))).thenThrow(NotFoundEntityException.class);
 
         assertThrows(NotFoundEntityException.class, () -> service.findByName("not-exists", pageable),
                 () -> "FindByName should throw a exception NotFoundEntityException");

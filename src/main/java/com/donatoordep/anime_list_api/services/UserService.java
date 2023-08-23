@@ -2,6 +2,7 @@ package com.donatoordep.anime_list_api.services;
 
 import com.auth0.jwt.JWT;
 import com.donatoordep.anime_list_api.builders.UserBuilder;
+import com.donatoordep.anime_list_api.builders.dto.response.AuthenticationResponseDTOBuilder;
 import com.donatoordep.anime_list_api.dto.request.AuthenticationRequestDTO;
 import com.donatoordep.anime_list_api.dto.request.UserRequestDTO;
 import com.donatoordep.anime_list_api.dto.response.AuthenticationResponseDTO;
@@ -11,6 +12,8 @@ import com.donatoordep.anime_list_api.entities.*;
 import com.donatoordep.anime_list_api.enums.RoleName;
 import com.donatoordep.anime_list_api.repositories.UserRepository;
 import com.donatoordep.anime_list_api.security.TokenJWTService;
+import com.donatoordep.anime_list_api.services.business.rules.user.findByName.FindByNameArgs;
+import com.donatoordep.anime_list_api.services.business.rules.user.findByName.FindByNameValidation;
 import com.donatoordep.anime_list_api.services.business.rules.user.register.RegisterUserArgs;
 import com.donatoordep.anime_list_api.services.business.rules.user.register.RegisterUserValidation;
 import com.donatoordep.anime_list_api.services.exceptions.NotFoundEntityException;
@@ -52,12 +55,14 @@ public class UserService {
     @Autowired
     private List<RegisterUserValidation> userRegisterValidations;
 
+    @Autowired
+    private List<FindByNameValidation> findByNameValidations;
+
     @Transactional(readOnly = true)
     public Page<UserResponseDTO> findByName(String name, Pageable pageable) {
-        if (repository.findByName(name, pageable).isEmpty()) {
-            throw new NotFoundEntityException();
-        }
-        return repository.findByName(name, pageable).map(user -> mapper.convertingUserToUserResponseDTO(user));
+        findByNameValidations.forEach(v -> v.verification(new FindByNameArgs(repository, name, pageable)));
+        return repository.findByName(name, pageable)
+                .map(user -> mapper.convertUserToUserResponseDTO(user));
     }
 
     public AuthenticationResponseDTO login(AuthenticationRequestDTO objectOfAuthentication) {
@@ -67,7 +72,12 @@ public class UserService {
 
         String token = tokenJWTService.generateToken((User) authenticate.getPrincipal());
 
-        return new AuthenticationResponseDTO(authenticate.getName(), JWT.decode(token).getIssuer(), JWT.decode(token).getExpiresAt(), token);
+        return AuthenticationResponseDTOBuilder.builder()
+                .login(authenticate.getName())
+                .issuer(JWT.decode(token).getIssuer())
+                .expireToken(JWT.decode(token).getExpiresAt())
+                .token(token)
+                .build();
     }
 
     @Transactional
@@ -83,14 +93,14 @@ public class UserService {
                 .profile(dto.getProfile().getImgUrl(), dto.getProfile().getBio())
                 .build();
 
-        user.setRoles(roleService.separateRolesWithHierarchy(ConvertingType.convertStringForEnum(RoleName.class, dto.getRole())));
+        user.setRoles(roleService.separateRolesWithHierarchy(ConvertingType.convertStringToEnum(RoleName.class, dto.getRole())));
 
-        return mapper.convertingUserToUserResponseDTO(repository.save(user));
+        return mapper.convertUserToUserResponseDTO(repository.save(user));
     }
 
     @Transactional(readOnly = true)
     public UserResponseDTO me(User user) {
-        return mapper.convertingUserToUserResponseDTO(user);
+        return mapper.convertUserToUserResponseDTO(user);
     }
 
     public void update(User user) {
