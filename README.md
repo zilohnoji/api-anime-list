@@ -194,7 +194,6 @@ Nossa API utiliza uma combinação de tecnologias para oferecer um ambiente de d
 - **OpenAPI - Swagger:** Documentação interativa para a API.
 - **JPA / Hibernate:** Mapeamento objeto-relacional para acesso ao banco de dados.
 - **Maven:** Ferramenta de gerenciamento de dependências e construção de projetos.
-- **OpenAPi / Swagger** Possui suporte para documentação com Swagger-ui.
 
 ## Considerações Finais
 A API de Gerenciamento de Animes é uma ferramenta essencial para a funcionalidade central da aplicação Debver. 
