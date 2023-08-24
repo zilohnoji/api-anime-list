@@ -13,12 +13,12 @@ public class AnimeOrderDetailsRequestDTO {
     @Positive(message = "The value of anime_id should be positive")
     private Long animeId;
     @NotNull(message = "The status is required")
-    private StatusOrder status;
+    private String status;
     @NotNull(message = "The episode is required")
     @Positive(message = "The value of episode should be positive")
     private int episode;
 
-    public AnimeOrderDetailsRequestDTO(Long animeId, StatusOrder status, int episode) {
+    public AnimeOrderDetailsRequestDTO(Long animeId, String status, int episode) {
         this.animeId = animeId;
         this.status = status;
         this.episode = episode;
@@ -32,11 +32,11 @@ public class AnimeOrderDetailsRequestDTO {
         this.animeId = animeId;
     }
 
-    public StatusOrder getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(StatusOrder status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

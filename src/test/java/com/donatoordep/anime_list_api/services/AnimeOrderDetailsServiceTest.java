@@ -13,7 +13,8 @@ import com.donatoordep.anime_list_api.repositories.AccountStatsRepository;
 import com.donatoordep.anime_list_api.repositories.AnimeOrderDetailsRepository;
 import com.donatoordep.anime_list_api.repositories.AnimeOrderRepository;
 import com.donatoordep.anime_list_api.repositories.AnimeRepository;
-import com.donatoordep.anime_list_api.services.business.rules.anime.register.RegisterAnimeValidation;
+import com.donatoordep.anime_list_api.services.business.rules.anime.addInMyCart.AddAnimeValidation;
+import com.donatoordep.anime_list_api.utils.ConvertingType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -44,7 +45,7 @@ public class AnimeOrderDetailsServiceTest {
     UserService userService;
 
     @Mock
-    List<RegisterAnimeValidation> validations;
+    List<AddAnimeValidation> validations;
 
     @Mock
     AccountStatsRepository accountStatsRepository;
@@ -57,7 +58,7 @@ public class AnimeOrderDetailsServiceTest {
     void tesGivenAnimeOrderDetailsResponseDTO_When_AddAnimeInMyCartIsCalled() {
 
         AnimeOrderDetailsRequestDTO animeOrderDetailsRequestDTO = new AnimeOrderDetailsRequestDTO(
-                1L, StatusOrder.COMPLETED, 100);
+                1L, StatusOrder.COMPLETED.toString(), 100);
 
         User user = UserBuilder.builder()
                 .id(1L)
@@ -78,7 +79,8 @@ public class AnimeOrderDetailsServiceTest {
                 .build();
 
         AnimeOrderDetails ot = new AnimeOrderDetails(anime, animeOrderDetailsRequestDTO.getEpisode(),
-                animeOrderDetailsRequestDTO.getStatus());
+                ConvertingType.convertStringToEnum(
+                        StatusOrder.class, animeOrderDetailsRequestDTO.getStatus()));
         ot.setId(1L);
 
         when(animeRepository.findById(1L)).thenReturn(Optional.of(anime));

@@ -1,12 +1,12 @@
-package com.donatoordep.anime_list_api.services.business.rules.anime.register.validations;
+package com.donatoordep.anime_list_api.services.business.rules.anime.addInMyCart.validations;
 
-import com.donatoordep.anime_list_api.services.business.rules.anime.register.AddAnimeInMyCartArgs;
-import com.donatoordep.anime_list_api.services.business.rules.anime.register.RegisterAnimeValidation;
+import com.donatoordep.anime_list_api.services.business.rules.anime.addInMyCart.AddAnimeInMyCartArgs;
+import com.donatoordep.anime_list_api.services.business.rules.anime.addInMyCart.AddAnimeValidation;
 import com.donatoordep.anime_list_api.services.exceptions.AnimeAlreadyInCartException;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AnimeContainingInCartValidation implements RegisterAnimeValidation {
+public class AnimeContainingInCartValidation implements AddAnimeValidation {
 
     @Override
     public void verification(AddAnimeInMyCartArgs args) {

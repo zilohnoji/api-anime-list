@@ -6,12 +6,14 @@ import com.donatoordep.anime_list_api.entities.Anime;
 import com.donatoordep.anime_list_api.entities.AnimeOrder;
 import com.donatoordep.anime_list_api.entities.AnimeOrderDetails;
 import com.donatoordep.anime_list_api.entities.User;
+import com.donatoordep.anime_list_api.enums.StatusOrder;
 import com.donatoordep.anime_list_api.repositories.AccountStatsRepository;
 import com.donatoordep.anime_list_api.repositories.AnimeOrderDetailsRepository;
 import com.donatoordep.anime_list_api.repositories.AnimeOrderRepository;
 import com.donatoordep.anime_list_api.repositories.AnimeRepository;
-import com.donatoordep.anime_list_api.services.business.rules.anime.register.AddAnimeInMyCartArgs;
-import com.donatoordep.anime_list_api.services.business.rules.anime.register.RegisterAnimeValidation;
+import com.donatoordep.anime_list_api.services.business.rules.anime.addInMyCart.AddAnimeInMyCartArgs;
+import com.donatoordep.anime_list_api.services.business.rules.anime.addInMyCart.AddAnimeValidation;
+import com.donatoordep.anime_list_api.utils.ConvertingType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +35,7 @@ public class AnimeOrderDetailsService {
     private UserService userService;
 
     @Autowired
-    private List<RegisterAnimeValidation> validations;
+    private List<AddAnimeValidation> validations;
 
     @Autowired
     private AccountStatsRepository accountStatsRepository;
@@ -44,7 +46,8 @@ public class AnimeOrderDetailsService {
         Anime anime = animeRepository.findById(dto.getAnimeId()).get();
 
         AnimeOrderDetails animeOrderDetails = new AnimeOrderDetails(
-                anime, dto.getEpisode(), dto.getStatus());
+                anime, dto.getEpisode(), ConvertingType.convertStringToEnum(
+                StatusOrder.class, dto.getStatus()));
 
         animeOrderDetails = detailsRepository.save(animeOrderDetails);
         AnimeOrder animeOrder = new AnimeOrder(animeOrderDetails, user.getCart());

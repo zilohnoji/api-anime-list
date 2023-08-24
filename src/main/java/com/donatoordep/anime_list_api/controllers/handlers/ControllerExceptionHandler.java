@@ -43,6 +43,18 @@ public class ControllerExceptionHandler {
         return handlingException(e, HttpStatus.BAD_REQUEST, request.getRequestURI());
     }
 
+    @ExceptionHandler(IncompatibleEpisodeException.class)
+    public ResponseEntity<CustomizedException> incompatibleEpisode(
+            IncompatibleEpisodeException e, HttpServletRequest request) {
+        return handlingException(e, HttpStatus.UNPROCESSABLE_ENTITY, request.getRequestURI());
+    }
+
+    @ExceptionHandler(InvalidEnumValueException.class)
+    public ResponseEntity<CustomizedException> invalidEnumValue(
+            InvalidEnumValueException e, HttpServletRequest request) {
+        return handlingException(e, HttpStatus.BAD_REQUEST, request.getRequestURI());
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<CustomizedException> methodArgumentNotValid(
             MethodArgumentNotValidException e, HttpServletRequest request) {

@@ -4,7 +4,7 @@ import com.donatoordep.anime_list_api.dto.request.AnimeRequestDTO;
 import com.donatoordep.anime_list_api.dto.response.AnimeResponseDTO;
 import com.donatoordep.anime_list_api.mapper.AnimeMapper;
 import com.donatoordep.anime_list_api.repositories.AnimeRepository;
-import com.donatoordep.anime_list_api.services.business.rules.anime.update.UpdateAnimeVerification;
+import com.donatoordep.anime_list_api.services.business.rules.anime.create.CreateAnimeValidation;
 import com.donatoordep.anime_list_api.services.exceptions.NotFoundEntityException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,9 +22,6 @@ public class AnimeService {
 
     @Autowired
     private AnimeRepository repository;
-
-    @Autowired
-    private List<UpdateAnimeVerification> updateAnimeVerifications;
 
     @Transactional
     public AnimeResponseDTO createAnime(AnimeRequestDTO dto) {

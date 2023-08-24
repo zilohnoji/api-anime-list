@@ -35,7 +35,6 @@ public class AnimeController {
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<AnimeResponseDTO>> findByName(@RequestParam(name = "name", required = false)
                                                                  String name) {
-        System.out.println(name+"-----------------------");
         return ResponseEntity.ok().body(service.findByName(name));
     }
 
