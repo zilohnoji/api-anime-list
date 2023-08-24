@@ -2,10 +2,13 @@ package com.donatoordep.anime_list_api.utils;
 
 import com.donatoordep.anime_list_api.builders.AnimeBuilder;
 import com.donatoordep.anime_list_api.builders.UserBuilder;
+import com.donatoordep.anime_list_api.builders.dto.request.AnimeRequestDTOBuilder;
+import com.donatoordep.anime_list_api.builders.dto.response.AnimeResponseDTOBuilder;
 import com.donatoordep.anime_list_api.builders.dto.response.UserResponseDTOBuilder;
 import com.donatoordep.anime_list_api.dto.RoleDTO;
 import com.donatoordep.anime_list_api.dto.request.AnimeRequestDTO;
 import com.donatoordep.anime_list_api.dto.request.UserRequestDTO;
+import com.donatoordep.anime_list_api.dto.response.AnimeResponseDTO;
 import com.donatoordep.anime_list_api.dto.response.UserResponseDTO;
 import com.donatoordep.anime_list_api.entities.Anime;
 import com.donatoordep.anime_list_api.entities.User;
@@ -49,26 +52,4 @@ public class ConvertingType {
         }
     }
 
-    public static Anime convertAnimeRequestDTOToAnime(AnimeRequestDTO dto) {
-        return AnimeBuilder.builder()
-                .title(dto.getTitle())
-                .description(dto.getDescription())
-                .imgUrl(dto.getImgUrl())
-                .authorName(dto.getAuthorName())
-                .status(dto.getStatus())
-                .episodes(dto.getEpisodes())
-                .build();
-    }
-
-    public UserResponseDTO convertUserToUserResponseDTO(User entity) {
-        return UserResponseDTOBuilder.builder()
-                .id(entity.getId())
-                .name(entity.getName())
-                .email(entity.getEmail())
-                .profile(entity.getProfile())
-                .accountStats(entity.getProfile().getAnimeStats())
-                .cart(entity.getCart())
-                .roles(entity.getRoles().stream().map(RoleDTO::new).toList())
-                .build();
-    }
 }

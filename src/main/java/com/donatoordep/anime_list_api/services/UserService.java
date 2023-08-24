@@ -10,6 +10,7 @@ import com.donatoordep.anime_list_api.dto.response.CartResponseDTO;
 import com.donatoordep.anime_list_api.dto.response.UserResponseDTO;
 import com.donatoordep.anime_list_api.entities.*;
 import com.donatoordep.anime_list_api.enums.RoleName;
+import com.donatoordep.anime_list_api.mapper.UserMapper;
 import com.donatoordep.anime_list_api.repositories.UserRepository;
 import com.donatoordep.anime_list_api.security.TokenJWTService;
 import com.donatoordep.anime_list_api.services.business.rules.user.findByName.FindByNameArgs;
@@ -30,7 +31,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-
 @Service
 public class UserService {
 
@@ -38,7 +38,7 @@ public class UserService {
     private UserRepository repository;
 
     @Autowired
-    private ConvertingType mapper;
+    private UserMapper mapper;
 
     @Autowired
     private AuthenticationManager manager;
@@ -61,8 +61,8 @@ public class UserService {
     @Transactional(readOnly = true)
     public Page<UserResponseDTO> findByName(String name, Pageable pageable) {
         findByNameValidations.forEach(v -> v.verification(new FindByNameArgs(repository, name, pageable)));
-        return repository.findByName(name, pageable)
-                .map(user -> mapper.convertUserToUserResponseDTO(user));
+
+        return mapper.convertUserPageToUserResponseDTOPage(repository.findByName(name, pageable));
     }
 
     public AuthenticationResponseDTO login(AuthenticationRequestDTO objectOfAuthentication) {
@@ -85,13 +85,8 @@ public class UserService {
 
         userRegisterValidations.forEach(v -> v.verification(new RegisterUserArgs(dto, repository)));
 
-        User user = UserBuilder.builder()
-                .name(dto.getName())
-                .email(dto.getEmail())
-                .password(encoder.encode(dto.getPassword()))
-                .cart()
-                .profile(dto.getProfile().getImgUrl(), dto.getProfile().getBio())
-                .build();
+        User user = mapper.convertUserRequestDTOToUser(dto);
+        user.setPassword(encoder.encode(user.getPassword()));
 
         user.setRoles(roleService.separateRolesWithHierarchy(ConvertingType.convertStringToEnum(RoleName.class, dto.getRole())));
 

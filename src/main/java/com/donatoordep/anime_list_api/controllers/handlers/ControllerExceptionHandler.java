@@ -4,16 +4,20 @@ import com.donatoordep.anime_list_api.dto.FieldMessage;
 import com.donatoordep.anime_list_api.dto.ValidationError;
 import com.donatoordep.anime_list_api.services.exceptions.*;
 import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.List;
+
 
 @RestControllerAdvice
 public class ControllerExceptionHandler {
+
+    private final Logger logger = LoggerFactory.getLogger(ControllerExceptionHandler.class);
 
     @ExceptionHandler(UserExistsInDatabaseException.class)
     public ResponseEntity<CustomizedException> userExistsInDatabase(
@@ -53,7 +57,13 @@ public class ControllerExceptionHandler {
 
     private ResponseEntity<CustomizedException> handlingException(
             Exception e, HttpStatus status, String path) {
+        log(e);
         return ResponseEntity.status(status).body(
                 new CustomizedException(e.getMessage(), status.value(), path));
     }
+
+private void log(Throwable exception) {
+        logger.error("error message {}. Details:", exception.getMessage(), exception);
+}
+
 }

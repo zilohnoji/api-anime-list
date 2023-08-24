@@ -1,6 +1,7 @@
 package com.donatoordep.anime_list_api.dto.response;
 
 import com.donatoordep.anime_list_api.dto.RoleDTO;
+import com.donatoordep.anime_list_api.entities.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +15,10 @@ public class UserResponseDTO {
     private CartResponseDTO cart;
     private List<RoleDTO> roles = new ArrayList<>();
 
-    public UserResponseDTO(Long id, String name, String email) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
+    public UserResponseDTO(User user) {
+        this.id = user.getId();
+        this.name = user.getName();
+        this.email = user.getEmail();
     }
 
     public UserResponseDTO() {

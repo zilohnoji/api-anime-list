@@ -2,11 +2,14 @@ package com.donatoordep.anime_list_api.services;
 
 import com.donatoordep.anime_list_api.builders.AnimeBuilder;
 import com.donatoordep.anime_list_api.builders.dto.request.AnimeRequestDTOBuilder;
+import com.donatoordep.anime_list_api.builders.dto.response.AnimeResponseDTOBuilder;
 import com.donatoordep.anime_list_api.dto.request.AnimeRequestDTO;
 import com.donatoordep.anime_list_api.dto.response.AnimeResponseDTO;
 import com.donatoordep.anime_list_api.entities.Anime;
 import com.donatoordep.anime_list_api.enums.Status;
+import com.donatoordep.anime_list_api.mapper.AnimeMapper;
 import com.donatoordep.anime_list_api.repositories.AnimeRepository;
+import com.donatoordep.anime_list_api.services.business.rules.anime.update.UpdateAnimeVerification;
 import com.donatoordep.anime_list_api.services.exceptions.NotFoundEntityException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,6 +35,12 @@ public class AnimeServiceTest {
 
     @Mock
     AnimeRepository repository;
+
+    @Mock
+    List<UpdateAnimeVerification> updateAnimeVerifications;
+
+    @Mock
+    AnimeMapper animeMapper;
 
     @InjectMocks
     AnimeService service;
@@ -67,7 +76,7 @@ public class AnimeServiceTest {
     @DisplayName("Given AnimeResponseDTO Object When CreateAnime Is Called Should Return AnimeResponseDTO")
     void testGiven_AnimeResponseDTO_Object_When_CreateAnime_Is_Called_ShouldReturn_AnimeResponseDTO() {
 
-        Anime saved = AnimeBuilder.builder()
+        AnimeResponseDTO saved = AnimeResponseDTOBuilder.builder()
                 .id(1L)
                 .title("Attack on titan")
                 .description("descrição gigante")
@@ -77,7 +86,10 @@ public class AnimeServiceTest {
                 .episodes(150)
                 .build();
 
-        when(repository.save(anime)).thenReturn(saved);
+        when(animeMapper.fromEntityToResponseDTO(
+                repository.save(
+                        animeMapper.fromAnimeRequestDTOToEntity(animeRequestDTO))))
+                .thenReturn(saved);
 
         AnimeResponseDTO output = service.createAnime(animeRequestDTO);
 
@@ -91,9 +103,11 @@ public class AnimeServiceTest {
     @DisplayName("Given AnimeList When FindByName Is Called Should Return AnimeList")
     void testGiven_AnimeList_When_FindByName_Is_Called_Should_Return_AnimeList() {
 
-        List<Anime> animeList = Collections.singletonList(anime);
+        List<AnimeResponseDTO> animeList = Collections.singletonList(animeResponseDTO);
 
-        when(repository.findByName(anime.getTitle())).thenReturn(animeList);
+        when(animeMapper.fromListEntityToListDTO(
+                repository.findByName(anime.getTitle()))).thenReturn(animeList);
+
         List<AnimeResponseDTO> output = service.findByName(anime.getTitle());
 
         Assertions.assertNotNull(output, () -> "The object not should return null");
@@ -119,10 +133,12 @@ public class AnimeServiceTest {
 
         Pageable pageable = PageRequest.of(0, 10);
         Page<Anime> animeList = new PageImpl<>(Collections.singletonList(anime), pageable, 1);
+
         Page<AnimeResponseDTO> animePage = new PageImpl<>(
                 Collections.singletonList(animeResponseDTO), pageable, 1);
 
         when(repository.findAll(pageable)).thenReturn(animeList);
+        when(service.findAll(pageable)).thenReturn(animePage);
 
         Page<AnimeResponseDTO> output = service.findAll(pageable);
 

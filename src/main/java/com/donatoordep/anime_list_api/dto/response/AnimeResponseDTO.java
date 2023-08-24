@@ -18,6 +18,9 @@ public class AnimeResponseDTO {
     private Status status;
     private Integer episodes;
 
+    public AnimeResponseDTO() {
+    }
+
     public AnimeResponseDTO(Anime entity) {
         id = entity.getId();
         title = entity.getTitle();
@@ -42,6 +45,26 @@ public class AnimeResponseDTO {
 
     public String getTitle() {
         return title;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    public void setAuthorName(String authorName) {
+        this.authorName = authorName;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public void setEpisodes(Integer episodes) {
+        this.episodes = episodes;
     }
 
     public String getDescription() {
