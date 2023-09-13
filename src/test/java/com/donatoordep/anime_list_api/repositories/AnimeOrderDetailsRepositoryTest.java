@@ -81,7 +81,7 @@ public class AnimeOrderDetailsRepositoryTest {
 
         // Then / Assert - Avaliação do resultado, verifica se corresponde ao esperado.
         assertNotNull(animeOrderDetailsList, () -> "AnimeOrderDetails list not should return null");
-        assertEquals(3, animeOrderDetailsList.size(), () -> "AnimeOrderDetails list should returned 2 of length");
+        assertEquals(3, animeOrderDetailsList.size(), () -> "AnimeOrderDetails list should returned 3 of length");
         assertEquals(animeOrderDetailsList.get(0).getAnime().getTitle(), anime.getTitle(),
                 () -> "The title should return same title");
     }

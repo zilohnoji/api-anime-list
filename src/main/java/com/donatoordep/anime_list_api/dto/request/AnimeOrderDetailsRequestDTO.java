@@ -1,8 +1,6 @@
 package com.donatoordep.anime_list_api.dto.request;
 
-import com.donatoordep.anime_list_api.enums.StatusOrder;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
@@ -17,6 +15,9 @@ public class AnimeOrderDetailsRequestDTO {
     @NotNull(message = "The episode is required")
     @Positive(message = "The value of episode should be positive")
     private int episode;
+
+    public AnimeOrderDetailsRequestDTO() {
+    }
 
     public AnimeOrderDetailsRequestDTO(Long animeId, String status, int episode) {
         this.animeId = animeId;

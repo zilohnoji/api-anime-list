@@ -1,5 +1,6 @@
 package com.donatoordep.anime_list_api.dto.request;
 
+import com.donatoordep.anime_list_api.entities.Categories;
 import com.donatoordep.anime_list_api.enums.Status;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
@@ -7,6 +8,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class AnimeRequestDTO {
@@ -27,6 +30,8 @@ public class AnimeRequestDTO {
     @Positive(message = "The value of episodes should be positive")
     @NotNull(message = "The episodes is required")
     private Integer episodes;
+    @NotNull(message = "The category is required")
+    private List<CategoriesRequestDTO> categories = new ArrayList<>();
 
     public AnimeRequestDTO() {
     }
@@ -37,6 +42,10 @@ public class AnimeRequestDTO {
 
     public String getTitle() {
         return title;
+    }
+
+    public List<CategoriesRequestDTO> getCategories() {
+        return categories;
     }
 
     public String getDescription() {

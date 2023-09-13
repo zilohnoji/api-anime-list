@@ -9,6 +9,7 @@ import com.donatoordep.anime_list_api.entities.Anime;
 import com.donatoordep.anime_list_api.enums.Status;
 import com.donatoordep.anime_list_api.mapper.AnimeMapper;
 import com.donatoordep.anime_list_api.repositories.AnimeRepository;
+import com.donatoordep.anime_list_api.repositories.CategoriesRepository;
 import com.donatoordep.anime_list_api.services.business.rules.anime.create.CreateAnimeValidation;
 import com.donatoordep.anime_list_api.services.exceptions.NotFoundEntityException;
 import org.junit.jupiter.api.Assertions;
@@ -38,6 +39,9 @@ public class AnimeServiceTest {
 
     @Mock
     List<CreateAnimeValidation> createAnimeValidations;
+
+    @Mock
+    CategoriesRepository categoriesRepository;
 
     @Mock
     AnimeMapper animeMapper;
@@ -88,7 +92,7 @@ public class AnimeServiceTest {
 
         when(animeMapper.fromEntityToResponseDTO(
                 repository.save(
-                        animeMapper.fromAnimeRequestDTOToEntity(animeRequestDTO))))
+                        animeMapper.fromAnimeRequestDTOToEntity(animeRequestDTO, categoriesRepository))))
                 .thenReturn(saved);
 
         AnimeResponseDTO output = service.createAnime(animeRequestDTO);

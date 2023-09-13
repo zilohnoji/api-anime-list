@@ -1,31 +1,22 @@
 package com.donatoordep.anime_list_api.utils;
 
-import com.donatoordep.anime_list_api.builders.AnimeBuilder;
-import com.donatoordep.anime_list_api.builders.UserBuilder;
-import com.donatoordep.anime_list_api.builders.dto.request.AnimeRequestDTOBuilder;
-import com.donatoordep.anime_list_api.builders.dto.response.AnimeResponseDTOBuilder;
-import com.donatoordep.anime_list_api.builders.dto.response.UserResponseDTOBuilder;
-import com.donatoordep.anime_list_api.dto.RoleDTO;
-import com.donatoordep.anime_list_api.dto.request.AnimeRequestDTO;
-import com.donatoordep.anime_list_api.dto.request.UserRequestDTO;
-import com.donatoordep.anime_list_api.dto.response.AnimeResponseDTO;
-import com.donatoordep.anime_list_api.dto.response.UserResponseDTO;
-import com.donatoordep.anime_list_api.entities.Anime;
-import com.donatoordep.anime_list_api.entities.User;
+import com.donatoordep.anime_list_api.entities.Categories;
 import com.donatoordep.anime_list_api.enums.RoleName;
-import com.donatoordep.anime_list_api.services.AnimeService;
+import com.donatoordep.anime_list_api.repositories.CategoriesRepository;
 import com.donatoordep.anime_list_api.services.exceptions.InvalidEnumValueException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Component
 public class ConvertingType {
 
+    @Autowired
+    private CategoriesRepository categoriesRepository;
 
     private ConvertingType() {
     }
@@ -41,15 +32,14 @@ public class ConvertingType {
     }
 
     public static <T extends Enum<T>> T convertStringToEnum(Class<T> enumClass, String enumOnString) {
-        if(enumOnString == null){
+        if (enumClass.equals(RoleName.class) & enumOnString == null) {
             enumOnString = "role_client";
         }
         try {
             return Enum.valueOf(enumClass, enumOnString.toUpperCase());
         } catch (IllegalArgumentException e) {
-            throw new InvalidEnumValueException(enumOnString, "RoleName",
+            throw new InvalidEnumValueException(enumOnString, enumClass.toString(),
                     listToString(Arrays.asList(RoleName.values())));
         }
     }
-
 }

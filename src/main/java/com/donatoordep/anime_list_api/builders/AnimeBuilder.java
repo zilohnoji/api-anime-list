@@ -1,7 +1,14 @@
 package com.donatoordep.anime_list_api.builders;
 
+import com.donatoordep.anime_list_api.dto.request.CategoriesRequestDTO;
 import com.donatoordep.anime_list_api.entities.Anime;
+import com.donatoordep.anime_list_api.entities.Categories;
 import com.donatoordep.anime_list_api.enums.Status;
+import com.donatoordep.anime_list_api.repositories.CategoriesRepository;
+import com.donatoordep.anime_list_api.services.AnimeService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AnimeBuilder {
 
@@ -15,7 +22,7 @@ public class AnimeBuilder {
         return new AnimeBuilder();
     }
 
-    public Anime build(){
+    public Anime build() {
         return this.anime;
     }
 
@@ -31,6 +38,11 @@ public class AnimeBuilder {
 
     public AnimeBuilder description(String description) {
         this.anime.setDescription(description);
+        return this;
+    }
+
+    public AnimeBuilder categories(CategoriesRepository repository, List<CategoriesRequestDTO> dto) {
+        dto.forEach(obj -> anime.addCategory(repository.findByName(obj.getCategory())));
         return this;
     }
 

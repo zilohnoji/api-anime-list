@@ -11,6 +11,9 @@ public class AnimeOrderDetailsResponseDTO {
     @JsonProperty(value = "status")
     private StatusOrder statusOrder;
 
+    public AnimeOrderDetailsResponseDTO() {
+    }
+
     public AnimeOrderDetailsResponseDTO(AnimeOrderDetails entity) {
         anime = new AnimeResponseDTO(entity.getAnime());
         episode = entity.getEpisode();

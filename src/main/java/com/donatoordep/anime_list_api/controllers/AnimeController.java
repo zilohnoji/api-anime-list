@@ -21,7 +21,7 @@ public class AnimeController {
     @Autowired
     private AnimeService service;
 
-    public AnimeController(AnimeService service){
+    public AnimeController(AnimeService service) {
         this.service = service;
     }
 
@@ -33,8 +33,7 @@ public class AnimeController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<AnimeResponseDTO>> findByName(@RequestParam(name = "name", required = false)
-                                                                 String name) {
+    public ResponseEntity<List<AnimeResponseDTO>> findByName(@RequestParam(name = "name") String name) {
         return ResponseEntity.ok().body(service.findByName(name));
     }
 
@@ -44,7 +43,7 @@ public class AnimeController {
     }
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AnimeResponseDTO> findById(@PathVariable Long id){
+    public ResponseEntity<AnimeResponseDTO> findById(@PathVariable Long id) {
         return ResponseEntity.ok().body(service.findById(id));
     }
 }

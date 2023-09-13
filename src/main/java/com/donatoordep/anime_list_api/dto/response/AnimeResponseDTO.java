@@ -1,9 +1,13 @@
 package com.donatoordep.anime_list_api.dto.response;
 
 import com.donatoordep.anime_list_api.entities.Anime;
+import com.donatoordep.anime_list_api.entities.Categories;
+import com.donatoordep.anime_list_api.enums.Category;
 import com.donatoordep.anime_list_api.enums.Status;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class AnimeResponseDTO {
@@ -17,6 +21,7 @@ public class AnimeResponseDTO {
     private String authorName;
     private Status status;
     private Integer episodes;
+    private List<Categories> categories = new ArrayList<>();
 
     public AnimeResponseDTO() {
     }
@@ -29,6 +34,7 @@ public class AnimeResponseDTO {
         authorName = entity.getAuthorName();
         status = entity.getStatus();
         episodes = entity.getEpisodes();
+        categories = entity.getCategories();
     }
 
     public void setTitle(String title) {
@@ -37,6 +43,14 @@ public class AnimeResponseDTO {
 
     public Long getId() {
         return id;
+    }
+
+    public List<Categories> getCategories() {
+        return categories;
+    }
+
+    public void addCategories(Categories category) {
+        this.categories.add(category);
     }
 
     public void setId(Long id) {

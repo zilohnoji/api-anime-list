@@ -3,6 +3,8 @@ package com.donatoordep.anime_list_api.entities;
 import com.donatoordep.anime_list_api.enums.Status;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -11,14 +13,27 @@ public class Anime {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String title;
+
     @Column(columnDefinition = "TEXT")
     private String description;
+
     @Column(columnDefinition = "TEXT")
     private String imgUrl;
+
     private String authorName;
+
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE,
+            CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinTable(name = "category_anime", joinColumns =
+    @JoinColumn(referencedColumnName = "id", name = "anime_id"), inverseJoinColumns =
+    @JoinColumn(referencedColumnName = "id", name = "categories_id"))
+    private List<Categories> categories = new ArrayList<>();
+
     private Integer episodes;
 
     public Anime() {
@@ -62,6 +77,14 @@ public class Anime {
 
     public void setAuthorName(String authorName) {
         this.authorName = authorName;
+    }
+
+    public List<Categories> getCategories() {
+        return categories;
+    }
+
+    public void addCategory(Categories category) {
+        this.categories.add(category);
     }
 
     public Status getStatus() {

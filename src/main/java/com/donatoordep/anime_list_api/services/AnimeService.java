@@ -1,18 +1,30 @@
 package com.donatoordep.anime_list_api.services;
 
 import com.donatoordep.anime_list_api.dto.request.AnimeRequestDTO;
+import com.donatoordep.anime_list_api.dto.request.CategoriesRequestDTO;
 import com.donatoordep.anime_list_api.dto.response.AnimeResponseDTO;
+import com.donatoordep.anime_list_api.entities.Anime;
+import com.donatoordep.anime_list_api.entities.Categories;
+import com.donatoordep.anime_list_api.entities.Role;
+import com.donatoordep.anime_list_api.enums.Category;
+import com.donatoordep.anime_list_api.enums.RoleName;
 import com.donatoordep.anime_list_api.mapper.AnimeMapper;
 import com.donatoordep.anime_list_api.repositories.AnimeRepository;
+import com.donatoordep.anime_list_api.repositories.CategoriesRepository;
+import com.donatoordep.anime_list_api.services.business.rules.anime.create.CreateAnimeArgs;
 import com.donatoordep.anime_list_api.services.business.rules.anime.create.CreateAnimeValidation;
 import com.donatoordep.anime_list_api.services.exceptions.NotFoundEntityException;
+import com.donatoordep.anime_list_api.utils.ConvertingType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.IntStream;
 
 @Service
 public class AnimeService {
@@ -23,10 +35,17 @@ public class AnimeService {
     @Autowired
     private AnimeRepository repository;
 
+    @Autowired
+    private CategoriesRepository categoriesRepository;
+
+    @Autowired
+    private List<CreateAnimeValidation> animeValidations;
+
     @Transactional
     public AnimeResponseDTO createAnime(AnimeRequestDTO dto) {
+        animeValidations.forEach(v -> v.validation(new CreateAnimeArgs(dto, repository)));
         return animeMapper.fromEntityToResponseDTO(
-                repository.save(animeMapper.fromAnimeRequestDTOToEntity(dto))
+                repository.save(animeMapper.fromAnimeRequestDTOToEntity(dto, categoriesRepository))
         );
     }
 

@@ -7,9 +7,11 @@ import com.donatoordep.anime_list_api.entities.User;
 import com.donatoordep.anime_list_api.enums.Status;
 import com.donatoordep.anime_list_api.mapper.AnimeMapper;
 import com.donatoordep.anime_list_api.repositories.AnimeRepository;
+import com.donatoordep.anime_list_api.repositories.CategoriesRepository;
 import com.donatoordep.anime_list_api.security.TokenJWTService;
 import com.donatoordep.anime_list_api.services.AnimeService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hamcrest.core.Is;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.*;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,6 +30,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.util.Collections;
 import java.util.List;
 
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -51,6 +55,9 @@ public class AnimeControllerTest {
     TokenJWTService tokenJWTService;
 
     @MockBean
+    CategoriesRepository categoriesRepository;
+
+    @MockBean
     AnimeRepository repository;
 
     @Autowired
@@ -59,8 +66,8 @@ public class AnimeControllerTest {
     @MockBean
     AnimeService service;
 
+    Pageable pageable;
     AnimeRequestDTO animeRequestDTO;
-
     AnimeResponseDTO animeResponseDTO;
 
     @BeforeEach
@@ -75,9 +82,10 @@ public class AnimeControllerTest {
                 .build();
 
         this.animeResponseDTO = animeMapper.
-                fromEntityToResponseDTO(animeMapper.fromAnimeRequestDTOToEntity(animeRequestDTO));
+                fromEntityToResponseDTO(animeMapper.fromAnimeRequestDTOToEntity(animeRequestDTO, categoriesRepository));
 
         animeResponseDTO.setId(1L);
+        pageable = PageRequest.of(0, 10, Sort.by("name"));
     }
 
     @Test
@@ -98,21 +106,45 @@ public class AnimeControllerTest {
     }
 
     @Test
-    @DisplayName("Display name")
-    void testABCD_When_XYZ_ShouldReturn_FSAD() throws Exception {
+    @DisplayName("Given AnimeResponseDTO When FindByName Is Called Should Return AnimeResponseDTO")
+    void testGivenAnimeResponseDTO_When_FindByName_Is_Called_ShouldReturn_AnimeResponseDTO() throws Exception {
 
-        String name = "100";
+        when(service.findByName(animeResponseDTO.getTitle()))
+                .thenReturn(Collections.singletonList(animeResponseDTO));
 
-        when(service.findByName(name)).thenReturn(Collections.singletonList(animeResponseDTO));
-
-        mockMvc.perform(get("/v1/anime?name={name}", name))
+        mockMvc.perform(get("/v1/anime?name={name}", animeResponseDTO.getTitle()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()").value(1))
                 .andDo(print()).andReturn();
     }
 
+    @Test
+    @DisplayName("Given AnimeResponseDTO When FindById Is Called Should Return AnimeResponseDTO")
+    void testGiven_AnimeResponseDTO_When_FindById_Is_Called_Should_Return_AnimeResponseDTO() throws Exception {
 
-    protected String token(String email, String password) {
+        when(service.findById(1L)).thenReturn(animeResponseDTO);
+
+        mockMvc.perform(get("/v1/anime/{id}", 1L))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.title").value(animeResponseDTO.getTitle()))
+                .andDo(print()).andReturn();
+    }
+
+    @Test
+    @DisplayName("Given Page AnimeResponseDTO When FindAll Is Called")
+    void testGiven_Page_AnimeResponseDTO_When_FindAll_IsCalled() throws Exception {
+
+        Page<AnimeResponseDTO> page = new PageImpl<>(Collections
+                .singletonList(animeResponseDTO), pageable, 1);
+
+        when(service.findAll(pageable)).thenReturn(page);
+
+        mockMvc.perform(get("/v1/anime/all"))
+                .andExpect(status().isOk())
+                .andDo(print()).andReturn();
+    }
+
+    private String token(String email, String password) {
 
         Authentication authenticate = authenticateManager.authenticate(
                 new UsernamePasswordAuthenticationToken(email, password));
