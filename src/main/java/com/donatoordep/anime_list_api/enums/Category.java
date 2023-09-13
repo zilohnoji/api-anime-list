@@ -5,5 +5,10 @@ public enum Category {
     ACTION,
     FANTASY,
     DRAMA,
-    COMEDY
+    COMEDY,
+    ISEKAI,
+    SUSPENSE,
+    ECCHI,
+    SUPERNATURAL,
+    SCIENCE_FICTION
 }
