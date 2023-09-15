@@ -60,7 +60,9 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public Page<UserResponseDTO> findByName(String name, Pageable pageable) {
-        findByNameValidations.forEach(v -> v.verification(new FindByNameArgs(repository, name, pageable)));
+
+        findByNameValidations.forEach(v -> v.verification(
+                new FindByNameArgs(repository, name, pageable)));
 
         return mapper.convertUserPageToUserResponseDTOPage(repository.findByName(name, pageable));
     }
@@ -85,12 +87,8 @@ public class UserService {
 
         userRegisterValidations.forEach(v -> v.verification(new RegisterUserArgs(dto, repository)));
 
-        User user = mapper.convertUserRequestDTOToUser(dto);
-        user.setPassword(encoder.encode(user.getPassword()));
-
-        user.setRoles(roleService.separateRolesWithHierarchy(ConvertingType.convertStringToEnum(RoleName.class, dto.getRole())));
-
-        return mapper.convertUserToUserResponseDTO(repository.save(user));
+        return mapper.convertUserToUserResponseDTO(
+                repository.save(copyDataUserRequestDTOForUserEntity(dto)));
     }
 
     @Transactional(readOnly = true)
@@ -105,5 +103,15 @@ public class UserService {
     @Transactional(readOnly = true)
     public CartResponseDTO myCart(User user) {
         return new CartResponseDTO((user.getCart()));
+    }
+
+    private User copyDataUserRequestDTOForUserEntity(UserRequestDTO dto){
+
+        User user = mapper.convertUserRequestDTOToUser(dto);
+        user.setPassword(encoder.encode(user.getPassword()));
+
+        user.setRoles(roleService.separateRolesWithHierarchy(
+                ConvertingType.convertStringToEnum(RoleName.class, dto.getRole())));
+        return user;
     }
 }
