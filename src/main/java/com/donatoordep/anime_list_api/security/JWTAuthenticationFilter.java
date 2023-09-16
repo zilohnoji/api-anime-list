@@ -45,5 +45,4 @@ public class JWTAuthenticationFilter extends OncePerRequestFilter {
         return (request.getHeader("Authorization") != null)
                 ? request.getHeader("Authorization").split(" ")[1] : null;
     }
-
 }
