@@ -33,7 +33,7 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <scope>dev</scope>
+
         </dependency>
         <dependency>
             <groupId>com.h2database</groupId>
@@ -89,6 +89,7 @@
                 <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-report-plugin -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>3.1.2</version>
                 <executions>
                     <execution>
                         <phase>test</phase>
@@ -110,6 +111,7 @@
                 <!-- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin -->
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.10</version>
                 <executions>
                     <execution>
                         <id>prepare-agent</id>
